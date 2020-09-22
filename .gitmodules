@@ -1,6 +1,6 @@
 [submodule "pu-uvm"]
 	path = pu-uvm
 	url = https://github.com/PacoReinaCampo/PU-UVM.git
-[submodule "gnumach-kernel"]
-	path = gnumach-kernel
-	url = https://github.com/PacoReinaCampo/gnumach
+[submodule "pu-rtos"]
+	path = pu-rtos
+	url = https://github.com/PacoReinaCampo/PU-RTOS.git
