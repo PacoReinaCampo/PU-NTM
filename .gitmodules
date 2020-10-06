@@ -1,3 +1,6 @@
 [submodule "pu-uvm"]
 	path = pu-uvm
 	url = https://github.com/PacoReinaCampo/PU-UVM.git
+[submodule "pu-rtos"]
+	path = pu-rtos
+	url = https://github.com/PacoReinaCampo/PU-RTOS
