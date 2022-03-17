@@ -42,7 +42,6 @@
 ##                                                                               ##
 ###################################################################################
 
-DATA_A_IN = rand(3, 1);
-DATA_B_IN = rand(3, 1);
+DATA_IN = rand(3, 3, 3);
 
-DATA_OUT = ntm_dot_product(DATA_A_IN, DATA_B_IN);
+DATA_OUT = ntm_tensor_inverse(DATA_IN);

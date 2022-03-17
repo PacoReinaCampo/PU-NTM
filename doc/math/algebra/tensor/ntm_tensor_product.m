@@ -42,7 +42,22 @@
 ##                                                                               ##
 ###################################################################################
 
-DATA_A_IN = rand(3, 1);
-DATA_B_IN = rand(3, 1);
+function DATA_OUT = ntm_tensor_product(DATA_A_IN, DATA_B_IN)
+  [SIZE_A_I_IN, SIZE_A_J_IN, SIZE_A_K_IN] = size(DATA_A_IN);
+  [SIZE_B_I_IN, SIZE_B_J_IN, SIZE_B_K_IN] = size(DATA_B_IN);
 
-DATA_OUT = ntm_dot_product(DATA_A_IN, DATA_B_IN);
+  DATA_OUT = zeros(SIZE_A_I_IN, SIZE_A_J_IN, SIZE_B_K_IN);
+
+  for i = 1:SIZE_A_I_IN
+    for j = 1:SIZE_A_J_IN
+      for k = 1:SIZE_B_K_IN
+        DATA_OUT(i, j, k) = 0;
+
+        for m = 1:SIZE_A_J_IN
+          DATA_OUT(i, j, k) = DATA_OUT(i, j, k) + DATA_A_IN(i, j, m)*DATA_B_IN(i, m, k);
+        endfor
+      endfor
+    endfor
+  endfor
+
+endfunction
