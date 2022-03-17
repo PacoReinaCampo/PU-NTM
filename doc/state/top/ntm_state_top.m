@@ -42,15 +42,27 @@
 ##                                                                               ##
 ###################################################################################
 
-function DATA_OUT = ntm_state_top(DATA_IN)
-  [SIZE_I_IN, SIZE_J_IN] = size(DATA_IN);
+function DATA_Y_OUT = ntm_state_top(DATA_K_IN, DATA_A_IN, DATA_B_IN, DATA_C_IN, DATA_D_IN, DATA_U_IN)
+  [SIZE_A_I_IN, SIZE_A_J_IN] = size(DATA_A_IN);
+  [SIZE_B_I_IN, SIZE_B_J_IN] = size(DATA_B_IN);
+  [SIZE_C_I_IN, SIZE_C_J_IN] = size(DATA_C_IN);
+  [SIZE_D_I_IN, SIZE_D_J_IN] = size(DATA_D_IN);
 
-  DATA_OUT = zeros(SIZE_I_IN, SIZE_J_IN);
+  [k, SIZE_U_IN] = size(DATA_U_IN);
+  
+  INITIAL_X = zeros(SIZE_A_I_IN, 1);
 
-  for i = 1:SIZE_I_IN
-    for j = 1:SIZE_J_IN
-      DATA_OUT(i, j) = DATA_IN(j, i);
-    endfor
+  # y(k) = C·exp(A,k)·x(0) + summation(C·exp(A,k-j)·B·u(j))[j in 0 to k-1] + D·u(k)
+  # x(k) = exp(A,k)·x(0) + summation(exp(A,k-j-1)·B·u(j))[j in 0 to k-1]
+
+  DATA_Y_OUT = zeros(SIZE_A_I_IN, 1);
+
+  DATA_Y_OUT = DATA_C_IN*(DATA_A_IN^k)*INITIAL_X;
+
+  for j = 1:k
+    DATA_Y_OUT = DATA_Y_OUT + DATA_C_IN*(DATA_A_IN^(k-j))*DATA_B_IN*DATA_U_IN(k, :);
   endfor
+
+  DATA_Y_OUT = DATA_Y_OUT + DATA_D_IN*DATA_U_IN(k, :)
 
 endfunction

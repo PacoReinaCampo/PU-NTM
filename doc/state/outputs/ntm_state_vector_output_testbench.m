@@ -42,17 +42,12 @@
 ##                                                                               ##
 ###################################################################################
 
-function DATA_OUT = ntm_tensor_inverse(DATA_IN)
-  [SIZE_I_IN, SIZE_J_IN, SIZE_K_IN] = size(DATA_IN);
+DATA_K_IN = rand(3, 3);
+DATA_A_IN = rand(3, 3);
+DATA_B_IN = rand(3, 3);
+DATA_C_IN = rand(3, 3);
+DATA_D_IN = rand(3, 3);
 
-  DATA_OUT = zeros(SIZE_I_IN, SIZE_J_IN, SIZE_K_IN);
+DATA_U_IN = rand(4, 3);
 
-  for i = 1:SIZE_I_IN
-    for j = 1:SIZE_J_IN
-      for k = 1:SIZE_K_IN
-        DATA_OUT(i, j, k) = DATA_IN(i, j, k);
-      endfor
-    endfor
-  endfor
-
-endfunction
+DATA_A_OUT = ntm_state_vector_output(DATA_K_IN, DATA_A_IN, DATA_B_IN, DATA_C_IN, DATA_D_IN, DATA_U_IN);
