@@ -45,14 +45,21 @@
 function DATA_OUT = ntm_tensor_inverse(DATA_IN)
   [SIZE_I_IN, SIZE_J_IN, SIZE_K_IN] = size(DATA_IN);
 
-  DATA_OUT = zeros(SIZE_I_IN, SIZE_J_IN, SIZE_K_IN);
+  data_int = [DATA_IN eye(SIZE_I_IN, SIZE_J_IN, SIZE_K_IN)];
 
   for i = 1:SIZE_I_IN
-    for j = 1:SIZE_J_IN
-      for k = 1:SIZE_K_IN
-        DATA_OUT(i, j, k) = DATA_IN(i, j, k);
-      endfor
+    data_int(i, :, :) = data_int(i, :, :)/data_int(i, i, i);
+
+    for m = i:SIZE_I_IN - 1
+      data_int(m + 1, :, :) = data_int(m + 1, :, :) - data_int(i, :, :)*data_int(m + 1, i, i);
     endfor
   endfor
 
+  for i = 2:SIZE_I_IN
+    for m = (i - 1): - 1:1
+      data_int(m, :, :) = data_int(m, :, :) - data_int(i, :, :)*data_int(m, i, i);
+    endfor
+  endfor
+
+  DATA_OUT = data_int(:, SIZE_J_IN + 1:2*SIZE_J_IN, SIZE_K_IN + 1:2*SIZE_K_IN);
 endfunction

@@ -45,26 +45,21 @@
 function DATA_OUT = ntm_matrix_inverse(DATA_IN)
   [SIZE_I_IN, SIZE_J_IN] = size(DATA_IN);
 
-  data_in_int  = DATA_IN;
-  data_out_int = eye(SIZE_I_IN, SIZE_J_IN);
+  data_int = [DATA_IN eye(SIZE_I_IN, SIZE_J_IN)];
 
-  data_int = [data_in_int data_out_int];
-
-  for i = 1:SIZE_I_IN - 1
+  for i = 1:SIZE_I_IN
     data_int(i, :) = data_int(i, :)/data_int(i, i);
 
     for m = i:SIZE_I_IN - 1
       data_int(m + 1, :) = data_int(m + 1, :) - data_int(i, :)*data_int(m + 1, i);
-    end
-  end
-
-  data_int(SIZE_I_IN, :) = data_int(SIZE_I_IN, :)/data_int(SIZE_I_IN, SIZE_J_IN);
+    endfor
+  endfor
 
   for i = 2:SIZE_I_IN
     for m = (i - 1): - 1:1
       data_int(m, :) = data_int(m, :) - data_int(i, :)*data_int(m, i);
-    end
-  end
+    endfor
+  endfor
 
-  DATA_OUT = data_int(:,SIZE_J_IN + 1:2*SIZE_J_IN);
-end
+  DATA_OUT = data_int(:, SIZE_J_IN + 1:2*SIZE_J_IN);
+endfunction
