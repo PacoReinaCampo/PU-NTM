@@ -49,6 +49,14 @@ function RHO_OUT = ntm_interface_matrix(U_IN, H_IN)
 
   # rho(t;i;m) = U(t;i;m;l)·h(t;i;l)
 
-  Y_OUT = U_IN*H_IN;
+  for i = 1:SIZE_R_IN
+    for j = 1:SIZE_M_IN
+      RHO_OUT(i, j) = 0;
+
+      for m = 1:SIZE_L_IN
+        RHO_OUT(i, j) = RHO_OUT(i, j) + U_IN(i, j, m)*H_IN(i, m);
+      endfor
+    endfor
+  endfor
 
 endfunction

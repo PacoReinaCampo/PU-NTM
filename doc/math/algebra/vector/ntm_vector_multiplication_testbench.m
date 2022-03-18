@@ -42,13 +42,6 @@
 ##                                                                               ##
 ###################################################################################
 
-function XI_OUT = ntm_interface_vector(U_IN, H_IN)
-  [SIZE_S_IN, SIZE_L_IN] = size(U_IN);
+DATA_IN = rand(3, 1);
 
-  XI_OUT = zeros(SIZE_S_IN, 1);
-
-  # xi(t;s) = U(t;s;l)·h(t;l)
-
-  Y_OUT = U_IN*H_IN;
-
-endfunction
+DATA_OUT = ntm_vector_multiplication(DATA_IN);

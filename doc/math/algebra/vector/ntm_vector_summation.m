@@ -42,13 +42,17 @@
 ##                                                                               ##
 ###################################################################################
 
-function XI_OUT = ntm_interface_vector(U_IN, H_IN)
-  [SIZE_S_IN, SIZE_L_IN] = size(U_IN);
+function DATA_OUT = ntm_vector_summation(DATA_IN)
+  SIZE_IN = length(DATA_IN);
 
-  XI_OUT = zeros(SIZE_S_IN, 1);
+  DATA_OUT = zeros(SIZE_IN, 1);
 
-  # xi(t;s) = U(t;s;l)·h(t;l)
+  data_summation_int = 0;
 
-  Y_OUT = U_IN*H_IN;
+  for i = 1:SIZE_IN
+    data_summation_int = data_summation_int + DATA_IN(i);
+
+    DATA_OUT(i) = data_summation_int;
+  endfor
 
 endfunction

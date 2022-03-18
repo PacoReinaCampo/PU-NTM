@@ -42,22 +42,15 @@
 ##                                                                               ##
 ###################################################################################
 
-function DATA_OUT = ntm_matrix_convolution(DATA_A_IN, DATA_B_IN)
-  [SIZE_A_I_IN, SIZE_A_J_IN] = size(DATA_A_IN);
-  [SIZE_B_I_IN, SIZE_B_J_IN] = size(DATA_B_IN);
+function DATA_OUT = ntm_vector_module(DATA_IN)
+  SIZE_IN = length(DATA_IN);
 
-  DATA_OUT = zeros(SIZE_A_I_IN, SIZE_B_J_IN);
+  DATA_OUT = 0;
 
-  for i = 1:SIZE_A_I_IN
-    for j = 1:SIZE_B_J_IN
-      DATA_OUT(i, j) = 0;
-
-      for m = 1:i
-        for n = 1:j
-          DATA_OUT(i, j) = DATA_OUT(i, j) + DATA_A_IN(m, n)*DATA_B_IN(i-m+1, j-n+1);
-        endfor
-      endfor
-    endfor
+  for i = 1:SIZE_IN
+    DATA_OUT = DATA_OUT + DATA_IN(i)*DATA_IN(i);
   endfor
+
+  DATA_OUT = sqrt(DATA_OUT);
 
 endfunction
