@@ -42,13 +42,21 @@
 ##                                                                               ##
 ###################################################################################
 
-function XI_OUT = ntm_interface_vector(U_IN, H_IN)
-  [SIZE_N_IN, SIZE_W_IN] = size(U_IN);
+SIZE_X_IN = 3;
+SIZE_Y_IN = 3;
+SIZE_N_IN = 3;
+SIZE_W_IN = 3;
+SIZE_L_IN = 3;
+SIZE_R_IN = 3;
+SIZE_S_IN = 3;
+SIZE_M_IN = 3;
 
-  XI_OUT = zeros(SIZE_S_IN, 1);
+W_IN = rand(SIZE_L_IN, SIZE_X_IN);
+K_IN = rand(SIZE_R_IN, SIZE_L_IN, SIZE_X_IN);
+U_IN = rand(SIZE_L_IN, SIZE_L_IN);
+V_IN = rand(SIZE_L_IN, SIZE_S_IN);
+D_IN = rand(SIZE_R_IN, SIZE_L_IN, SIZE_M_IN);
+B_IN = rand(SIZE_L_IN, 1);
+X_IN = rand(SIZE_X_IN, 1);
 
-  # xi(t;s) = U(t;s;l)·h(t;l)
-
-  Y_OUT = U_IN*H_IN;
-
-endfunction
+Y_OUT = ntm_top(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN);

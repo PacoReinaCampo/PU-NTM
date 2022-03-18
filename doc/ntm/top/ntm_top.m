@@ -45,6 +45,8 @@
 function Y_OUT = ntm_top(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN)
   [SIZE_L_IN, SIZE_X_IN] = size(W_IN);
 
+  SIZE_Y_IN = 3;
+
   Y_OUT = zeros(SIZE_Y_IN, 1);
 
   # CONTROLLER
