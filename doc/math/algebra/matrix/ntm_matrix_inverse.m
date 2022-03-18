@@ -4,7 +4,7 @@
 ##                __ _ _   _  ___  ___ _ __ | |_ _  ___| | __| |                 ##
 ##               / _` | | | |/ _ \/ _ \ '_ \|  _| |/ _ \ |/ _` |                 ##
 ##              | (_| | |_| |  __/  __/ | | | | | |  __/ | (_| |                 ##
-##               \__, |\__,_|\___|\___|_| |_|_| |_|\___|_|\__,_|                 ##
+##               \__, |\__, _|\___|\___|_| |_|_| |_|\___|_|\__, _|                 ##
 ##                  | |                                                          ##
 ##                  |_|                                                          ##
 ##                                                                               ##
@@ -45,12 +45,39 @@
 function DATA_OUT = ntm_matrix_inverse(DATA_IN)
   [SIZE_I_IN, SIZE_J_IN] = size(DATA_IN);
 
-  DATA_OUT = zeros(SIZE_I_IN, SIZE_J_IN);
+  DATA_OUT = eye(SIZE_I_IN);
 
-  for i = 1:SIZE_I_IN
-    for j = 1:SIZE_J_IN
-      DATA_OUT(i, j) = DATA_IN(j, i);
+  for k = 1:SIZE_I_IN
+    for i = k:SIZE_I_IN
+      if DATA_IN(i, k) ~= 0
+        for j = 1:SIZE_J_IN
+          data_operation_int = DATA_IN(k, j);
+          DATA_IN(k, j) = DATA_IN(i, j);
+          DATA_IN(i, j) = data_operation_int;
+
+          data_operation_int = DATA_OUT(k, j);
+          DATA_OUT(k, j) =DATA_OUT(i, j);
+          DATA_OUT(i, j) = data_operation_int;
+        endfor
+
+        data_quotient_int = DATA_IN(i, k)/DATA_IN(k, k);
+
+        for j = 1:SIZE_J_IN
+          DATA_IN(k, j) = data_quotient_int*DATA_IN(k, j);
+          DATA_OUT(k, j) = data_quotient_int*DATA_OUT(k, j);
+        endfor
+
+        for m = 1:SIZE_I_IN
+          if m ~= k
+            data_quotient_int = -DATA_IN(m, k);
+
+            for j = 1:SIZE_I_IN
+              DATA_IN(m, j) = DATA_IN(m, j) + data_quotient_int*DATA_IN(k, j);
+              DATA_OUT(m, j) = DATA_OUT(m, j) + data_quotient_int*DATA_OUT(k, j);
+            endfor
+          endif
+        endfor
+      endif
     endfor
   endfor
-
 endfunction
