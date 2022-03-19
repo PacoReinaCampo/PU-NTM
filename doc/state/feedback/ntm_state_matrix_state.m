@@ -45,16 +45,8 @@
 %}
 
 function DATA_A_OUT = ntm_state_matrix_state(DATA_K_IN, DATA_A_IN, DATA_B_IN, DATA_C_IN, DATA_D_IN)
-  [SIZE_K_I_IN, SIZE_K_J_IN] = size(DATA_K_IN);
-  [SIZE_A_I_IN, SIZE_A_J_IN] = size(DATA_A_IN);
-  [SIZE_B_I_IN, SIZE_B_J_IN] = size(DATA_B_IN);
-  [SIZE_C_I_IN, SIZE_C_J_IN] = size(DATA_C_IN);
-  [SIZE_D_I_IN, SIZE_D_J_IN] = size(DATA_D_IN);
-
   % SIZE: A[N,N]; B[N,P]; C[Q,N]; D[Q,P];
   % SIZE: K[P,P]; x[N,1]; y[Q,1]; u[P,1];
 
-  DATA_A_OUT = zeros(SIZE_A_I_IN, SIZE_A_J_IN);
-
-  DATA_A_OUT = DATA_A_IN-DATA_B_IN*DATA_K_IN*inv(eye(SIZE_D_I_IN)+DATA_D_IN*DATA_K_IN)*DATA_C_IN;
+  DATA_A_OUT = DATA_A_IN-DATA_B_IN*DATA_K_IN*(eye(SIZE_D_I_IN)+DATA_D_IN*DATA_K_IN)\DATA_C_IN;
 end

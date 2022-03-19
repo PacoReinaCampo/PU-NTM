@@ -44,27 +44,12 @@
 ###################################################################################
 %}
 
-function [DATA_X_OUT, DATA_Y_OUT] = ntm_state_top(DATA_K_IN, DATA_A_IN, DATA_B_IN, DATA_C_IN, DATA_D_IN, DATA_U_IN, k)
-  [SIZE_A_I_IN, SIZE_A_J_IN] = size(DATA_A_IN);
-  [SIZE_B_I_IN, SIZE_B_J_IN] = size(DATA_B_IN);
-  [SIZE_C_I_IN, SIZE_C_J_IN] = size(DATA_C_IN);
-  [SIZE_D_I_IN, SIZE_D_J_IN] = size(DATA_D_IN);
+function [DATA_X_OUT, DATA_Y_OUT] = ntm_state_top(DATA_K_IN, DATA_A_IN, DATA_B_IN, DATA_C_IN, DATA_D_IN, DATA_U_IN, INITIAL_X, k)
+  addpath(genpath('../outputs'));
 
-  INITIAL_X = zeros(SIZE_A_I_IN, 1);
+  % x(k) = exp(A,k)穢(0) + summation(exp(A,k-j-1)稡穟(j))[j in 0 to k-1]
+  DATA_X_OUT = ntm_state_vector_state(DATA_K_IN, DATA_A_IN, DATA_B_IN, DATA_C_IN, DATA_D_IN, DATA_U_IN, INITIAL_X, k);
 
-  % y(k) = C路exp(A,k)路x(0) + summation(C路exp(A,k-j)路B路u(j))[j in 0 to k-1] + D路u(k)
-  % x(k) = exp(A,k)路x(0) + summation(exp(A,k-j-1)路B路u(j))[j in 0 to k-1]
-
-  DATA_X_OUT = zeros(SIZE_A_I_IN, 1);
-  DATA_Y_OUT = zeros(SIZE_A_I_IN, 1);
-
-  DATA_X_OUT = (DATA_A_IN^k)*INITIAL_X;
-  DATA_Y_OUT = DATA_C_IN*(DATA_A_IN^k)*INITIAL_X;
-
-  for j = 1:k
-    DATA_X_OUT = DATA_X_OUT + DATA_C_IN*(DATA_A_IN^(k-j-1))*DATA_B_IN*DATA_U_IN(:, k);
-    DATA_Y_OUT = DATA_Y_OUT + DATA_C_IN*(DATA_A_IN^(k-j))*DATA_B_IN*DATA_U_IN(:, k);
-  end
-
-  DATA_Y_OUT = DATA_Y_OUT + DATA_D_IN*DATA_U_IN(:, k);
+  % y(k) = C積xp(A,k)穢(0) + summation(C積xp(A,k-j)稡穟(j))[j in 0 to k-1] + D穟(k)
+  DATA_Y_OUT = ntm_state_vector_output(DATA_K_IN, DATA_A_IN, DATA_B_IN, DATA_C_IN, DATA_D_IN, DATA_U_IN, INITIAL_X, k);
 end

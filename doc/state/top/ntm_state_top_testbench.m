@@ -52,6 +52,8 @@ DATA_D_IN = rand(3, 3);
 
 DATA_U_IN = rand(3, 4);
 
+INITIAL_X = rand(3, 1);
+
 k = 4;
 
-[DATA_X_OUT, DATA_Y_OUT] = ntm_state_top(DATA_K_IN, DATA_A_IN, DATA_B_IN, DATA_C_IN, DATA_D_IN, DATA_U_IN, k);
+[DATA_X_OUT, DATA_Y_OUT] = ntm_state_top(DATA_K_IN, DATA_A_IN, DATA_B_IN, DATA_C_IN, DATA_D_IN, DATA_U_IN, INITIAL_X, k);

@@ -46,18 +46,28 @@
 
 function Y_OUT = dnc_top(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN)
   [SIZE_L_IN, SIZE_X_IN] = size(W_IN);
-
-  SIZE_Y_IN = 3;
+  [SIZE_R_IN, SIZE_Y_IN, SIZE_N_IN] = size(K_IN);
 
   Y_OUT = zeros(SIZE_Y_IN, 1);
 
   % CONTROLLER
+  H_IN = zeros(SIZE_L_IN, 1);
 
   % OUTPUT VECTOR
 
   % INTERFACE VECTOR
+  XI_OUT = dnc_interface_vector(U_IN, H_IN);
 
   % INTERFACE MATRIX
+  matrix_h_int = zeros(SIZE_R_IN, SIZE_L_IN);
+
+  for i = 1:SIZE_R_IN
+    for l = 1:SIZE_L_IN
+      matrix_h_int(i, l) = H_IN(l);
+    end
+  end
+
+  RHO_OUT = dnc_interface_matrix(U_IN, matrix_h_int);
 
   % READING
 
@@ -67,4 +77,5 @@ function Y_OUT = dnc_top(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN)
 
   % WRITING
 
-  % ADDRESSINGend
+  % ADDRESSING
+end

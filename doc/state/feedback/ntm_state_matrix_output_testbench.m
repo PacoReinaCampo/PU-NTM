@@ -48,4 +48,4 @@ DATA_K_IN = rand(3, 3);
 DATA_C_IN = rand(3, 3);
 DATA_D_IN = rand(3, 3);
 
-DATA_A_OUT = ntm_state_matrix_output(DATA_K_IN, DATA_C_IN, DATA_D_IN);
+DATA_C_OUT = ntm_state_matrix_output(DATA_K_IN, DATA_C_IN, DATA_D_IN);
