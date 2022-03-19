@@ -44,13 +44,12 @@
 ###################################################################################
 %}
 
-function DATA_OUT = ntm_dot_product(DATA_A_IN, DATA_B_IN)
-  SIZE_A_IN = length(DATA_A_IN);
-  SIZE_B_IN = length(DATA_B_IN);
+function XI_OUT = dnc_interface_vector(U_IN, H_IN)
+  [SIZE_S_IN, SIZE_L_IN] = size(U_IN);
 
-  DATA_OUT = zeros(SIZE_A_IN, 1);
+  XI_OUT = zeros(SIZE_S_IN, 1);
 
-  for i = 1:SIZE_A_IN
-    DATA_OUT(i) = DATA_OUT(i) + DATA_A_IN(i)*DATA_B_IN(i);
-  end
+  % xi(t;s) = U(t;s;l)·h(t;l)
+
+  Y_OUT = U_IN*H_IN;
 end

@@ -54,4 +54,5 @@ function DATA_C_OUT = ntm_state_matrix_output(DATA_K_IN, DATA_C_IN, DATA_D_IN)
 
   DATA_C_OUT = zeros(SIZE_C_I_IN, SIZE_C_J_IN);
 
-  DATA_C_OUT = inv(eye(SIZE_D_I_IN)+DATA_D_IN*DATA_K_IN)*DATA_C_IN;end
+  DATA_C_OUT = inv(eye(SIZE_D_I_IN)+DATA_D_IN*DATA_K_IN)*DATA_C_IN;
+end

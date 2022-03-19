@@ -55,4 +55,5 @@ function DATA_OUT = ntm_vector_multiplication(DATA_IN)
     data_multiplication_int = data_multiplication_int*DATA_IN(i);
 
     DATA_OUT(i) = data_multiplication_int;
-  endend
+  end
+end

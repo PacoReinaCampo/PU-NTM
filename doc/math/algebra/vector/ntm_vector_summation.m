@@ -55,4 +55,5 @@ function DATA_OUT = ntm_vector_summation(DATA_IN)
     data_summation_int = data_summation_int + DATA_IN(i);
 
     DATA_OUT(i) = data_summation_int;
-  endend
+  end
+end

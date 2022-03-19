@@ -53,4 +53,5 @@ function DATA_OUT = ntm_vector_module(DATA_IN)
     DATA_OUT = DATA_OUT + DATA_IN(i)*DATA_IN(i);
   end
 
-  DATA_OUT = sqrt(DATA_OUT);end
+  DATA_OUT = sqrt(DATA_OUT);
+end

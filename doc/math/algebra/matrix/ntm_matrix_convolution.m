@@ -60,4 +60,5 @@ function DATA_OUT = ntm_matrix_convolution(DATA_A_IN, DATA_B_IN)
         end
       end
     end
-  endend
+  end
+end

@@ -54,8 +54,8 @@ function DATA_Y_OUT = ntm_state_top(DATA_K_IN, DATA_A_IN, DATA_B_IN, DATA_C_IN, 
   
   INITIAL_X = zeros(SIZE_A_I_IN, 1);
 
-  % y(k) = C積xp(A,k)穢(0) + summation(C積xp(A,k-j)稡穟(j))[j in 0 to k-1] + D穟(k)
-  % x(k) = exp(A,k)穢(0) + summation(exp(A,k-j-1)稡穟(j))[j in 0 to k-1]
+  % y(k) = C路exp(A,k)路x(0) + summation(C路exp(A,k-j)路B路u(j))[j in 0 to k-1] + D路u(k)
+  % x(k) = exp(A,k)路x(0) + summation(exp(A,k-j-1)路B路u(j))[j in 0 to k-1]
 
   DATA_Y_OUT = zeros(SIZE_A_I_IN, 1);
 

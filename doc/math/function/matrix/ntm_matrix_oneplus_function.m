@@ -53,4 +53,5 @@ function DATA_OUT = ntm_matrix_oneplus_function(DATA_IN)
     for j = 1:SIZE_J_IN
       DATA_OUT(i, j) =  1 + log(1 + exp(DATA_IN(i, j));
     end
-  endend
+  end
+end

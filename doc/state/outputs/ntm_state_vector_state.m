@@ -62,4 +62,5 @@ function DATA_Y_OUT = ntm_state_vector_state(DATA_K_IN, DATA_A_IN, DATA_B_IN, DA
 
   for j = 1:k
     DATA_Y_OUT = DATA_Y_OUT + DATA_C_IN*(DATA_A_IN^(k-j-1))*DATA_B_IN*DATA_U_IN(k, :);
-  endend
+  end
+end

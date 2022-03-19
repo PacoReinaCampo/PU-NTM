@@ -44,13 +44,20 @@
 ###################################################################################
 %}
 
-function DATA_OUT = ntm_dot_product(DATA_A_IN, DATA_B_IN)
-  SIZE_A_IN = length(DATA_A_IN);
-  SIZE_B_IN = length(DATA_B_IN);
+function RHO_OUT = dnc_interface_matrix(U_IN, H_IN)
+  [SIZE_R_IN, SIZE_M_IN, SIZE_L_IN] = size(U_IN);
 
-  DATA_OUT = zeros(SIZE_A_IN, 1);
+  RHO_OUT = zeros(SIZE_R_IN, SIZE_M_IN);
 
-  for i = 1:SIZE_A_IN
-    DATA_OUT(i) = DATA_OUT(i) + DATA_A_IN(i)*DATA_B_IN(i);
+  % rho(t;i;m) = U(t;i;m;l)·h(t;i;l)
+
+  for i = 1:SIZE_R_IN
+    for j = 1:SIZE_M_IN
+      RHO_OUT(i, j) = 0;
+
+      for m = 1:SIZE_L_IN
+        RHO_OUT(i, j) = RHO_OUT(i, j) + U_IN(i, j, m)*H_IN(i, m);
+      end
+    end
   end
 end
