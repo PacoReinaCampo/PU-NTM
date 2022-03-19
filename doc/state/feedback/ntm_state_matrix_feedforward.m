@@ -48,5 +48,7 @@ function DATA_D_OUT = ntm_state_matrix_feedforward(DATA_K_IN, DATA_D_IN)
   % SIZE: A[N,N]; B[N,P]; C[Q,N]; D[Q,P];
   % SIZE: K[P,P]; x[N,1]; y[Q,1]; u[P,1];
 
-  DATA_D_OUT = (eye(SIZE_D_I_IN)+DATA_D_IN*DATA_K_IN)\DATA_D_IN;
+  [SIZE_D_I_IN, SIZE_D_J_IN] = size(DATA_D_IN);
+
+  DATA_D_OUT = (eye(SIZE_D_I_IN, SIZE_D_J_IN)+DATA_D_IN*DATA_K_IN)\DATA_D_IN;
 end
