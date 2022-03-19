@@ -44,13 +44,11 @@
 ###################################################################################
 %}
 
-function DATA_Y_OUT = ntm_state_vector_output(DATA_K_IN, DATA_A_IN, DATA_B_IN, DATA_C_IN, DATA_D_IN, DATA_U_IN)
+function DATA_Y_OUT = ntm_state_vector_output(DATA_K_IN, DATA_A_IN, DATA_B_IN, DATA_C_IN, DATA_D_IN, DATA_U_IN, k)
   [SIZE_A_I_IN, SIZE_A_J_IN] = size(DATA_A_IN);
   [SIZE_B_I_IN, SIZE_B_J_IN] = size(DATA_B_IN);
   [SIZE_C_I_IN, SIZE_C_J_IN] = size(DATA_C_IN);
   [SIZE_D_I_IN, SIZE_D_J_IN] = size(DATA_D_IN);
-
-  [k, SIZE_U_IN] = size(DATA_U_IN);
   
   INITIAL_X = zeros(SIZE_A_I_IN, 1);
 
@@ -61,7 +59,7 @@ function DATA_Y_OUT = ntm_state_vector_output(DATA_K_IN, DATA_A_IN, DATA_B_IN, D
   DATA_Y_OUT = DATA_C_IN*(DATA_A_IN^k)*INITIAL_X;
 
   for j = 1:k
-    DATA_Y_OUT = DATA_Y_OUT + DATA_C_IN*(DATA_A_IN^(k-j))*DATA_B_IN*DATA_U_IN(k, :);
+    DATA_Y_OUT = DATA_Y_OUT + DATA_C_IN*(DATA_A_IN^(k-j))*DATA_B_IN*DATA_U_IN(:, k);
   end
 
-  DATA_Y_OUT = DATA_Y_OUT + DATA_D_IN*DATA_U_IN(k, :)end
+  DATA_Y_OUT = DATA_Y_OUT + DATA_D_IN*DATA_U_IN(:, k);end
