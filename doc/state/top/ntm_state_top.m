@@ -65,4 +65,5 @@ function DATA_Y_OUT = ntm_state_top(DATA_K_IN, DATA_A_IN, DATA_B_IN, DATA_C_IN, 
     DATA_Y_OUT = DATA_Y_OUT + DATA_C_IN*(DATA_A_IN^(k-j))*DATA_B_IN*DATA_U_IN(k, :);
   end
 
-  DATA_Y_OUT = DATA_Y_OUT + DATA_D_IN*DATA_U_IN(k, :)end
+  DATA_Y_OUT = DATA_Y_OUT + DATA_D_IN*DATA_U_IN(k, :)
+end
