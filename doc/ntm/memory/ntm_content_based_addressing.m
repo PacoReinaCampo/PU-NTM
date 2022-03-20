@@ -55,7 +55,7 @@ function C_OUT = ntm_content_based_addressing(K_IN, BETA_IN, M_IN)
   vector_i_operation_int = zeros(SIZE_I_IN, 1);
   vector_j_operation_int = zeros(SIZE_J_IN, 1);
 
-  % C(M[i,Â·],k,beta)[i] = softmax(cosine_similarity(k,M[i,Â·])Â·beta)[i]
+  % C(M[i,·],k,beta)[i] = softmax(cosine_similarity(k,M[i,·])·beta)[i]
 
   for i = 1:SIZE_I_IN
     vector_beta_int(i) = BETA_IN;
