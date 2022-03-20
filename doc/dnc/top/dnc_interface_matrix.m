@@ -47,6 +47,6 @@
 function RHO_OUT = dnc_interface_matrix(U_IN, H_IN)
   addpath(genpath('../../math/algebra/tensor'));
 
-  % rho(t;i;m) = U(t;i;m;l)Â·h(t;i;l)
-  RHO_OUT = ntm_tensor_matrix_product(U_IN, H_IN)
+  % rho(t;i;m) = U(t;i;m;l)·h(t;i;l)
+  RHO_OUT = ntm_tensor_matrix_product(U_IN, H_IN);
 end
