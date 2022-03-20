@@ -47,7 +47,7 @@
 function DATA_OUT = ntm_matrix_softmax(DATA_IN)
   addpath(genpath('../../math/algebra/vector'));
 
-  [SIZE_I_IN, SIZE_J_IN] = length(DATA_IN);
+  [SIZE_I_IN, SIZE_J_IN] = size(DATA_IN);
 
   data_summation_int = 0;
 

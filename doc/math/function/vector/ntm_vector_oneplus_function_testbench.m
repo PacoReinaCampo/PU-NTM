@@ -44,24 +44,6 @@
 ###################################################################################
 %}
 
-function DATA_OUT = ntm_tensor_softmax(DATA_IN)
-  addpath(genpath('../../math/algebra/vector'));
+DATA_IN = rand(3, 1);
 
-  [SIZE_I_IN, SIZE_J_IN, SIZE_K_IN] = size(DATA_IN);
-
-  data_summation_int = 0;
-
-  DATA_OUT = zeros(SIZE_I_IN, SIZE_J_IN, SIZE_K_IN);
-
-  for i = 1:SIZE_I_IN
-    for j = 1:SIZE_J_IN
-      for k = 1:SIZE_K_IN
-        scalar_operation_int = exp(DATA_IN(i, j, k));
-
-        data_summation_int = data_summation_int + scalar_operation_int;
-
-        DATA_OUT(i, j, k) = scalar_operation_int/data_summation_int;
-      end
-    end
-  end
-end
+DATA_OUT = ntm_vector_oneplus_function(DATA_IN);
