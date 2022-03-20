@@ -44,22 +44,15 @@
 ###################################################################################
 %}
 
-function R_OUT = ntm_reading(W_IN, M_IN)
-  addpath(genpath('../../math/algebra/vector'));
+function DATA_OUT = ntm_transpose_vector_product(DATA_A_IN, DATA_B_IN)
+  SIZE_A_I_IN = length(DATA_A_IN);
+  SIZE_B_J_IN = length(DATA_B_IN);
 
-  [SIZE_N_IN, SIZE_W_IN] = size(M_IN);
+  DATA_OUT = zeros(SIZE_A_I_IN, SIZE_B_J_IN);
 
-  matrix_operation_int = zeros(SIZE_N_IN, SIZE_W_IN);
-
-  % r(t;k) = summation(w(t;j)·M(t;j;k))[j in 1 to N]
-
-  for j = 1:SIZE_N_IN
-    for k = 1:SIZE_W_IN
-      matrix_operation_int(j, k) = W_IN(j);
+  for i = 1:SIZE_A_I_IN
+    for j = 1:SIZE_B_J_IN
+      DATA_OUT(i, j) = DATA_A_IN(i)*DATA_B_IN(j);
     end
   end
-
-  matrix_operation_int = matrix_operation_int.*M_IN;
-
-  R_OUT = ntm_vector_summation(matrix_operation_int);
 end

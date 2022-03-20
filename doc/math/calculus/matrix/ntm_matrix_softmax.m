@@ -44,22 +44,22 @@
 ###################################################################################
 %}
 
-function R_OUT = ntm_reading(W_IN, M_IN)
+function DATA_OUT = ntm_matrix_softmax(DATA_IN)
   addpath(genpath('../../math/algebra/vector'));
 
-  [SIZE_N_IN, SIZE_W_IN] = size(M_IN);
+  [SIZE_I_IN, SIZE_J_IN] = length(DATA_IN);
 
-  matrix_operation_int = zeros(SIZE_N_IN, SIZE_W_IN);
+  data_summation_int = 0;
 
-  % r(t;k) = summation(w(t;j)·M(t;j;k))[j in 1 to N]
+  DATA_OUT = zeros(SIZE_I_IN, SIZE_J_IN);
 
-  for j = 1:SIZE_N_IN
-    for k = 1:SIZE_W_IN
-      matrix_operation_int(j, k) = W_IN(j);
+  for i = 1:SIZE_I_IN
+    for j = 1:SIZE_J_IN
+      scalar_operation_int = exp(DATA_IN(i, j));
+
+      data_summation_int = data_summation_int + scalar_operation_int;
+
+      DATA_OUT(i, j) = scalar_operation_int/data_summation_int;
     end
   end
-
-  matrix_operation_int = matrix_operation_int.*M_IN;
-
-  R_OUT = ntm_vector_summation(matrix_operation_int);
 end

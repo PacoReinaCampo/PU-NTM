@@ -44,22 +44,13 @@
 ###################################################################################
 %}
 
-function R_OUT = ntm_reading(W_IN, M_IN)
-  addpath(genpath('../../math/algebra/vector'));
+function DATA_OUT = ntm_vector_cosine_similarity(DATA_A_IN, DATA_B_IN)
+  scalar_first_operation_int = ntm_dot_product(DATA_A_IN, DATA_B_IN);
 
-  [SIZE_N_IN, SIZE_W_IN] = size(M_IN);
+  scalar_a_int = ntm_vector_module(DATA_A_IN);
+  scalar_b_int = ntm_vector_module(DATA_B_IN);
 
-  matrix_operation_int = zeros(SIZE_N_IN, SIZE_W_IN);
+  scalar_second_operation_int = scalar_a_int*scalar_b_int;
 
-  % r(t;k) = summation(w(t;j)·M(t;j;k))[j in 1 to N]
-
-  for j = 1:SIZE_N_IN
-    for k = 1:SIZE_W_IN
-      matrix_operation_int(j, k) = W_IN(j);
-    end
-  end
-
-  matrix_operation_int = matrix_operation_int.*M_IN;
-
-  R_OUT = ntm_vector_summation(matrix_operation_int);
+  DATA_OUT = scalar_first_operation_int/scalar_second_operation_int;
 end

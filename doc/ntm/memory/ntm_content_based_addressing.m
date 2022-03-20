@@ -64,9 +64,9 @@ function C_OUT = ntm_content_based_addressing(K_IN, BETA_IN, M_IN)
       vector_j_operation_int(j) = M_IN(i, j);
     end
 
-    vector_j_operation_int = ntm_vector_cosine_similarity(K_IN, vector_j_operation_int);
+    scalar_operation_int = ntm_vector_cosine_similarity(K_IN, vector_j_operation_int);
 
-    vector_i_operation_int(i) = vector_j_operation_int(SIZE_J_IN);
+    vector_i_operation_int(i) = scalar_operation_int;
   end
 
   vector_i_operation_int = vector_i_operation_int.*vector_beta_int;
