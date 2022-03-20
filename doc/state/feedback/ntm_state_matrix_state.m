@@ -50,5 +50,6 @@ function DATA_A_OUT = ntm_state_matrix_state(DATA_K_IN, DATA_A_IN, DATA_B_IN, DA
 
   [SIZE_D_I_IN, SIZE_D_J_IN] = size(DATA_D_IN);
 
+  % a = A-B·K·inv(I+D·K)·C
   DATA_A_OUT = DATA_A_IN-DATA_B_IN*DATA_K_IN*(eye(SIZE_D_I_IN, SIZE_D_J_IN)+DATA_D_IN*DATA_K_IN)\DATA_C_IN;
 end
