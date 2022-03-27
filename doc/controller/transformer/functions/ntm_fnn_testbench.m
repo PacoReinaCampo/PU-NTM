@@ -44,15 +44,25 @@
 ###################################################################################
 %}
 
-function Y_OUT = ntm_encoder(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN, R_IN, XI_IN, RHO_IN, H_IN)
+SIZE_T_IN = 3;
+SIZE_X_IN = 3;
+SIZE_Y_IN = 3;
+SIZE_N_IN = 3;
+SIZE_W_IN = 3;
+SIZE_L_IN = 3;
+SIZE_R_IN = 3;
+SIZE_M_IN = 3;
+SIZE_S_IN = 3;
 
-  Y_OUT = ntm_multi_head_attention(W_IN, K_IN, U_IN, V_IN, D_IN, X_IN, R_IN, XI_IN, RHO_IN, H_IN);
+W_IN = rand(SIZE_L_IN, SIZE_X_IN);
+K_IN = rand(SIZE_R_IN, SIZE_L_IN, SIZE_W_IN);
+U_IN = rand(SIZE_L_IN, SIZE_L_IN);
+V_IN = rand(SIZE_L_IN, SIZE_S_IN);
+D_IN = rand(SIZE_R_IN, SIZE_L_IN, SIZE_M_IN);
+B_IN = rand(SIZE_L_IN, 1);
+X_IN = rand(SIZE_T_IN, SIZE_X_IN);
+R_IN = rand(SIZE_T_IN, SIZE_R_IN, SIZE_W_IN);
+XI_IN = rand(SIZE_T_IN, SIZE_S_IN);
+RHO_IN = rand(SIZE_T_IN, SIZE_R_IN, SIZE_M_IN);
 
-  Z_IN = rand(3, 1);
-  GAMMA_IN = rand(3, 1);
-  BETA_IN = rand(3, 1); 
-
-  N_OUT = ntm_layer_norm(Z_IN, GAMMA_IN, BETA_IN);
-
-  H_OUT = ntm_fnn(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN, R_IN, XI_IN, RHO_IN, H_IN);
-end
+H_OUT = ntm_fnn(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN, R_IN, XI_IN, RHO_IN);

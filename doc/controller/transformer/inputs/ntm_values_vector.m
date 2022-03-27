@@ -44,44 +44,41 @@
 ###################################################################################
 %}
 
-function Q_OUT = ntm_queries_vector(W_IN, K_IN, U_IN, V_IN, D_IN, X_IN, R_IN, XI_IN, RHO_IN, H_IN)
-  addpath(genpath('../../math/algebra/matrix'));
-  addpath(genpath('../../math/algebra/tensor'));
-  addpath(genpath('../../math/function/vector'));
+function V_OUT = ntm_values_vector(W_HK_IN, W_IN, K_IN, V_IN, D_IN, X_IN, R_IN, XI_IN, RHO_IN)
+  addpath(genpath('../../../math/algebra/matrix'));
 
-  [SIZE_R_IN, SIZE_L_IN, SIZE_W_IN] = size(K_IN);
+  [SIZE_T_IN, SIZE_R_IN, SIZE_W_IN] = size(R_IN);
 
-  % h(t;l) = sigmoid(W(l;x)·x(t;x) + K(i;l;k)·r(t;i;k) + D(i;l;m)·rho(t;i;m) + V(s;l)·xi(t;s) + U(l;l)·h(t-1;l) + b(t;l))
-  matrix_operation_int = ntm_matrix_transpose(W_IN);
-  vector_operation_int = ntm_matrix_vector_product(matrix_operation_int, X_IN);
+  [SIZE_T_IN, SIZE_R_IN, SIZE_M_IN] = size(RHO_IN);
 
-  tensor_operation_int = ntm_tensor_transpose(K_IN);
-  matrix_operation_int = ntm_tensor_matrix_product(tensor_operation_int, R_IN);
+  [SIZE_L_IN, SIZE_N_IN] = size(W_HK_IN);
 
-  for i = 1:SIZE_R_IN
-    for l = 1:SIZE_L_IN
-      vector_operation_int(l) = vector_operation_int(l) + matrix_operation_int(i, l);
+  % V(t;l) = transpose(W(l;n))·x(t;l)
+
+  r_int = zeros(SIZE_T_IN, SIZE_R_IN, SIZE_W_IN);
+  rho_int = zeros(SIZE_T_IN, SIZE_R_IN, SIZE_M_IN);
+
+  X_OUT = zeros(SIZE_T_IN, SIZE_L_IN);
+
+  V_OUT = zeros(SIZE_N_IN, SIZE_L_IN);
+
+  % transpose(W(l;n))
+  matrix_operation_int = ntm_matrix_transpose(W_HK_IN);
+
+  for t = 1:SIZE_T_IN
+    for i = 1:SIZE_R_IN
+      for k = 1:SIZE_W_IN
+        r_int(i, k) = R_IN(t, i, k);
+      end
+
+      for m = 1:SIZE_M_IN
+        rho_int(i, m) = RHO_IN(t, i, m);
+      end
     end
+
+    X_OUT(t, :) = ntm_inputs_vector(W_IN, K_IN, V_IN, D_IN, X_IN(t, :), r_int, XI_IN(t, :), rho_int);
+
+    % transpose(W(l;n))·x(t;l)
+    V_OUT(t, :) = ntm_matrix_vector_product(matrix_operation_int, X_OUT(t, :));
   end
-
-  tensor_operation_int = ntm_tensor_transpose(D_IN);
-  matrix_operation_int = ntm_tensor_matrix_product(tensor_operation_int, RHO_IN);
-
-  for i = 1:SIZE_R_IN
-    for l = 1:SIZE_L_IN
-      vector_operation_int(l) = vector_operation_int(l) + matrix_operation_int(i, l);
-    end
-  end
-
-  Q_OUT = vector_operation_int;
-
-  matrix_operation_int = ntm_matrix_transpose(V_IN);
-  vector_operation_int = ntm_matrix_vector_product(matrix_operation_int, XI_IN);
-
-  Q_OUT = Q_OUT + vector_operation_int;
-
-  matrix_operation_int = ntm_matrix_transpose(U_IN);
-  vector_operation_int = ntm_matrix_vector_product(matrix_operation_int, H_IN);
-
-  Q_OUT = Q_OUT + vector_operation_int;
 end

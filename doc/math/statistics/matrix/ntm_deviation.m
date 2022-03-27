@@ -44,11 +44,16 @@
 ###################################################################################
 %}
 
-function Y_OUT = ntm_multi_head_attention(W_IN, K_IN, U_IN, V_IN, D_IN, X_IN, R_IN, XI_IN, RHO_IN, H_IN)
+function DATA_OUT = ntm_deviation(DATA_IN, MEAN_IN)
+  LENGTH_IN = length(DATA_IN);
 
-  K_OUT = ntm_keys_vector(W_IN, K_IN, U_IN, V_IN, D_IN, X_IN, R_IN, XI_IN, RHO_IN, H_IN);
-  Q_OUT = ntm_queries_vector(W_IN, K_IN, U_IN, V_IN, D_IN, X_IN, R_IN, XI_IN, RHO_IN, H_IN);
-  V_OUT = ntm_values_vector(W_IN, K_IN, U_IN, V_IN, D_IN, X_IN, R_IN, XI_IN, RHO_IN, H_IN);
+  DATA_OUT = 0;
 
-  Y_OUT = ntm_scaled_dot_product_attention(X_IN);
+  for i = 1:LENGTH_IN
+    DATA_OUT = DATA_OUT + (DATA_IN(i) - MEAN_IN)^2;
+  end
+
+  DATA_OUT = DATA_OUT/LENGTH_IN;
+
+  DATA_OUT = sqrt(DATA_OUT);
 end

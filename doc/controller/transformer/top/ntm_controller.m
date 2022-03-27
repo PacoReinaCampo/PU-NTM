@@ -44,16 +44,11 @@
 ###################################################################################
 %}
 
-W_IN = rand(3, 3);
-K_IN = rand(3, 3, 3);
-U_IN = rand(3, 3);
-V_IN = rand(3, 3);
-D_IN = rand(3, 3, 3);
-B_IN = rand(3, 1);
-X_IN = rand(3, 1);
-R_IN = rand(3, 3);
-XI_IN = rand(3, 1);
-RHO_IN = rand(3, 3);
-H_IN = rand(3, 1);
+function Y_OUT = ntm_controller(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN, R_IN, XI_IN, RHO_IN)
 
-H_OUT = ntm_fnn(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN, R_IN, XI_IN, RHO_IN, H_IN);
+  X1_OUT = ntm_positional_encoding(X_IN);
+  Y1_OUT = ntm_encoder(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN, R_IN, XI_IN, RHO_IN);
+
+  X2_OUT = ntm_positional_encoding(X_IN);
+  Y_OUT = ntm_decoder(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN, R_IN, XI_IN, RHO_IN);
+end

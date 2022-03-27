@@ -44,15 +44,11 @@
 ###################################################################################
 %}
 
-W_IN = rand(3, 3);
-K_IN = rand(3, 3, 3);
-U_IN = rand(3, 3);
-V_IN = rand(3, 3);
-D_IN = rand(3, 3, 3);
-X_IN = rand(3, 1);
-R_IN = rand(3, 3);
-XI_IN = rand(3, 1);
-RHO_IN = rand(3, 3);
-H_IN = rand(3, 1); 
+function Y_OUT = ntm_multi_head_attention(W_IN, K_IN, U_IN, V_IN, D_IN, X_IN, R_IN, XI_IN, RHO_IN)
 
-Q_OUT = ntm_queries_vector(W_IN, K_IN, U_IN, V_IN, D_IN, X_IN, R_IN, XI_IN, RHO_IN, H_IN);
+  K_OUT = ntm_keys_vector(W_IN, K_IN, U_IN, V_IN, D_IN, X_IN, R_IN, XI_IN, RHO_IN);
+  Q_OUT = ntm_queries_vector(W_IN, K_IN, U_IN, V_IN, D_IN, X_IN, R_IN, XI_IN, RHO_IN);
+  V_OUT = ntm_values_vector(W_IN, K_IN, U_IN, V_IN, D_IN, X_IN, R_IN, XI_IN, RHO_IN);
+
+  Y_OUT = ntm_scaled_dot_product_attention(X_IN);
+end

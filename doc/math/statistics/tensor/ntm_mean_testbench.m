@@ -44,11 +44,8 @@
 ###################################################################################
 %}
 
-function Y_OUT = ntm_controller(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN, R_IN, XI_IN, RHO_IN, H_IN)
+LENGTH_IN = 3;
 
-  X1_OUT = ntm_positional_encoding(X_IN);
-  Y1_OUT = ntm_encoder(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN, R_IN, XI_IN, RHO_IN, H_IN);
+DATA_IN = rand(LENGTH_IN, 1);
 
-  X2_OUT = ntm_positional_encoding(X_IN);
-  Y_OUT = ntm_decoder(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN, R_IN, XI_IN, RHO_IN, H_IN);
-end
+DATA_OUT = ntm_mean(DATA_IN);
