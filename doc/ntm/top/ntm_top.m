@@ -57,20 +57,12 @@ function Y_OUT = ntm_top(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN, R_IN, XI_IN, 
   SIZE_W_IN = 3;
   SIZE_L_IN = 3;
   SIZE_R_IN = 3;
-  SIZE_M_IN = 3;
-  SIZE_S_IN = 3;
+
+  SIZE_M_IN = SIZE_N_IN + 3*SIZE_W_IN + 3;
+  SIZE_S_IN = SIZE_N_IN + 3*SIZE_W_IN + 3;
 
   Y_OUT = zeros(SIZE_Y_IN, 1);
   WA_IN = rand(SIZE_R_IN, 1);
-
-  A_IN = rand(1, SIZE_W_IN);
-  E_IN = rand(1, SIZE_W_IN);
-
-  KA_IN = rand(1, SIZE_W_IN);
-  BETA_IN = rand(1);
-  G_IN = rand(1);
-  S_IN = rand(1, SIZE_W_IN);
-  GAMMA_IN = rand(1);
 
   matrix_u_int = rand(SIZE_R_IN, SIZE_M_IN, SIZE_L_IN);
   matrix_h_int = rand(SIZE_R_IN, SIZE_L_IN);
@@ -92,21 +84,39 @@ function Y_OUT = ntm_top(W_IN, K_IN, U_IN, V_IN, D_IN, B_IN, X_IN, R_IN, XI_IN, 
     Y_OUT = ntm_output_vector(K_IN, R_IN, U_IN, HO_IN);
 
     % INTERFACE VECTOR
-    XI_OUT = ntm_interface_vector(matrix_u_int, matrix_h_int);
+    vector_xi_int = ntm_interface_vector(vector_u_int, vector_h_int);
+
+    vector_e_int = vector_xi_int(SIZE_N_IN+2*SIZE_W_IN+4:SIZE_N_IN+3*SIZE_W_IN+3);
+    vector_a_int = vector_xi_int(SIZE_N_IN+SIZE_W_IN+4:SIZE_N_IN+2*SIZE_W_IN+3);
+
+    vector_k_int = vector_xi_int(SIZE_N_IN+4:SIZE_N_IN+SIZE_W_IN+3);
+    scalar_beta_int = vector_xi_int(SIZE_N_IN+3);
+    scalar_g_int = vector_xi_int(SIZE_N_IN+2);
+    vector_s_int = vector_xi_int(2:SIZE_N_IN+1);
+    scalar_gamma_int = vector_xi_int(1);
 
     % INTERFACE MATRIX
-    RHO_OUT = ntm_interface_matrix(vector_u_int, vector_h_int);
+    matrix_rho_int = ntm_interface_matrix(matrix_u_int, matrix_h_int);
+
+    matrix_e_int = matrix_rho_int(SIZE_N_IN, SIZE_N_IN+2*SIZE_W_IN+4:SIZE_N_IN+3*SIZE_W_IN+3);
+    matrix_a_int = matrix_rho_int(SIZE_N_IN, SIZE_N_IN+SIZE_W_IN+4:SIZE_N_IN+2*SIZE_W_IN+3);
+
+    matrix_k_int = matrix_rho_int(SIZE_N_IN, SIZE_N_IN+4:SIZE_N_IN+SIZE_W_IN+3);
+    vector_beta_int = matrix_rho_int(SIZE_N_IN, SIZE_N_IN+3);
+    vector_g_int = matrix_rho_int(SIZE_N_IN, SIZE_N_IN+2);
+    matrix_s_int = matrix_rho_int(SIZE_N_IN, 2:SIZE_N_IN+1);
+    vector_gamma_int = matrix_rho_int(SIZE_N_IN, 1);
 
     % WRITING
-    matrix_m_int = ntm_writing(matrix_m_int, matrix_w_int, A_IN);
+    matrix_m_int = ntm_writing(matrix_m_int, matrix_w_int, vector_a_int);
 
     % ERASING
-    matrix_m_int = ntm_erasing(matrix_m_int, matrix_w_int, E_IN);
+    matrix_m_int = ntm_erasing(matrix_m_int, matrix_w_int, vector_e_int);
 
     % READING
     R_OUT = ntm_reading(matrix_w_int, matrix_m_int);
 
     % ADDRESSING
-    W_OUT = ntm_addressing(KA_IN, BETA_IN, G_IN, S_IN, GAMMA_IN, matrix_m_int, WA_IN);
+    W_OUT = ntm_addressing(vector_k_int, scalar_beta_int, scalar_g_int, vector_s_int, scalar_gamma_int, matrix_m_int, WA_IN);
   end
 end
