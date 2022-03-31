@@ -47,6 +47,17 @@ use work.ntm_fnn_controller_pkg.all;
 package ntm_core_pkg is
 
   -----------------------------------------------------------------------
+  -- Types
+  -----------------------------------------------------------------------
+
+  type teacher_output is record
+    tensor_k_output : array4_buffer;
+    matrix_u_output : tensor_buffer;
+    matrix_v_output : tensor_buffer;
+    tensor_d_output : array4_buffer;
+  end record teacher_output;
+
+  -----------------------------------------------------------------------
   -- Components
   -----------------------------------------------------------------------
 
@@ -635,7 +646,7 @@ package ntm_core_pkg is
     vector_xi_input  : matrix_buffer;
     matrix_rho_input : tensor_buffer;
     vector_h_input   : matrix_buffer
-    ) return array4_buffer;
+    ) return teacher_output;
 
 end ntm_core_pkg;
 
@@ -1341,7 +1352,7 @@ package body ntm_core_pkg is
     vector_xi_input  : matrix_buffer;
     matrix_rho_input : tensor_buffer;
     vector_h_input   : matrix_buffer
-    ) return array4_buffer is
+    ) return teacher_output is
 
     -- Trainer Variable
     variable tensor_k_int : tensor_buffer;
@@ -1353,6 +1364,8 @@ package body ntm_core_pkg is
     variable matrix_u_output : tensor_buffer;
     variable matrix_v_output : tensor_buffer;
     variable tensor_d_output : array4_buffer;
+
+    variable trainer_output : teacher_output;
 
   begin
 
@@ -1422,7 +1435,12 @@ package body ntm_core_pkg is
       vector_h_input   => vector_h_input
       );
 
-    return tensor_d_output;
+    trainer_output.tensor_k_output := tensor_k_output;
+    trainer_output.matrix_u_output := matrix_u_output;
+    trainer_output.matrix_v_output := matrix_v_output;
+    trainer_output.tensor_d_output := tensor_d_output;
+
+    return trainer_output;
 
   end function function_ntm_teacher;
 
