@@ -1,8 +1,27 @@
 ---
-title:  PU-NTM (T-DNC/NTM-PU)
+title:  MPSoC-NTM (T-DNC/NTM-MPSoC)
 author: QueenField
 geometry: "left=3cm,right=2cm,top=3cm,bottom=2cm"
 ---
+## 0. Introduction
+
+### 0.1. Model
+
+#### 0.1.1. MatLab Language
+
+#### 0.1.2. Rust Language
+
+### 0.2. Design
+
+#### 0.2.1. VHDL
+
+#### 0.2.2. Verilog
+
+### 0.3. Verification
+
+#### 0.3.1. OSVVM-VHDL
+
+#### 0.3.2. UVM-Verilog
 
 ## 1. Mechanics
 
@@ -77,3 +96,23 @@ geometry: "left=3cm,right=2cm,top=3cm,bottom=2cm"
 #### 5.2.3. Memory Unit
 
 #### 5.2.4. I/O Unit
+
+## 6. Advanced Computer Architecture
+
+### 6.1. Processing Unit
+
+#### 6.1.1. SISD
+
+#### 6.1.2. SIMD
+
+#### 6.1.3. MISD
+
+#### 6.1.4. MIMD
+
+### 6.2. System on Chip
+
+#### 6.2.1. Bus on Chip
+
+#### 6.2.2. Network on Chip
+
+### 6.3. Multi Processor System on Chip
