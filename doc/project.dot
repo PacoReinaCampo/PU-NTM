@@ -10,6 +10,8 @@ digraph Project {
   Validation[label="Validation \n(VHDL/Verilog) [GHDL / Icarus Verilog]"];
   Design[label="Design \n(VHDL/Verilog) [Emacs]"];
   Verification[label="Verification \n(VHDL/Verilog) [GHDL / Icarus Verilog]"];
+  Certification[label="Certification \n(Tex) [Emacs]"];
+  Documentation[label="Documentation \n(Tex) [Emacs]"];
 
   // Sequence
   Requirements -> Source;
@@ -17,8 +19,11 @@ digraph Project {
   Model -> Validation;
   Validation -> Design;
   Design -> Verification;
+  Verification -> Certification;
+  Certification -> Documentation;
 
   // Feedback
   Validation -> Requirements;
   Verification -> Requirements;
 }
+
