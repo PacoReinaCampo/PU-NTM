@@ -1,6 +1,6 @@
 ---
 title: 'PU-NTM (T-DNC/NTM-PU)'
-subtitle: 'QueenField ![](../../icon.jpg)'
+subtitle: 'QueenField ![](../../pu-ntm.svg){width=17cm}'
 
 author: Paco Reina Campo
 
