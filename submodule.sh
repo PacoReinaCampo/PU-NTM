@@ -42,5 +42,15 @@
 ##                                                                               ##
 ###################################################################################
 
+# Remove Submodule
+git rm -rf pu-dv
+git rm -rf pu-rtos
+git rm -rf opennn
+
 # Update Submodule
 git submodule update --init --recursive --remote
+
+# Add Submodule
+git submodule add --force https://github.com/PacoReinaCampo/PU-DV.git pu-dv
+git submodule add --force https://github.com/PacoReinaCampo/PU-RTOS.git pu-rtos
+git submodule add --force https://github.com/PacoReinaCampo/OpenNN.git opennn
