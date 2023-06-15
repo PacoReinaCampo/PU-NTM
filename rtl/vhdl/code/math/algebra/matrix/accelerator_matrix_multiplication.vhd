@@ -96,10 +96,8 @@ architecture accelerator_matrix_multiplication_architecture of accelerator_matri
     ENDER_LENGTH_STATE,                 -- STEP 6
     CLEAN_I_STATE,                      -- STEP 7
     CLEAN_J_STATE,                      -- STEP 8
-    CLEAN_LENGTH_STATE,                 -- STEP 9
-    SCALAR_MULTIPLIER_I_STATE,          -- STEP 10
-    SCALAR_MULTIPLIER_J_STATE,          -- STEP 11
-    SCALAR_MULTIPLIER_LENGTH_STATE      -- STEP 12
+    SCALAR_MULTIPLIER_I_STATE,               -- STEP 9
+    SCALAR_MULTIPLIER_J_STATE                -- STEP 10
     );
 
   -- Buffer
@@ -326,14 +324,13 @@ begin
           -- Data Inputs
           data_a_in_scalar_float_multiplier <= matrix_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
 
-          if (unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL) and unsigned(index_l_loop) = unsigned(ZERO_CONTROL)) then
+          if (unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
             data_b_in_scalar_float_multiplier <= ZERO_DATA;
           else
             data_b_in_scalar_float_multiplier <= data_out_scalar_float_multiplier;
           end if;
 
           -- Control Outputs
-          DATA_LENGTH_ENABLE <= '0';
           DATA_I_ENABLE      <= '0';
           DATA_J_ENABLE      <= '0';
 
@@ -344,12 +341,10 @@ begin
           start_scalar_float_multiplier <= '1';
 
           -- FSM Control
-          if ((unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
+          if (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) then
             multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_I_STATE;
-          elsif (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL)) then
-            multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_J_STATE;
           else
-            multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_LENGTH_STATE;
+            multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_J_STATE;
           end if;
 
         when CLEAN_J_STATE =>           -- STEP 8
@@ -359,7 +354,6 @@ begin
           data_b_in_scalar_float_multiplier <= data_out_scalar_float_multiplier;
 
           -- Control Outputs
-          DATA_LENGTH_ENABLE <= '0';
           DATA_J_ENABLE      <= '0';
 
           DATA_OUT_J_ENABLE <= '0';
@@ -368,58 +362,32 @@ begin
           start_scalar_float_multiplier <= '1';
 
           -- FSM Control
-          if ((unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
+          if (unsigned(index_l_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) then
             multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_I_STATE;
-          elsif (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL)) then
-            multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_J_STATE;
           else
-            multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_LENGTH_STATE;
+            multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_J_STATE;
           end if;
 
-        when CLEAN_LENGTH_STATE =>      -- STEP 9
-
-          -- Data Inputs
-          data_a_in_scalar_float_multiplier <= matrix_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
-          data_b_in_scalar_float_multiplier <= data_out_scalar_float_multiplier;
-
-          -- Control Outputs
-          DATA_LENGTH_ENABLE <= '0';
-
-          -- Control Internal
-          start_scalar_float_multiplier <= '1';
-
-          -- FSM Control
-          if ((unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
-            multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_I_STATE;
-          elsif (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL)) then
-            multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_J_STATE;
-          else
-            multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_LENGTH_STATE;
-          end if;
-
-        when SCALAR_MULTIPLIER_I_STATE =>  -- STEP 10
+        when SCALAR_MULTIPLIER_I_STATE =>    -- STEP 10
 
           if (ready_scalar_float_multiplier = '1') then
-            if ((unsigned(index_i_loop) = unsigned(SIZE_I_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
+            if ((unsigned(index_i_loop) = unsigned(SIZE_I_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL))) then
               -- Data Outputs
               DATA_OUT <= data_out_scalar_float_multiplier;
 
               -- Control Outputs
               DATA_OUT_I_ENABLE <= '1';
               DATA_OUT_J_ENABLE <= '1';
-
-              DATA_LENGTH_ENABLE <= '1';
 
               READY <= '1';
 
               -- Control Internal
               index_i_loop <= ZERO_CONTROL;
               index_j_loop <= ZERO_CONTROL;
-              index_l_loop <= ZERO_CONTROL;
 
               -- FSM Control
               multiplication_ctrl_fsm_int <= STARTER_STATE;
-            elsif ((unsigned(index_i_loop) < unsigned(SIZE_I_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
+            elsif ((unsigned(index_i_loop) < unsigned(SIZE_I_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL))) then
               -- Data Outputs
               DATA_OUT <= data_out_scalar_float_multiplier;
 
@@ -427,12 +395,9 @@ begin
               DATA_OUT_I_ENABLE <= '1';
               DATA_OUT_J_ENABLE <= '1';
 
-              DATA_LENGTH_ENABLE <= '1';
-
               -- Control Internal
               index_i_loop <= std_logic_vector(unsigned(index_i_loop)+unsigned(ONE_CONTROL));
               index_j_loop <= ZERO_CONTROL;
-              index_l_loop <= ZERO_CONTROL;
 
               -- FSM Control
               multiplication_ctrl_fsm_int <= CLEAN_I_STATE;
@@ -442,45 +407,21 @@ begin
             start_scalar_float_multiplier <= '0';
           end if;
 
-        when SCALAR_MULTIPLIER_J_STATE =>  -- STEP 11
+        when SCALAR_MULTIPLIER_J_STATE =>    -- STEP 11
 
           if (ready_scalar_float_multiplier = '1') then
-            if ((unsigned(index_j_loop) < unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
+            if ((unsigned(index_j_loop) < unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL))) then
               -- Data Outputs
               DATA_OUT <= data_out_scalar_float_multiplier;
 
               -- Control Outputs
               DATA_OUT_J_ENABLE <= '1';
 
-              DATA_LENGTH_ENABLE <= '1';
-
               -- Control Internal
               index_j_loop <= std_logic_vector(unsigned(index_j_loop)+unsigned(ONE_CONTROL));
-              index_l_loop <= ZERO_CONTROL;
 
               -- FSM Control
               multiplication_ctrl_fsm_int <= CLEAN_J_STATE;
-            end if;
-          else
-            -- Control Internal
-            start_scalar_float_multiplier <= '0';
-          end if;
-
-        when SCALAR_MULTIPLIER_LENGTH_STATE =>  -- STEP 12
-
-          if (ready_scalar_float_multiplier = '1') then
-            if (unsigned(index_l_loop) < unsigned(LENGTH_IN)-unsigned(ONE_CONTROL)) then
-              -- Data Outputs
-              DATA_OUT <= data_out_scalar_float_multiplier;
-
-              -- Control Outputs
-              DATA_LENGTH_ENABLE <= '1';
-
-              -- Control Internal
-              index_l_loop <= std_logic_vector(unsigned(index_l_loop)+unsigned(ONE_CONTROL));
-
-              -- FSM Control
-              multiplication_ctrl_fsm_int <= CLEAN_LENGTH_STATE;
             end if;
           else
             -- Control Internal

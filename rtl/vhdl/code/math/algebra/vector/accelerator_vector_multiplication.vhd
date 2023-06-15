@@ -89,9 +89,7 @@ architecture accelerator_vector_multiplication_architecture of accelerator_vecto
     ENDER_STATE,                        -- STEP 3
     ENDER_LENGTH_STATE,                 -- STEP 4
     CLEAN_STATE,                        -- STEP 5
-    CLEAN_LENGTH_STATE,                 -- STEP 6
-    SCALAR_MULTIPLIER_STATE,            -- STEP 7
-    SCALAR_MULTIPLIER_LENGTH_STATE      -- STEP 8
+    SCALAR_MULTIPLIER_STATE                  -- STEP 6
     );
 
   -- Buffer
@@ -282,37 +280,12 @@ begin
           start_scalar_float_multiplier <= '1';
 
           -- FSM Control
-          if (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL)) then
-            multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_STATE;
-          else
-            multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_LENGTH_STATE;
-          end if;
+          multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_STATE;
 
-        when CLEAN_LENGTH_STATE =>      -- STEP 6
-
-          -- Data Inputs
-          data_a_in_scalar_float_multiplier <= vector_int(to_integer(unsigned(index_loop)));
-          data_b_in_scalar_float_multiplier <= data_out_scalar_float_multiplier;
-
-          -- Control Outputs
-          DATA_LENGTH_ENABLE <= '0';
-
-          DATA_OUT_ENABLE <= '0';
-
-          -- Control Internal
-          start_scalar_float_multiplier <= '1';
-
-          -- FSM Control
-          if (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL)) then
-            multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_STATE;
-          else
-            multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_LENGTH_STATE;
-          end if;
-
-        when SCALAR_MULTIPLIER_STATE =>  -- STEP 7
+        when SCALAR_MULTIPLIER_STATE =>      -- STEP 7
 
           if (ready_scalar_float_multiplier = '1') then
-            if ((unsigned(index_loop) = unsigned(SIZE_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
+            if ((unsigned(index_loop) = unsigned(SIZE_IN)-unsigned(ONE_CONTROL))) then
               -- Data Outputs
               DATA_OUT <= data_out_scalar_float_multiplier;
 
@@ -322,12 +295,11 @@ begin
               DATA_OUT_ENABLE <= '1';
 
               -- Control Internal
-              index_loop   <= ZERO_CONTROL;
-              index_l_loop <= ZERO_CONTROL;
+              index_loop <= ZERO_CONTROL;
 
               -- FSM Control
               multiplication_ctrl_fsm_int <= STARTER_STATE;
-            elsif ((unsigned(index_loop) < unsigned(SIZE_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
+            elsif ((unsigned(index_loop) < unsigned(SIZE_IN)-unsigned(ONE_CONTROL))) then
               -- Data Outputs
               DATA_OUT <= data_out_scalar_float_multiplier;
 
@@ -335,32 +307,10 @@ begin
               DATA_OUT_ENABLE <= '1';
 
               -- Control Internal
-              index_loop   <= std_logic_vector(unsigned(index_loop)+unsigned(ONE_CONTROL));
-              index_l_loop <= ZERO_CONTROL;
+              index_loop <= std_logic_vector(unsigned(index_loop)+unsigned(ONE_CONTROL));
 
               -- FSM Control
               multiplication_ctrl_fsm_int <= CLEAN_STATE;
-            end if;
-          else
-            -- Control Internal
-            start_scalar_float_multiplier <= '0';
-          end if;
-
-        when SCALAR_MULTIPLIER_LENGTH_STATE =>  -- STEP 8
-
-          if (ready_scalar_float_multiplier = '1') then
-            if (unsigned(index_l_loop) < unsigned(LENGTH_IN)-unsigned(ONE_CONTROL)) then
-              -- Data Outputs
-              DATA_OUT <= data_out_scalar_float_multiplier;
-
-              -- Control Outputs
-              DATA_OUT_ENABLE <= '1';
-
-              -- Control Internal
-              index_l_loop <= std_logic_vector(unsigned(index_l_loop)+unsigned(ONE_CONTROL));
-
-              -- FSM Control
-              multiplication_ctrl_fsm_int <= CLEAN_LENGTH_STATE;
             end if;
           else
             -- Control Internal

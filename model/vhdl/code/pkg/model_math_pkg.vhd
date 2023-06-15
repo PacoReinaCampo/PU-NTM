@@ -2438,11 +2438,11 @@ package body model_math_pkg is
       vector_output(i) := ONE_DATA;
     end loop;
 
-    for t in 0 to to_integer(unsigned(LENGTH_IN))-1 loop
-      for i in 0 to to_integer(unsigned(SIZE_IN))-1 loop
+    for i in 0 to to_integer(unsigned(SIZE_IN))-1 loop
+      for t in 0 to to_integer(unsigned(LENGTH_IN))-1 loop
         vector_output(i) := function_scalar_float_multiplier (
           scalar_a_input => vector_output(i),
-          scalar_b_input => vector_input(t, i)
+          scalar_b_input => vector_input(i, t)
           );
       end loop;
     end loop;
@@ -2463,11 +2463,11 @@ package body model_math_pkg is
     -- Data Inputs
     vector_output := (others => ZERO_DATA);
 
-    for t in 0 to to_integer(unsigned(LENGTH_IN))-1 loop
-      for i in 0 to to_integer(unsigned(SIZE_IN))-1 loop
+    for i in 0 to to_integer(unsigned(SIZE_IN))-1 loop
+      for t in 0 to to_integer(unsigned(LENGTH_IN))-1 loop
         vector_output(i) := function_scalar_float_multiplier (
           scalar_a_input => vector_output(i),
-          scalar_b_input => vector_input(t, i)
+          scalar_b_input => vector_input(i, t)
           );
       end loop;
     end loop;
@@ -2658,12 +2658,12 @@ package body model_math_pkg is
       end loop;
     end loop;
 
-    for t in 0 to to_integer(unsigned(LENGTH_IN))-1 loop
-      for i in 0 to to_integer(unsigned(SIZE_I_IN))-1 loop
-        for j in 0 to to_integer(unsigned(SIZE_J_IN))-1 loop
+    for i in 0 to to_integer(unsigned(SIZE_I_IN))-1 loop
+      for j in 0 to to_integer(unsigned(SIZE_J_IN))-1 loop
+        for t in 0 to to_integer(unsigned(LENGTH_IN))-1 loop
           matrix_output(i, j) := function_scalar_float_multiplier (
             scalar_a_input => matrix_output(i, j),
-            scalar_b_input => matrix_input(t, i, j)
+            scalar_b_input => matrix_input(i, j, t)
             );
         end loop;
       end loop;
@@ -2794,14 +2794,14 @@ package body model_math_pkg is
     -- Data Inputs
     matrix_output := (others => (others => ZERO_DATA));
 
-    for t in 0 to to_integer(unsigned(LENGTH_IN))-1 loop
-      for i in 0 to to_integer(unsigned(SIZE_I_IN))-1 loop
-        for j in 0 to to_integer(unsigned(SIZE_J_IN))-1 loop
+    for i in 0 to to_integer(unsigned(SIZE_I_IN))-1 loop
+      for j in 0 to to_integer(unsigned(SIZE_J_IN))-1 loop
+        for t in 0 to to_integer(unsigned(LENGTH_IN))-1 loop
           matrix_output(i, j) := function_scalar_float_adder (
             OPERATION => '0',
 
-            scalar_a_input => matrix_input(t, i, j),
-            scalar_b_input => matrix_output(i, j)
+            scalar_a_input => matrix_output(i, j),
+            scalar_b_input => matrix_input(i, j, t)
             );
         end loop;
       end loop;
@@ -3036,12 +3036,12 @@ package body model_math_pkg is
       end loop;
     end loop;
 
-    for t in 0 to to_integer(unsigned(LENGTH_IN))-1 loop
-      for i in 0 to to_integer(unsigned(SIZE_I_IN))-1 loop
-        for j in 0 to to_integer(unsigned(SIZE_J_IN))-1 loop
-          for k in 0 to to_integer(unsigned(SIZE_K_IN))-1 loop
+    for i in 0 to to_integer(unsigned(SIZE_I_IN))-1 loop
+      for j in 0 to to_integer(unsigned(SIZE_J_IN))-1 loop
+        for k in 0 to to_integer(unsigned(SIZE_K_IN))-1 loop
+          for t in 0 to to_integer(unsigned(LENGTH_IN))-1 loop
             tensor_output(i, j, k) := function_scalar_float_multiplier (
-              scalar_a_input => tensor_input(t, i, j, k),
+              scalar_a_input => tensor_input(i, j, k, t),
               scalar_b_input => tensor_output(i, j, k)
               );
           end loop;
@@ -3147,15 +3147,15 @@ package body model_math_pkg is
     -- Data Inputs
     tensor_output := (others => (others => (others => ZERO_DATA)));
 
-    for t in 0 to to_integer(unsigned(LENGTH_IN))-1 loop
-      for i in 0 to to_integer(unsigned(SIZE_I_IN))-1 loop
-        for j in 0 to to_integer(unsigned(SIZE_J_IN))-1 loop
-          for k in 0 to to_integer(unsigned(SIZE_K_IN))-1 loop
+    for i in 0 to to_integer(unsigned(SIZE_I_IN))-1 loop
+      for j in 0 to to_integer(unsigned(SIZE_J_IN))-1 loop
+        for k in 0 to to_integer(unsigned(SIZE_K_IN))-1 loop
+          for t in 0 to to_integer(unsigned(LENGTH_IN))-1 loop
             tensor_output(i, j, k) := function_scalar_float_adder (
               OPERATION => '0',
 
               scalar_a_input => tensor_output(i, j, k),
-              scalar_b_input => tensor_input(t, i, j, k)
+              scalar_b_input => tensor_input(i, j, k, t)
               );
           end loop;
         end loop;

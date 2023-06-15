@@ -59,15 +59,15 @@ entity model_tensor_summation is
     START : in  std_logic;
     READY : out std_logic;
 
-    DATA_IN_LENGTH_ENABLE : in std_logic;
     DATA_IN_I_ENABLE      : in std_logic;
     DATA_IN_J_ENABLE      : in std_logic;
     DATA_IN_K_ENABLE      : in std_logic;
+    DATA_IN_LENGTH_ENABLE : in std_logic;
 
-    DATA_LENGTH_ENABLE : out std_logic;
     DATA_I_ENABLE      : out std_logic;
     DATA_J_ENABLE      : out std_logic;
     DATA_K_ENABLE      : out std_logic;
+    DATA_LENGTH_ENABLE : out std_logic;
 
     DATA_OUT_I_ENABLE : out std_logic;
     DATA_OUT_J_ENABLE : out std_logic;
@@ -95,15 +95,17 @@ architecture model_tensor_summation_architecture of model_tensor_summation is
     INPUT_I_STATE,                      -- STEP 1
     INPUT_J_STATE,                      -- STEP 2
     INPUT_K_STATE,                      -- STEP 3
-    ENDER_I_STATE,                      -- STEP 4
-    ENDER_J_STATE,                      -- STEP 5
-    ENDER_K_STATE,                      -- STEP 6
-    CLEAN_I_STATE,                      -- STEP 7
-    CLEAN_J_STATE,                      -- STEP 8
-    CLEAN_K_STATE,                      -- STEP 9
-    OPERATION_I_STATE,                  -- STEP 10
-    OPERATION_J_STATE,                  -- STEP 11
-    OPERATION_K_STATE                   -- STEP 12
+    INPUT_LENGTH_STATE,                 -- STEP 4
+    ENDER_I_STATE,                      -- STEP 5
+    ENDER_J_STATE,                      -- STEP 6
+    ENDER_K_STATE,                      -- STEP 7
+    ENDER_LENGTH_STATE,                 -- STEP 8
+    CLEAN_I_STATE,                      -- STEP 9
+    CLEAN_J_STATE,                      -- STEP 10
+    CLEAN_K_STATE,                      -- STEP 11
+    OPERATION_I_STATE,                  -- STEP 12
+    OPERATION_J_STATE,                  -- STEP 13
+    OPERATION_K_STATE                   -- STEP 14
     );
 
   ------------------------------------------------------------------------------
@@ -123,10 +125,10 @@ architecture model_tensor_summation_architecture of model_tensor_summation is
   signal tensor_out_int : tensor_buffer;
 
   -- Control Internal
-  signal index_t_loop : std_logic_vector(CONTROL_SIZE-1 downto 0);
   signal index_i_loop : std_logic_vector(CONTROL_SIZE-1 downto 0);
   signal index_j_loop : std_logic_vector(CONTROL_SIZE-1 downto 0);
   signal index_k_loop : std_logic_vector(CONTROL_SIZE-1 downto 0);
+  signal index_l_loop : std_logic_vector(CONTROL_SIZE-1 downto 0);
 
 begin
 
@@ -149,16 +151,17 @@ begin
       DATA_I_ENABLE <= '0';
       DATA_J_ENABLE <= '0';
       DATA_K_ENABLE <= '0';
+      DATA_LENGTH_ENABLE <= '0';
 
       DATA_OUT_I_ENABLE <= '0';
       DATA_OUT_J_ENABLE <= '0';
       DATA_OUT_K_ENABLE <= '0';
 
       -- Control Internal
-      index_t_loop <= ZERO_CONTROL;
       index_i_loop <= ZERO_CONTROL;
       index_j_loop <= ZERO_CONTROL;
       index_k_loop <= ZERO_CONTROL;
+      index_l_loop <= ZERO_CONTROL;
 
     elsif (rising_edge(CLK)) then
 
@@ -176,12 +179,13 @@ begin
             DATA_I_ENABLE <= '1';
             DATA_J_ENABLE <= '1';
             DATA_K_ENABLE <= '1';
+            DATA_LENGTH_ENABLE <= '1';
 
             -- Control Internal
-            index_t_loop <= ZERO_CONTROL;
             index_i_loop <= ZERO_CONTROL;
             index_j_loop <= ZERO_CONTROL;
             index_k_loop <= ZERO_CONTROL;
+            index_l_loop <= ZERO_CONTROL;
 
             -- FSM Control
             summation_ctrl_fsm_int <= INPUT_I_STATE;
@@ -190,55 +194,58 @@ begin
             DATA_I_ENABLE <= '0';
             DATA_J_ENABLE <= '0';
             DATA_K_ENABLE <= '0';
+            DATA_LENGTH_ENABLE <= '0';
           end if;
 
         when INPUT_I_STATE =>           -- STEP 1
 
-          if ((DATA_IN_I_ENABLE = '1') and (DATA_IN_J_ENABLE = '1') and (DATA_IN_K_ENABLE = '1')) then
+          if ((DATA_IN_I_ENABLE = '1') and (DATA_IN_J_ENABLE = '1') and (DATA_IN_K_ENABLE = '1') and (DATA_IN_LENGTH_ENABLE = '1')) then
             -- Data Inputs
-            tensor_in_int(to_integer(unsigned(index_t_loop)), to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop))) <= DATA_IN;
+            tensor_in_int(to_integer(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)), to_integer(unsigned(index_l_loop))) <= DATA_IN;
 
             -- FSM Control
-            summation_ctrl_fsm_int <= ENDER_K_STATE;
+            if (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL)) then
+              summation_ctrl_fsm_int <= ENDER_K_STATE;
+            else
+              summation_ctrl_fsm_int <= ENDER_LENGTH_STATE;
+            end if;
           end if;
 
           -- Control Outputs
           DATA_I_ENABLE <= '0';
           DATA_J_ENABLE <= '0';
           DATA_K_ENABLE <= '0';
+          DATA_LENGTH_ENABLE <= '0';
 
         when INPUT_J_STATE =>           -- STEP 2
 
-          if ((DATA_IN_J_ENABLE = '1') and (DATA_IN_K_ENABLE = '1')) then
+          if ((DATA_IN_J_ENABLE = '1') and (DATA_IN_K_ENABLE = '1') and (DATA_IN_LENGTH_ENABLE = '1')) then
             -- Data Inputs
-            tensor_in_int(to_integer(unsigned(index_t_loop)), to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop))) <= DATA_IN;
+            tensor_in_int(to_integer(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)), to_integer(unsigned(index_l_loop))) <= DATA_IN;
 
             -- FSM Control
-            if (unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL)) then
-              summation_ctrl_fsm_int <= ENDER_J_STATE;
-            else
-              summation_ctrl_fsm_int <= ENDER_K_STATE;
-            end if;
+            summation_ctrl_fsm_int <= ENDER_LENGTH_STATE;
           end if;
 
           -- Control Outputs
           DATA_I_ENABLE <= '0';
           DATA_J_ENABLE <= '0';
           DATA_K_ENABLE <= '0';
+          DATA_LENGTH_ENABLE <= '0';
 
         when INPUT_K_STATE =>           -- STEP 3
 
-          if (DATA_IN_K_ENABLE = '1') then
+          if ((DATA_IN_K_ENABLE = '1') and (DATA_IN_LENGTH_ENABLE = '1')) then
             -- Data Inputs
-            tensor_in_int(to_integer(unsigned(index_t_loop)), to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop))) <= DATA_IN;
+            tensor_in_int(to_integer(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)), to_integer(unsigned(index_l_loop))) <= DATA_IN;
 
             -- FSM Control
-            if ((unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL))) then
-              summation_ctrl_fsm_int <= ENDER_I_STATE;
-            elsif (unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL)) then
+            if ((unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
               summation_ctrl_fsm_int <= ENDER_J_STATE;
-            else
+            elsif (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL)) then
               summation_ctrl_fsm_int <= ENDER_K_STATE;
+            else
+              summation_ctrl_fsm_int <= ENDER_LENGTH_STATE;
             end if;
           end if;
 
@@ -246,18 +253,44 @@ begin
           DATA_I_ENABLE <= '0';
           DATA_J_ENABLE <= '0';
           DATA_K_ENABLE <= '0';
+          DATA_LENGTH_ENABLE <= '0';
 
-        when ENDER_I_STATE =>           -- STEP 4
+        when INPUT_LENGTH_STATE =>           -- STEP 4
 
-          if ((unsigned(index_i_loop) = unsigned(SIZE_I_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL))) then
+          if (DATA_IN_LENGTH_ENABLE = '1') then
+            -- Data Inputs
+            tensor_in_int(to_integer(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)), to_integer(unsigned(index_l_loop))) <= DATA_IN;
+
+            -- FSM Control
+            if ((unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
+              summation_ctrl_fsm_int <= ENDER_I_STATE;
+            elsif ((unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
+              summation_ctrl_fsm_int <= ENDER_J_STATE;
+            elsif (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL)) then
+              summation_ctrl_fsm_int <= ENDER_K_STATE;
+            else
+              summation_ctrl_fsm_int <= ENDER_LENGTH_STATE;
+            end if;
+          end if;
+
+          -- Control Outputs
+          DATA_I_ENABLE <= '0';
+          DATA_J_ENABLE <= '0';
+          DATA_K_ENABLE <= '0';
+          DATA_LENGTH_ENABLE <= '0';
+
+        when ENDER_I_STATE =>           -- STEP 5
+
+          if ((unsigned(index_i_loop) = unsigned(SIZE_I_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) < unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
             -- Control Internal
             index_i_loop <= ZERO_CONTROL;
             index_j_loop <= ZERO_CONTROL;
             index_k_loop <= ZERO_CONTROL;
+            index_l_loop <= ZERO_CONTROL;
 
             -- Data Internal
             tensor_out_int <= function_tensor_summation (
-              SIZE_I_IN => SIZE_I_IN,
+              SIZE_I_IN => SIZE_J_IN,
               SIZE_J_IN => SIZE_J_IN,
               SIZE_K_IN => SIZE_K_IN,
               LENGTH_IN => LENGTH_IN,
@@ -267,47 +300,66 @@ begin
 
             -- FSM Control
             summation_ctrl_fsm_int <= CLEAN_I_STATE;
-          elsif ((unsigned(index_i_loop) < unsigned(SIZE_I_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL))) then
+          elsif ((unsigned(index_i_loop) < unsigned(SIZE_I_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
             -- Control Outputs
             DATA_I_ENABLE <= '1';
             DATA_J_ENABLE <= '1';
             DATA_K_ENABLE <= '1';
+            DATA_LENGTH_ENABLE <= '1';
 
             -- Control Internal
             index_i_loop <= std_logic_vector(unsigned(index_i_loop)+unsigned(ONE_CONTROL));
             index_j_loop <= ZERO_CONTROL;
             index_k_loop <= ZERO_CONTROL;
+            index_l_loop <= ZERO_CONTROL;
 
             -- FSM Control
             summation_ctrl_fsm_int <= INPUT_I_STATE;
           end if;
 
-        when ENDER_J_STATE =>           -- STEP 5
+        when ENDER_J_STATE =>           -- STEP 6
 
-          if ((unsigned(index_j_loop) < unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL))) then
+          if ((unsigned(index_j_loop) < unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
             -- Control Outputs
             DATA_J_ENABLE <= '1';
             DATA_K_ENABLE <= '1';
+            DATA_LENGTH_ENABLE <= '1';
 
             -- Control Internal
             index_j_loop <= std_logic_vector(unsigned(index_j_loop)+unsigned(ONE_CONTROL));
             index_k_loop <= ZERO_CONTROL;
+            index_l_loop <= ZERO_CONTROL;
 
             -- FSM Control
             summation_ctrl_fsm_int <= INPUT_J_STATE;
           end if;
 
-        when ENDER_K_STATE =>           -- STEP 6
+        when ENDER_K_STATE =>           -- STEP 7
 
-          if (unsigned(index_k_loop) < unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL)) then
+          if ((unsigned(index_k_loop) < unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
             -- Control Outputs
             DATA_K_ENABLE <= '1';
+            DATA_LENGTH_ENABLE <= '1';
 
             -- Control Internal
             index_k_loop <= std_logic_vector(unsigned(index_k_loop)+unsigned(ONE_CONTROL));
+            index_l_loop <= ZERO_CONTROL;
 
             -- FSM Control
             summation_ctrl_fsm_int <= INPUT_K_STATE;
+          end if;
+
+        when ENDER_LENGTH_STATE =>           -- STEP 8
+
+          if (unsigned(index_l_loop) < unsigned(LENGTH_IN)-unsigned(ONE_CONTROL)) then
+            -- Control Outputs
+            DATA_LENGTH_ENABLE <= '1';
+
+            -- Control Internal
+            index_l_loop <= std_logic_vector(unsigned(index_l_loop)+unsigned(ONE_CONTROL));
+
+            -- FSM Control
+            summation_ctrl_fsm_int <= INPUT_LENGTH_STATE;
           end if;
 
         when CLEAN_I_STATE =>           -- STEP 7
@@ -366,7 +418,7 @@ begin
 
           if ((unsigned(index_i_loop) = unsigned(SIZE_I_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL))) then
             -- Data Outputs
-            DATA_OUT <= tensor_out_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_k_loop)), to_integer(unsigned(index_j_loop)));
+            DATA_OUT <= matrix_out_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_i_loop)));
 
             -- Control Outputs
             READY <= '1';
@@ -384,7 +436,7 @@ begin
             summation_ctrl_fsm_int <= STARTER_STATE;
           elsif ((unsigned(index_i_loop) < unsigned(SIZE_I_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL))) then
             -- Data Outputs
-            DATA_OUT <= tensor_out_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_k_loop)), to_integer(unsigned(index_j_loop)));
+            DATA_OUT <= matrix_out_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
 
             -- Control Outputs
             DATA_OUT_I_ENABLE <= '1';
@@ -404,7 +456,7 @@ begin
 
           if ((unsigned(index_j_loop) < unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL))) then
             -- Data Outputs
-            DATA_OUT <= tensor_out_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_k_loop)), to_integer(unsigned(index_j_loop)));
+            DATA_OUT <= matrix_out_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
 
             -- Control Outputs
             DATA_OUT_J_ENABLE <= '1';
@@ -422,7 +474,7 @@ begin
 
           if (unsigned(index_k_loop) < unsigned(SIZE_K_IN)-unsigned(ONE_CONTROL)) then
             -- Data Outputs
-            DATA_OUT <= tensor_out_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_k_loop)), to_integer(unsigned(index_j_loop)));
+            DATA_OUT <= matrix_out_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
 
             -- Control Outputs
             DATA_OUT_K_ENABLE <= '1';
