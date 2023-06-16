@@ -89,7 +89,7 @@ architecture accelerator_vector_multiplication_architecture of accelerator_vecto
     ENDER_STATE,                        -- STEP 3
     ENDER_LENGTH_STATE,                 -- STEP 4
     CLEAN_STATE,                        -- STEP 5
-    SCALAR_MULTIPLIER_STATE                  -- STEP 6
+    SCALAR_MULTIPLIER_STATE             -- STEP 6
     );
 
   -- Buffer

@@ -392,7 +392,7 @@ begin
         when CLEAN_I_STATE =>           -- STEP 9
 
           -- Data Inputs
-          data_a_in_scalar_float_adder <= matrix_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+          data_a_in_scalar_float_adder <= tensor_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
 
           if (unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL) and unsigned(index_k_loop) = unsigned(ZERO_CONTROL)) then
             data_b_in_scalar_float_adder <= ZERO_DATA;
@@ -425,7 +425,7 @@ begin
         when CLEAN_J_STATE =>           -- STEP 10
 
           -- Data Inputs
-          data_a_in_scalar_float_adder <= matrix_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+          data_a_in_scalar_float_adder <= tensor_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
           data_b_in_scalar_float_adder <= data_out_scalar_float_adder;
 
           -- Control Outputs
@@ -451,7 +451,7 @@ begin
         when CLEAN_K_STATE =>      -- STEP 11
 
           -- Data Inputs
-          data_a_in_scalar_float_adder <= matrix_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+          data_a_in_scalar_float_adder <= tensor_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
           data_b_in_scalar_float_adder <= data_out_scalar_float_adder;
 
           -- Control Outputs

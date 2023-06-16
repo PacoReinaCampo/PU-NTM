@@ -208,7 +208,6 @@ begin
             vector_out_int <= function_vector_multiplication (
               SIZE_IN   => SIZE_IN,
               LENGTH_IN => LENGTH_IN,
-              LENGTH_IN => LENGTH_IN,
 
               vector_input => vector_in_int
               );

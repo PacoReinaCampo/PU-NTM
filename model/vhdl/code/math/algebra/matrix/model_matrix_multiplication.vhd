@@ -185,7 +185,7 @@ begin
 
           if ((DATA_IN_I_ENABLE = '1') and (DATA_IN_J_ENABLE = '1') and (DATA_IN_LENGTH_ENABLE = '1')) then
             -- Data Inputs
-            matrix_in_int(to_integer(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_l_loop))) <= DATA_IN;
+            matrix_in_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_l_loop))) <= DATA_IN;
 
             -- FSM Control
             multiplication_ctrl_fsm_int <= ENDER_LENGTH_STATE;
@@ -200,7 +200,7 @@ begin
 
           if ((DATA_IN_J_ENABLE = '1') and (DATA_IN_LENGTH_ENABLE = '1')) then
             -- Data Inputs
-            matrix_in_int(to_integer(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_l_loop))) <= DATA_IN;
+            matrix_in_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_l_loop))) <= DATA_IN;
 
             -- FSM Control
             if (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL)) then
@@ -219,7 +219,7 @@ begin
 
           if (DATA_IN_LENGTH_ENABLE = '1') then
             -- Data Inputs
-            matrix_in_int(to_integer(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_l_loop))) <= DATA_IN;
+            matrix_in_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_l_loop))) <= DATA_IN;
 
             -- FSM Control
             if ((unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
@@ -248,7 +248,6 @@ begin
             matrix_out_int <= function_matrix_multiplication (
               SIZE_I_IN => SIZE_I_IN,
               SIZE_J_IN => SIZE_J_IN,
-              LENGTH_IN => LENGTH_IN,
               LENGTH_IN => LENGTH_IN,
 
               matrix_input => matrix_in_int

@@ -103,9 +103,9 @@ architecture accelerator_tensor_multiplication_architecture of accelerator_tenso
     CLEAN_I_STATE,                      -- STEP 9
     CLEAN_J_STATE,                      -- STEP 10
     CLEAN_K_STATE,                      -- STEP 11
-    SCALAR_MULTIPLIER_I_STATE,               -- STEP 12
-    SCALAR_MULTIPLIER_J_STATE,               -- STEP 13
-    SCALAR_MULTIPLIER_K_STATE                -- STEP 14
+    SCALAR_MULTIPLIER_I_STATE,          -- STEP 12
+    SCALAR_MULTIPLIER_J_STATE,          -- STEP 13
+    SCALAR_MULTIPLIER_K_STATE           -- STEP 14
     );
 
   -- Buffer
@@ -388,7 +388,7 @@ begin
         when CLEAN_I_STATE =>           -- STEP 9
 
           -- Data Inputs
-          data_a_in_scalar_float_multiplier <= matrix_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+          data_a_in_scalar_float_multiplier <= tensor_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
 
           if (unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL) and unsigned(index_k_loop) = unsigned(ZERO_CONTROL)) then
             data_b_in_scalar_float_multiplier <= ZERO_DATA;
@@ -419,7 +419,7 @@ begin
         when CLEAN_J_STATE =>           -- STEP 10
 
           -- Data Inputs
-          data_a_in_scalar_float_multiplier <= matrix_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+          data_a_in_scalar_float_multiplier <= tensor_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
           data_b_in_scalar_float_multiplier <= data_out_scalar_float_multiplier;
 
           -- Control Outputs
@@ -443,7 +443,7 @@ begin
         when CLEAN_K_STATE =>      -- STEP 11
 
           -- Data Inputs
-          data_a_in_scalar_float_multiplier <= matrix_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+          data_a_in_scalar_float_multiplier <= tensor_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
           data_b_in_scalar_float_multiplier <= data_out_scalar_float_multiplier;
 
           -- Control Outputs

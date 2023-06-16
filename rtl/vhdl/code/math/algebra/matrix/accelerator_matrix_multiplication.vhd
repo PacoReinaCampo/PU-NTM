@@ -96,8 +96,8 @@ architecture accelerator_matrix_multiplication_architecture of accelerator_matri
     ENDER_LENGTH_STATE,                 -- STEP 6
     CLEAN_I_STATE,                      -- STEP 7
     CLEAN_J_STATE,                      -- STEP 8
-    SCALAR_MULTIPLIER_I_STATE,               -- STEP 9
-    SCALAR_MULTIPLIER_J_STATE                -- STEP 10
+    SCALAR_MULTIPLIER_I_STATE,          -- STEP 9
+    SCALAR_MULTIPLIER_J_STATE           -- STEP 10
     );
 
   -- Buffer
