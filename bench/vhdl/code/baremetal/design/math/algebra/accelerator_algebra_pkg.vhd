@@ -193,23 +193,17 @@ package accelerator_algebra_pkg is
   -- TENSOR-FUNCTIONALITY
   signal STIMULUS_ACCELERATOR_TENSOR_CONVOLUTION_TEST    : boolean := false;
   signal STIMULUS_ACCELERATOR_TENSOR_INVERSE_TEST        : boolean := false;
-  signal STIMULUS_ACCELERATOR_TENSOR_MULTIPLICATION_TEST : boolean := false;
   signal STIMULUS_ACCELERATOR_TENSOR_PRODUCT_TEST        : boolean := false;
-  signal STIMULUS_ACCELERATOR_TENSOR_SUMMATION_TEST      : boolean := false;
   signal STIMULUS_ACCELERATOR_TENSOR_TRANSPOSE_TEST      : boolean := false;
 
   signal STIMULUS_ACCELERATOR_TENSOR_CONVOLUTION_CASE_0    : boolean := false;
   signal STIMULUS_ACCELERATOR_TENSOR_INVERSE_CASE_0        : boolean := false;
-  signal STIMULUS_ACCELERATOR_TENSOR_MULTIPLICATION_CASE_0 : boolean := false;
   signal STIMULUS_ACCELERATOR_TENSOR_PRODUCT_CASE_0        : boolean := false;
-  signal STIMULUS_ACCELERATOR_TENSOR_SUMMATION_CASE_0      : boolean := false;
   signal STIMULUS_ACCELERATOR_TENSOR_TRANSPOSE_CASE_0      : boolean := false;
 
   signal STIMULUS_ACCELERATOR_TENSOR_CONVOLUTION_CASE_1    : boolean := false;
   signal STIMULUS_ACCELERATOR_TENSOR_INVERSE_CASE_1        : boolean := false;
-  signal STIMULUS_ACCELERATOR_TENSOR_MULTIPLICATION_CASE_1 : boolean := false;
   signal STIMULUS_ACCELERATOR_TENSOR_PRODUCT_CASE_1        : boolean := false;
-  signal STIMULUS_ACCELERATOR_TENSOR_SUMMATION_CASE_1      : boolean := false;
   signal STIMULUS_ACCELERATOR_TENSOR_TRANSPOSE_CASE_1      : boolean := false;
 
   ------------------------------------------------------------------------------
@@ -529,33 +523,6 @@ package accelerator_algebra_pkg is
       TENSOR_INVERSE_DATA_IN   : out std_logic_vector(DATA_SIZE-1 downto 0);
       TENSOR_INVERSE_DATA_OUT  : in  std_logic_vector(DATA_SIZE-1 downto 0);
 
-      -- TENSOR MULTIPLICATION
-      -- CONTROL
-      TENSOR_MULTIPLICATION_START : out std_logic;
-      TENSOR_MULTIPLICATION_READY : in  std_logic;
-
-      TENSOR_MULTIPLICATION_DATA_IN_LENGTH_ENABLE : out std_logic;
-      TENSOR_MULTIPLICATION_DATA_IN_I_ENABLE      : out std_logic;
-      TENSOR_MULTIPLICATION_DATA_IN_J_ENABLE      : out std_logic;
-      TENSOR_MULTIPLICATION_DATA_IN_K_ENABLE      : out std_logic;
-
-      TENSOR_MULTIPLICATION_DATA_LENGTH_ENABLE : in std_logic;
-      TENSOR_MULTIPLICATION_DATA_I_ENABLE      : in std_logic;
-      TENSOR_MULTIPLICATION_DATA_J_ENABLE      : in std_logic;
-      TENSOR_MULTIPLICATION_DATA_K_ENABLE      : in std_logic;
-
-      TENSOR_MULTIPLICATION_DATA_OUT_I_ENABLE : in std_logic;
-      TENSOR_MULTIPLICATION_DATA_OUT_J_ENABLE : in std_logic;
-      TENSOR_MULTIPLICATION_DATA_OUT_K_ENABLE : in std_logic;
-
-      -- DATA
-      TENSOR_MULTIPLICATION_SIZE_I_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
-      TENSOR_MULTIPLICATION_SIZE_J_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
-      TENSOR_MULTIPLICATION_SIZE_K_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
-      TENSOR_MULTIPLICATION_LENGTH_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
-      TENSOR_MULTIPLICATION_DATA_IN   : out std_logic_vector(DATA_SIZE-1 downto 0);
-      TENSOR_MULTIPLICATION_DATA_OUT  : in  std_logic_vector(DATA_SIZE-1 downto 0);
-
       -- TENSOR PRODUCT
       -- CONTROL
       TENSOR_PRODUCT_START : out std_logic;
@@ -586,33 +553,6 @@ package accelerator_algebra_pkg is
       TENSOR_PRODUCT_DATA_A_IN   : out std_logic_vector(DATA_SIZE-1 downto 0);
       TENSOR_PRODUCT_DATA_B_IN   : out std_logic_vector(DATA_SIZE-1 downto 0);
       TENSOR_PRODUCT_DATA_OUT    : in  std_logic_vector(DATA_SIZE-1 downto 0);
-
-      -- TENSOR SUMMATION
-      -- CONTROL
-      TENSOR_SUMMATION_START : out std_logic;
-      TENSOR_SUMMATION_READY : in  std_logic;
-
-      TENSOR_SUMMATION_DATA_IN_LENGTH_ENABLE : out std_logic;
-      TENSOR_SUMMATION_DATA_IN_I_ENABLE      : out std_logic;
-      TENSOR_SUMMATION_DATA_IN_J_ENABLE      : out std_logic;
-      TENSOR_SUMMATION_DATA_IN_K_ENABLE      : out std_logic;
-
-      TENSOR_SUMMATION_DATA_LENGTH_ENABLE : in std_logic;
-      TENSOR_SUMMATION_DATA_I_ENABLE      : in std_logic;
-      TENSOR_SUMMATION_DATA_J_ENABLE      : in std_logic;
-      TENSOR_SUMMATION_DATA_K_ENABLE      : in std_logic;
-
-      TENSOR_SUMMATION_DATA_OUT_I_ENABLE : in std_logic;
-      TENSOR_SUMMATION_DATA_OUT_J_ENABLE : in std_logic;
-      TENSOR_SUMMATION_DATA_OUT_K_ENABLE : in std_logic;
-
-      -- DATA
-      TENSOR_SUMMATION_SIZE_I_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
-      TENSOR_SUMMATION_SIZE_J_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
-      TENSOR_SUMMATION_SIZE_K_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
-      TENSOR_SUMMATION_LENGTH_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
-      TENSOR_SUMMATION_DATA_IN   : out std_logic_vector(DATA_SIZE-1 downto 0);
-      TENSOR_SUMMATION_DATA_OUT  : in  std_logic_vector(DATA_SIZE-1 downto 0);
 
       -- TENSOR TRANSPOSE
       -- CONTROL
