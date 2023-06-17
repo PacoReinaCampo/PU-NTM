@@ -587,9 +587,10 @@ begin
       VECTOR_SUMMATION_DATA_OUT_ENABLE => data_out_enable_vector_summation,
 
       -- DATA
-      VECTOR_SUMMATION_SIZE_IN  => size_in_vector_summation,
-      VECTOR_SUMMATION_DATA_IN  => data_in_vector_summation,
-      VECTOR_SUMMATION_DATA_OUT => data_out_vector_summation,
+      VECTOR_SUMMATION_SIZE_IN   => size_in_vector_summation,
+      VECTOR_SUMMATION_LENGTH_IN => length_in_vector_summation,
+      VECTOR_SUMMATION_DATA_IN   => data_in_vector_summation,
+      VECTOR_SUMMATION_DATA_OUT  => data_out_vector_summation,
 
       -- VECTOR MODULE
       -- CONTROL

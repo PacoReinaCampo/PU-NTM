@@ -253,7 +253,7 @@ alias d15 {
   accelerator_tensor_product_design_compilation
 }
 
-alias d18 {
+alias d16 {
   accelerator_tensor_transpose_design_compilation
 }
 
@@ -273,5 +273,5 @@ echo "d12 . ACCELERATOR-MATRIX-TRANSPOSE-TEST"
 echo "d13 . ACCELERATOR-TENSOR-CONVOLUTION-TEST"
 echo "d14 . ACCELERATOR-TENSOR-INVERSE-TEST"
 echo "d15 . ACCELERATOR-TENSOR-PRODUCT-TEST"
-echo "d18 . ACCELERATOR-TENSOR-TRANSPOSE-TEST"
+echo "d16 . ACCELERATOR-TENSOR-TRANSPOSE-TEST"
 echo "****************************************"
