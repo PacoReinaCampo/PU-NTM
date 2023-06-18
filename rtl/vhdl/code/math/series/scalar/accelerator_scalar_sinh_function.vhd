@@ -197,7 +197,7 @@ begin
           -- Exponential Part
 
           if (ready_scalar_float_multiplier = '1') then
-            if (signed(index_multiplier_loop) = (signed(index_adder_loop) sll 1)+signed(ONE_DATA)) then
+            if (signed(index_multiplier_loop) = (signed(index_adder_loop) sll 1)+signed(ONE_IDATA)) then
               -- Control Internal
               start_scalar_float_multiplier <= '1';
 
@@ -236,7 +236,7 @@ begin
           -- Factorial Part
 
           if (ready_scalar_float_multiplier = '1') then
-            if (signed(index_multiplier_loop) = (signed(index_adder_loop) sll 1)+signed(ONE_DATA)) then
+            if (signed(index_multiplier_loop) = (signed(index_adder_loop) sll 1)+signed(ONE_IDATA)) then
               -- Control Internal
               start_scalar_float_divider <= '1';
 
@@ -250,7 +250,7 @@ begin
               controller_ctrl_fsm_int <= SCALAR_DIVIDER_STATE;
             else
               -- Data Internal
-              data_a_in_scalar_float_multiplier <= std_logic_vector((signed(index_adder_loop) sll 1)+signed(ONE_DATA));
+              data_a_in_scalar_float_multiplier <= std_logic_vector((signed(index_adder_loop) sll 1)+signed(ONE_IDATA));
 
               if (signed(index_multiplier_loop) = signed(ZERO_DATA)) then
                 data_b_in_scalar_float_multiplier <= ONE_DATA;

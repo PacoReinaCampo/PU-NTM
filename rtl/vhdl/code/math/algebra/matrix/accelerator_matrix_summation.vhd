@@ -358,7 +358,12 @@ begin
 
           -- Data Inputs
           data_a_in_scalar_float_adder <= matrix_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
-          data_b_in_scalar_float_adder <= data_out_scalar_float_adder;
+
+          if (unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            data_b_in_scalar_float_adder <= ZERO_DATA;
+          else
+            data_b_in_scalar_float_adder <= data_out_scalar_float_adder;
+          end if;
 
           -- Control Outputs
           DATA_J_ENABLE      <= '0';
