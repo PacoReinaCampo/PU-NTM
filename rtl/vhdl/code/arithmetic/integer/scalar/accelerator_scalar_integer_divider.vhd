@@ -108,17 +108,17 @@ begin
   begin
     if (RST = '0') then
       -- Data Outputs
-      DATA_OUT      <= std_logic_vector(to_signed(0, DATA_SIZE));
-      REMAINDER_OUT <= std_logic_vector(to_signed(0, DATA_SIZE));
+      DATA_OUT      <= ZERO_IDATA;
+      REMAINDER_OUT <= ZERO_IDATA;
 
       -- Control Outputs
       READY <= '0';
 
       -- Data Internal
-      divider_int <= std_logic_vector(to_signed(0, DATA_SIZE));
+      divider_int <= ZERO_IDATA;
 
       -- Control Internal
-      index_loop <= std_logic_vector(to_signed(0, DATA_SIZE));
+      index_loop <= ZERO_IDATA;
 
     elsif (rising_edge(CLK)) then
 
@@ -129,7 +129,7 @@ begin
 
           if (START = '1') then
             -- Data Internal
-            divider_int <= std_logic_vector(to_signed(0, DATA_SIZE));
+            divider_int <= ZERO_IDATA;
 
             -- Control Internal
             index_loop <= DATA_A_IN;
@@ -142,8 +142,8 @@ begin
 
           if (signed(DATA_B_IN) = to_signed(0, DATA_SIZE)) then
             -- Data Outputs
-            DATA_OUT      <= std_logic_vector(to_signed(1, DATA_SIZE));
-            REMAINDER_OUT <= std_logic_vector(to_signed(0, DATA_SIZE));
+            DATA_OUT      <= ONE_IDATA;
+            REMAINDER_OUT <= ZERO_IDATA;
 
             -- Control Outputs
             READY <= '1';

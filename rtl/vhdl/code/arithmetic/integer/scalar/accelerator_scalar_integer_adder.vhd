@@ -107,7 +107,7 @@ begin
   begin
     if (RST = '0') then
       -- Data Outputs
-      DATA_OUT     <= std_logic_vector(to_signed(0, DATA_SIZE));
+      DATA_OUT     <= ZERO_IDATA;
       OVERFLOW_OUT <= '0';
 
       -- Control Outputs

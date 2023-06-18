@@ -59,7 +59,10 @@ package model_arithmetic_pkg is
   constant FOUR_CONTROL  : std_logic_vector(CONTROL_SIZE-1 downto 0) := std_logic_vector(to_unsigned(4, CONTROL_SIZE));
   constant FIVE_CONTROL  : std_logic_vector(CONTROL_SIZE-1 downto 0) := std_logic_vector(to_unsigned(5, CONTROL_SIZE));
 
-  constant EULER : std_logic_vector(CONTROL_SIZE-1 downto 0) := std_logic_vector(to_unsigned(3, CONTROL_SIZE));
+  constant ZERO_IDATA  : std_logic_vector(CONTROL_SIZE-1 downto 0) := std_logic_vector(to_signed(0, DATA_SIZE));
+  constant ONE_IDATA   : std_logic_vector(CONTROL_SIZE-1 downto 0) := std_logic_vector(to_signed(1, DATA_SIZE));
+  constant TWO_IDATA   : std_logic_vector(CONTROL_SIZE-1 downto 0) := std_logic_vector(to_signed(2, DATA_SIZE));
+  constant THREE_IDATA : std_logic_vector(CONTROL_SIZE-1 downto 0) := std_logic_vector(to_signed(3, DATA_SIZE));
 
   constant EMPTY : std_logic_vector(CONTROL_SIZE-1 downto 0) := (others => '0');
   constant FULL  : std_logic_vector(CONTROL_SIZE-1 downto 0) := (others => '1');

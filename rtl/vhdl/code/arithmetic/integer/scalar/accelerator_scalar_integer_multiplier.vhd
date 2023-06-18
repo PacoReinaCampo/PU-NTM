@@ -108,8 +108,8 @@ begin
   begin
     if (RST = '0') then
       -- Data Outputs
-      DATA_OUT     <= std_logic_vector(to_signed(0, DATA_SIZE));
-      OVERFLOW_OUT <= std_logic_vector(to_signed(0, DATA_SIZE));
+      DATA_OUT     <= ZERO_IDATA;
+      OVERFLOW_OUT <= ZERO_IDATA;
 
       -- Control Outputs
       READY <= '0';
@@ -118,7 +118,7 @@ begin
       multiplier_int <= std_logic_vector(to_signed(0, 2*DATA_SIZE));
 
       -- Control Internal
-      index_loop <= std_logic_vector(to_signed(0, DATA_SIZE));
+      index_loop <= ZERO_IDATA;
 
     elsif (rising_edge(CLK)) then
 
@@ -132,7 +132,7 @@ begin
             multiplier_int <= std_logic_vector(to_signed(0, 2*DATA_SIZE));
 
             -- Control Internal
-            index_loop <= std_logic_vector(to_signed(0, DATA_SIZE));
+            index_loop <= ZERO_IDATA;
 
             -- FSM Control
             multiplier_ctrl_fsm_int <= ENDER_STATE;
