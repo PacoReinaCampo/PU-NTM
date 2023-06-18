@@ -122,7 +122,8 @@ architecture accelerator_vector_multiplication_architecture of accelerator_vecto
   signal data_a_in_scalar_float_multiplier : std_logic_vector(DATA_SIZE-1 downto 0);
   signal data_b_in_scalar_float_multiplier : std_logic_vector(DATA_SIZE-1 downto 0);
 
-  signal data_out_scalar_float_multiplier : std_logic_vector(DATA_SIZE-1 downto 0);
+  signal data_out_scalar_float_multiplier     : std_logic_vector(DATA_SIZE-1 downto 0);
+  signal overflow_out_scalar_float_multiplier : std_logic;
 
 begin
 
@@ -265,7 +266,7 @@ begin
           data_a_in_scalar_float_multiplier <= vector_int(to_integer(unsigned(index_loop)));
 
           if (unsigned(index_loop) = unsigned(ZERO_CONTROL) and unsigned(index_l_loop) = unsigned(ZERO_CONTROL)) then
-            data_b_in_scalar_float_multiplier <= ZERO_DATA;
+            data_b_in_scalar_float_multiplier <= ONE_DATA;
           else
             data_b_in_scalar_float_multiplier <= data_out_scalar_float_multiplier;
           end if;
@@ -343,7 +344,8 @@ begin
       DATA_A_IN => data_a_in_scalar_float_multiplier,
       DATA_B_IN => data_b_in_scalar_float_multiplier,
 
-      DATA_OUT => data_out_scalar_float_multiplier
+      DATA_OUT     => data_out_scalar_float_multiplier,
+      OVERFLOW_OUT => overflow_out_scalar_float_multiplier
       );
 
 end architecture;

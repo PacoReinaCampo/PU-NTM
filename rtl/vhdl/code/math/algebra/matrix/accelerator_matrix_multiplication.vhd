@@ -131,7 +131,8 @@ architecture accelerator_matrix_multiplication_architecture of accelerator_matri
   signal data_a_in_scalar_float_multiplier : std_logic_vector(DATA_SIZE-1 downto 0);
   signal data_b_in_scalar_float_multiplier : std_logic_vector(DATA_SIZE-1 downto 0);
 
-  signal data_out_scalar_float_multiplier : std_logic_vector(DATA_SIZE-1 downto 0);
+  signal data_out_scalar_float_multiplier     : std_logic_vector(DATA_SIZE-1 downto 0);
+  signal overflow_out_scalar_float_multiplier : std_logic;
 
 begin
 
@@ -325,7 +326,7 @@ begin
           data_a_in_scalar_float_multiplier <= matrix_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
 
           if (unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
-            data_b_in_scalar_float_multiplier <= ZERO_DATA;
+            data_b_in_scalar_float_multiplier <= ONE_DATA;
           else
             data_b_in_scalar_float_multiplier <= data_out_scalar_float_multiplier;
           end if;
@@ -362,7 +363,7 @@ begin
           start_scalar_float_multiplier <= '1';
 
           -- FSM Control
-          if (unsigned(index_l_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) then
+          if (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) then
             multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_I_STATE;
           else
             multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_J_STATE;
@@ -454,7 +455,8 @@ begin
       DATA_A_IN => data_a_in_scalar_float_multiplier,
       DATA_B_IN => data_b_in_scalar_float_multiplier,
 
-      DATA_OUT => data_out_scalar_float_multiplier
+      DATA_OUT     => data_out_scalar_float_multiplier,
+      OVERFLOW_OUT => overflow_out_scalar_float_multiplier
       );
 
 end architecture;

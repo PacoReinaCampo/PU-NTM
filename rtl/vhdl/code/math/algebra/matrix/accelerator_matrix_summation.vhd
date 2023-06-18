@@ -133,7 +133,8 @@ architecture accelerator_matrix_summation_architecture of accelerator_matrix_sum
   signal data_a_in_scalar_float_adder : std_logic_vector(DATA_SIZE-1 downto 0);
   signal data_b_in_scalar_float_adder : std_logic_vector(DATA_SIZE-1 downto 0);
 
-  signal data_out_scalar_float_adder : std_logic_vector(DATA_SIZE-1 downto 0);
+  signal data_out_scalar_float_adder     : std_logic_vector(DATA_SIZE-1 downto 0);
+  signal overflow_out_scalar_float_adder : std_logic;
 
 begin
 
@@ -370,7 +371,7 @@ begin
           operation_scalar_float_adder <= '0';
 
           -- FSM Control
-          if (unsigned(index_l_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) then
+          if (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) then
             summation_ctrl_fsm_int <= SCALAR_ADDER_I_STATE;
           else
             summation_ctrl_fsm_int <= SCALAR_ADDER_J_STATE;
@@ -464,7 +465,8 @@ begin
       DATA_A_IN => data_a_in_scalar_float_adder,
       DATA_B_IN => data_b_in_scalar_float_adder,
 
-      DATA_OUT => data_out_scalar_float_adder
+      DATA_OUT     => data_out_scalar_float_adder,
+      OVERFLOW_OUT => overflow_out_scalar_float_adder
       );
 
 end architecture;
