@@ -37,7 +37,7 @@
 // Author(s):
 //   Paco Reina Campo <pacoreinacampo@queenfield.tech>
 
-module ntm_mpsoc #(
+module model_mpsoc #(
   parameter DATA_SIZE    = 64,
   parameter CONTROL_SIZE = 64
 ) (
