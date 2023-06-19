@@ -283,7 +283,7 @@ begin
           -- FSM Control
           multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_STATE;
 
-        when SCALAR_MULTIPLIER_STATE =>      -- STEP 7
+        when SCALAR_MULTIPLIER_STATE =>  -- STEP 7
 
           if (ready_scalar_float_multiplier = '1') then
             if ((unsigned(index_loop) = unsigned(SIZE_IN)-unsigned(ONE_CONTROL))) then

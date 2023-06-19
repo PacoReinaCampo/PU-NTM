@@ -139,8 +139,8 @@ begin
       -- Control Outputs
       READY <= '0';
 
-      DATA_I_ENABLE <= '0';
-      DATA_J_ENABLE <= '0';
+      DATA_I_ENABLE      <= '0';
+      DATA_J_ENABLE      <= '0';
       DATA_LENGTH_ENABLE <= '0';
 
       DATA_OUT_I_ENABLE <= '0';
@@ -163,8 +163,8 @@ begin
 
           if (START = '1') then
             -- Control Outputs
-            DATA_I_ENABLE <= '1';
-            DATA_J_ENABLE <= '1';
+            DATA_I_ENABLE      <= '1';
+            DATA_J_ENABLE      <= '1';
             DATA_LENGTH_ENABLE <= '1';
 
             -- Control Internal
@@ -176,8 +176,8 @@ begin
             multiplication_ctrl_fsm_int <= INPUT_I_STATE;
           else
             -- Control Outputs
-            DATA_I_ENABLE <= '0';
-            DATA_J_ENABLE <= '0';
+            DATA_I_ENABLE      <= '0';
+            DATA_J_ENABLE      <= '0';
             DATA_LENGTH_ENABLE <= '0';
           end if;
 
@@ -192,8 +192,8 @@ begin
           end if;
 
           -- Control Outputs
-          DATA_I_ENABLE <= '0';
-          DATA_J_ENABLE <= '0';
+          DATA_I_ENABLE      <= '0';
+          DATA_J_ENABLE      <= '0';
           DATA_LENGTH_ENABLE <= '0';
 
         when INPUT_J_STATE =>           -- STEP 2
@@ -211,11 +211,11 @@ begin
           end if;
 
           -- Control Outputs
-          DATA_I_ENABLE <= '0';
-          DATA_J_ENABLE <= '0';
+          DATA_I_ENABLE      <= '0';
+          DATA_J_ENABLE      <= '0';
           DATA_LENGTH_ENABLE <= '0';
 
-        when INPUT_LENGTH_STATE =>           -- STEP 3
+        when INPUT_LENGTH_STATE =>      -- STEP 3
 
           if (DATA_IN_LENGTH_ENABLE = '1') then
             -- Data Inputs
@@ -232,8 +232,8 @@ begin
           end if;
 
           -- Control Outputs
-          DATA_I_ENABLE <= '0';
-          DATA_J_ENABLE <= '0';
+          DATA_I_ENABLE      <= '0';
+          DATA_J_ENABLE      <= '0';
           DATA_LENGTH_ENABLE <= '0';
 
         when ENDER_I_STATE =>           -- STEP 4
@@ -257,8 +257,8 @@ begin
             multiplication_ctrl_fsm_int <= CLEAN_I_STATE;
           elsif ((unsigned(index_i_loop) < unsigned(SIZE_I_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
             -- Control Outputs
-            DATA_I_ENABLE <= '1';
-            DATA_J_ENABLE <= '1';
+            DATA_I_ENABLE      <= '1';
+            DATA_J_ENABLE      <= '1';
             DATA_LENGTH_ENABLE <= '1';
 
             -- Control Internal
@@ -274,7 +274,7 @@ begin
 
           if ((unsigned(index_j_loop) < unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_loop) = unsigned(LENGTH_IN)-unsigned(ONE_CONTROL))) then
             -- Control Outputs
-            DATA_J_ENABLE <= '1';
+            DATA_J_ENABLE      <= '1';
             DATA_LENGTH_ENABLE <= '1';
 
             -- Control Internal
@@ -285,7 +285,7 @@ begin
             multiplication_ctrl_fsm_int <= INPUT_J_STATE;
           end if;
 
-        when ENDER_LENGTH_STATE =>           -- STEP 6
+        when ENDER_LENGTH_STATE =>      -- STEP 6
 
           if (unsigned(index_l_loop) < unsigned(LENGTH_IN)-unsigned(ONE_CONTROL)) then
             -- Control Outputs

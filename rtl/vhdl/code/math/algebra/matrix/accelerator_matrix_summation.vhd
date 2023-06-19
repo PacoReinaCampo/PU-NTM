@@ -336,8 +336,8 @@ begin
           end if;
 
           -- Control Outputs
-          DATA_I_ENABLE      <= '0';
-          DATA_J_ENABLE      <= '0';
+          DATA_I_ENABLE <= '0';
+          DATA_J_ENABLE <= '0';
 
           DATA_OUT_I_ENABLE <= '0';
           DATA_OUT_J_ENABLE <= '0';
@@ -366,7 +366,7 @@ begin
           end if;
 
           -- Control Outputs
-          DATA_J_ENABLE      <= '0';
+          DATA_J_ENABLE <= '0';
 
           DATA_OUT_J_ENABLE <= '0';
 

@@ -332,8 +332,8 @@ begin
           end if;
 
           -- Control Outputs
-          DATA_I_ENABLE      <= '0';
-          DATA_J_ENABLE      <= '0';
+          DATA_I_ENABLE <= '0';
+          DATA_J_ENABLE <= '0';
 
           DATA_OUT_I_ENABLE <= '0';
           DATA_OUT_J_ENABLE <= '0';
@@ -360,7 +360,7 @@ begin
           end if;
 
           -- Control Outputs
-          DATA_J_ENABLE      <= '0';
+          DATA_J_ENABLE <= '0';
 
           DATA_OUT_J_ENABLE <= '0';
 
@@ -374,7 +374,7 @@ begin
             multiplication_ctrl_fsm_int <= SCALAR_MULTIPLIER_J_STATE;
           end if;
 
-        when SCALAR_MULTIPLIER_I_STATE =>    -- STEP 10
+        when SCALAR_MULTIPLIER_I_STATE =>  -- STEP 10
 
           if (ready_scalar_float_multiplier = '1') then
             if ((unsigned(index_i_loop) = unsigned(SIZE_I_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL))) then
@@ -413,7 +413,7 @@ begin
             start_scalar_float_multiplier <= '0';
           end if;
 
-        when SCALAR_MULTIPLIER_J_STATE =>    -- STEP 11
+        when SCALAR_MULTIPLIER_J_STATE =>  -- STEP 11
 
           if (ready_scalar_float_multiplier = '1') then
             if ((unsigned(index_j_loop) < unsigned(SIZE_J_IN)-unsigned(ONE_CONTROL))) then

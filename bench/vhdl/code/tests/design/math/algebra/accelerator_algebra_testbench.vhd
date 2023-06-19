@@ -101,20 +101,20 @@ entity accelerator_algebra_testbench is
     ENABLE_ACCELERATOR_MATRIX_TRANSPOSE_CASE_1      : boolean := false;
 
     -- TENSOR-FUNCTIONALITY
-    ENABLE_ACCELERATOR_TENSOR_CONVOLUTION_TEST    : boolean := false;
-    ENABLE_ACCELERATOR_TENSOR_INVERSE_TEST        : boolean := false;
-    ENABLE_ACCELERATOR_TENSOR_PRODUCT_TEST        : boolean := false;
-    ENABLE_ACCELERATOR_TENSOR_TRANSPOSE_TEST      : boolean := false;
+    ENABLE_ACCELERATOR_TENSOR_CONVOLUTION_TEST : boolean := false;
+    ENABLE_ACCELERATOR_TENSOR_INVERSE_TEST     : boolean := false;
+    ENABLE_ACCELERATOR_TENSOR_PRODUCT_TEST     : boolean := false;
+    ENABLE_ACCELERATOR_TENSOR_TRANSPOSE_TEST   : boolean := false;
 
-    ENABLE_ACCELERATOR_TENSOR_CONVOLUTION_CASE_0    : boolean := false;
-    ENABLE_ACCELERATOR_TENSOR_INVERSE_CASE_0        : boolean := false;
-    ENABLE_ACCELERATOR_TENSOR_PRODUCT_CASE_0        : boolean := false;
-    ENABLE_ACCELERATOR_TENSOR_TRANSPOSE_CASE_0      : boolean := false;
+    ENABLE_ACCELERATOR_TENSOR_CONVOLUTION_CASE_0 : boolean := false;
+    ENABLE_ACCELERATOR_TENSOR_INVERSE_CASE_0     : boolean := false;
+    ENABLE_ACCELERATOR_TENSOR_PRODUCT_CASE_0     : boolean := false;
+    ENABLE_ACCELERATOR_TENSOR_TRANSPOSE_CASE_0   : boolean := false;
 
-    ENABLE_ACCELERATOR_TENSOR_CONVOLUTION_CASE_1    : boolean := false;
-    ENABLE_ACCELERATOR_TENSOR_INVERSE_CASE_1        : boolean := false;
-    ENABLE_ACCELERATOR_TENSOR_PRODUCT_CASE_1        : boolean := false;
-    ENABLE_ACCELERATOR_TENSOR_TRANSPOSE_CASE_1      : boolean := false
+    ENABLE_ACCELERATOR_TENSOR_CONVOLUTION_CASE_1 : boolean := false;
+    ENABLE_ACCELERATOR_TENSOR_INVERSE_CASE_1     : boolean := false;
+    ENABLE_ACCELERATOR_TENSOR_PRODUCT_CASE_1     : boolean := false;
+    ENABLE_ACCELERATOR_TENSOR_TRANSPOSE_CASE_1   : boolean := false
     );
 end accelerator_algebra_testbench;
 

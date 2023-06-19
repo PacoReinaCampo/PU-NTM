@@ -263,7 +263,7 @@ begin
             DATA_OUT_ENABLE <= '1';
 
             -- Control Internal
-            index_loop   <= ZERO_CONTROL;
+            index_loop <= ZERO_CONTROL;
 
             -- FSM Control
             multiplication_ctrl_fsm_int <= STARTER_STATE;
@@ -275,7 +275,7 @@ begin
             DATA_OUT_ENABLE <= '1';
 
             -- Control Internal
-            index_loop   <= std_logic_vector(unsigned(index_loop)+unsigned(ONE_CONTROL));
+            index_loop <= std_logic_vector(unsigned(index_loop)+unsigned(ONE_CONTROL));
 
             -- FSM Control
             multiplication_ctrl_fsm_int <= CLEAN_STATE;
