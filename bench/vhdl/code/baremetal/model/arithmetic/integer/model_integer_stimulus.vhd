@@ -1979,33 +1979,4 @@ begin
 
   end process main_test;
 
-  scalar_assertion : process (CLK, RST)
-  begin
-    if rising_edge(CLK) then
-      if (STIMULUS_NTM_SCALAR_INTEGER_ADDER_TEST) then
-        if (SCALAR_INTEGER_ADDER_READY = '1') then
-          assert SCALAR_INTEGER_ADDER_DATA_OUT = function_scalar_integer_adder(SCALAR_INTEGER_ADDER_OPERATION, SCALAR_INTEGER_ADDER_DATA_A_IN, SCALAR_INTEGER_ADDER_DATA_B_IN)
-            report "SCALAR ADDER: " & to_string(to_integer(signed(SCALAR_INTEGER_ADDER_DATA_OUT)))
-            severity error;
-        end if;
-      end if;
-
-      if (STIMULUS_NTM_SCALAR_INTEGER_MULTIPLIER_TEST) then
-        if (SCALAR_INTEGER_MULTIPLIER_READY = '1') then
-          assert SCALAR_INTEGER_MULTIPLIER_DATA_OUT = function_scalar_integer_multiplier(SCALAR_INTEGER_MULTIPLIER_DATA_A_IN, SCALAR_INTEGER_MULTIPLIER_DATA_B_IN)
-            report "SCALAR MULTIPLIER: " & to_string(to_integer(signed(SCALAR_INTEGER_MULTIPLIER_DATA_OUT)))
-            severity error;
-        end if;
-      end if;
-
-      if (STIMULUS_NTM_SCALAR_INTEGER_DIVIDER_TEST) then
-        if (SCALAR_INTEGER_DIVIDER_READY = '1') then
-          assert SCALAR_INTEGER_DIVIDER_DATA_OUT = function_scalar_integer_divider(SCALAR_INTEGER_DIVIDER_DATA_A_IN, SCALAR_INTEGER_DIVIDER_DATA_B_IN)
-            report "SCALAR DIVIDER: " & to_string(to_integer(signed(SCALAR_INTEGER_DIVIDER_DATA_OUT)))
-            severity error;
-        end if;
-      end if;
-    end if;
-  end process scalar_assertion;
-
 end architecture;

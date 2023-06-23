@@ -1973,33 +1973,4 @@ begin
 
   end process main_test;
 
-  scalar_assertion : process (CLK, RST)
-  begin
-    if rising_edge(CLK) then
-      if (STIMULUS_NTM_SCALAR_FIXED_ADDER_TEST) then
-        if (SCALAR_FIXED_ADDER_READY = '1') then
-          assert SCALAR_FIXED_ADDER_DATA_OUT = function_scalar_fixed_adder(SCALAR_FIXED_ADDER_OPERATION, SCALAR_FIXED_ADDER_DATA_A_IN, SCALAR_FIXED_ADDER_DATA_B_IN)
-            report "SCALAR ADDER"
-            severity error;
-        end if;
-      end if;
-
-      if (STIMULUS_NTM_SCALAR_FIXED_MULTIPLIER_TEST) then
-        if (SCALAR_FIXED_MULTIPLIER_READY = '1') then
-          assert SCALAR_FIXED_MULTIPLIER_DATA_OUT = function_scalar_fixed_multiplier(SCALAR_FIXED_MULTIPLIER_DATA_A_IN, SCALAR_FIXED_MULTIPLIER_DATA_B_IN)
-            report "SCALAR MULTIPLIER"
-            severity error;
-        end if;
-      end if;
-
-      if (STIMULUS_NTM_SCALAR_FIXED_DIVIDER_TEST) then
-        if (SCALAR_FIXED_DIVIDER_READY = '1') then
-          assert SCALAR_FIXED_DIVIDER_DATA_OUT = function_scalar_fixed_divider(SCALAR_FIXED_DIVIDER_DATA_A_IN, SCALAR_FIXED_DIVIDER_DATA_B_IN)
-            report "SCALAR DIVIDER"
-            severity error;
-        end if;
-      end if;
-    end if;
-  end process scalar_assertion;
-
 end architecture;

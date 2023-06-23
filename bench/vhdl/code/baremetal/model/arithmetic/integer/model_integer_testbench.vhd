@@ -708,7 +708,7 @@ begin
 
         -- CONTROL
         START => start_scalar_integer_multiplier,
-        READY => ready_scalar_integer_adder,
+        READY => ready_scalar_integer_multiplier,
 
         -- DATA
         DATA_A_IN => data_a_in_scalar_integer_multiplier,
@@ -743,6 +743,29 @@ begin
         REMAINDER_OUT => remainder_out_scalar_integer_divider
         );
   end generate model_scalar_integer_divider_test;
+
+  scalar_assertion : process (CLK, RST)
+  begin
+    if rising_edge(CLK) then
+      if (ready_scalar_integer_adder = '1') then
+        assert data_out_scalar_integer_adder = function_scalar_integer_adder(operation_scalar_integer_adder, data_a_in_scalar_integer_adder, data_b_in_scalar_integer_adder)
+          report "SCALAR ADDER: " & to_string(to_integer(signed(data_out_scalar_integer_adder)))
+          severity error;
+      end if;
+
+      if (ready_scalar_integer_multiplier = '1') then
+        assert data_out_scalar_integer_multiplier = function_scalar_integer_multiplier(data_a_in_scalar_integer_multiplier, data_b_in_scalar_integer_multiplier)
+          report "SCALAR MULTIPLIER: " & to_string(to_integer(signed(data_out_scalar_integer_multiplier)))
+          severity error;
+      end if;
+
+      if (ready_scalar_integer_divider = '1') then
+        assert data_out_scalar_integer_divider = function_scalar_integer_divider(data_a_in_scalar_integer_divider, data_b_in_scalar_integer_divider)
+          report "SCALAR DIVIDER: " & to_string(to_integer(signed(data_out_scalar_integer_divider)))
+          severity error;
+      end if;
+    end if;
+  end process scalar_assertion;
 
   ------------------------------------------------------------------------------
   -- VECTOR
@@ -842,6 +865,41 @@ begin
         REMAINDER_OUT => remainder_out_vector_integer_divider
         );
   end generate model_vector_integer_divider_test;
+
+  vector_assertion : process (CLK, RST)
+  begin
+    if rising_edge(CLK) then
+      if (ready_vector_integer_adder = '1' and data_out_enable_vector_integer_adder = '1') then
+        assert data_out_vector_integer_adder = function_scalar_integer_adder(operation_vector_integer_adder, data_a_in_vector_integer_adder, data_b_in_vector_integer_adder)
+          report "VECTOR ADDER: " & to_string(to_integer(signed(data_out_vector_integer_adder)))
+          severity error;
+      elsif (data_out_enable_vector_integer_adder = '1') then
+        assert data_out_vector_integer_adder = function_scalar_integer_adder(operation_vector_integer_adder, data_a_in_vector_integer_adder, data_b_in_vector_integer_adder)
+          report "VECTOR ADDER: " & to_string(to_integer(signed(data_out_vector_integer_adder)))
+          severity error;
+      end if;
+
+      if (ready_vector_integer_multiplier = '1' and data_out_enable_vector_integer_multiplier = '1') then
+        assert data_out_vector_integer_multiplier = function_scalar_integer_multiplier(data_a_in_vector_integer_multiplier, data_b_in_vector_integer_multiplier)
+          report "VECTOR MULTIPLIER: " & to_string(to_integer(signed(data_out_vector_integer_multiplier)))
+          severity error;
+      elsif (data_out_enable_vector_integer_multiplier = '1') then
+        assert data_out_vector_integer_multiplier = function_scalar_integer_multiplier(data_a_in_vector_integer_multiplier, data_b_in_vector_integer_multiplier)
+          report "VECTOR MULTIPLIER: " & to_string(to_integer(signed(data_out_vector_integer_multiplier)))
+          severity error;
+      end if;
+
+      if (ready_vector_integer_divider = '1' and data_out_enable_vector_integer_divider = '1') then
+        assert data_out_vector_integer_divider = function_scalar_integer_divider(data_a_in_vector_integer_divider, data_b_in_vector_integer_divider)
+          report "VECTOR DIVIDER: " & to_string(to_integer(signed(data_out_vector_integer_divider)))
+          severity error;
+      elsif (data_out_enable_vector_integer_divider = '1') then
+        assert data_out_vector_integer_divider = function_scalar_integer_divider(data_a_in_vector_integer_divider, data_b_in_vector_integer_divider)
+          report "VECTOR DIVIDER: " & to_string(to_integer(signed(data_out_vector_integer_divider)))
+          severity error;
+      end if;
+    end if;
+  end process vector_assertion;
 
   ------------------------------------------------------------------------------
   -- MATRIX
@@ -953,6 +1011,53 @@ begin
         REMAINDER_OUT => remainder_out_matrix_integer_divider
         );
   end generate model_matrix_integer_divider_test;
+
+  matrix_assertion : process (CLK, RST)
+  begin
+    if rising_edge(CLK) then
+      if (ready_matrix_integer_adder = '1' and data_out_i_enable_matrix_integer_adder = '1' and data_out_j_enable_matrix_integer_adder = '1') then
+        assert data_out_matrix_integer_adder = function_scalar_integer_adder(operation_matrix_integer_adder, data_a_in_matrix_integer_adder, data_b_in_matrix_integer_adder)
+          report "MATRIX ADDER: " & to_string(to_integer(signed(data_out_matrix_integer_adder)))
+          severity error;
+      elsif (data_out_i_enable_matrix_integer_adder = '1' and data_out_j_enable_matrix_integer_adder = '1') then
+        assert data_out_matrix_integer_adder = function_scalar_integer_adder(operation_matrix_integer_adder, data_a_in_matrix_integer_adder, data_b_in_matrix_integer_adder)
+          report "MATRIX ADDER: " & to_string(to_integer(signed(data_out_matrix_integer_adder)))
+          severity error;
+      elsif (data_out_j_enable_matrix_integer_adder = '1') then
+        assert data_out_matrix_integer_adder = function_scalar_integer_adder(operation_matrix_integer_adder, data_a_in_matrix_integer_adder, data_b_in_matrix_integer_adder)
+          report "MATRIX ADDER: " & to_string(to_integer(signed(data_out_matrix_integer_adder)))
+          severity error;
+      end if;
+
+      if (ready_matrix_integer_multiplier = '1' and data_out_i_enable_matrix_integer_multiplier = '1' and data_out_j_enable_matrix_integer_multiplier = '1') then
+        assert data_out_matrix_integer_multiplier = function_scalar_integer_multiplier(data_a_in_matrix_integer_multiplier, data_b_in_matrix_integer_multiplier)
+          report "MATRIX MULTIPLIER: " & to_string(to_integer(signed(data_out_matrix_integer_multiplier)))
+          severity error;
+      elsif (data_out_i_enable_matrix_integer_multiplier = '1' and data_out_j_enable_matrix_integer_multiplier = '1') then
+        assert data_out_matrix_integer_multiplier = function_scalar_integer_multiplier(data_a_in_matrix_integer_multiplier, data_b_in_matrix_integer_multiplier)
+          report "MATRIX MULTIPLIER: " & to_string(to_integer(signed(data_out_matrix_integer_multiplier)))
+          severity error;
+      elsif (data_out_j_enable_matrix_integer_multiplier = '1') then
+        assert data_out_matrix_integer_multiplier = function_scalar_integer_multiplier(data_a_in_matrix_integer_multiplier, data_b_in_matrix_integer_multiplier)
+          report "MATRIX MULTIPLIER: " & to_string(to_integer(signed(data_out_matrix_integer_multiplier)))
+          severity error;
+      end if;
+
+      if (ready_matrix_integer_divider = '1' and data_out_i_enable_matrix_integer_divider = '1' and data_out_j_enable_matrix_integer_divider = '1') then
+        assert data_out_matrix_integer_divider = function_scalar_integer_divider(data_a_in_matrix_integer_divider, data_b_in_matrix_integer_divider)
+          report "MATRIX DIVIDER: " & to_string(to_integer(signed(data_out_matrix_integer_divider)))
+          severity error;
+      elsif (data_out_i_enable_matrix_integer_divider = '1' and data_out_j_enable_matrix_integer_divider = '1') then
+        assert data_out_matrix_integer_divider = function_scalar_integer_divider(data_a_in_matrix_integer_divider, data_b_in_matrix_integer_divider)
+          report "MATRIX DIVIDER: " & to_string(to_integer(signed(data_out_matrix_integer_divider)))
+          severity error;
+      elsif (data_out_j_enable_matrix_integer_divider = '1') then
+        assert data_out_matrix_integer_divider = function_scalar_integer_divider(data_a_in_matrix_integer_divider, data_b_in_matrix_integer_divider)
+          report "MATRIX DIVIDER: " & to_string(to_integer(signed(data_out_matrix_integer_divider)))
+          severity error;
+      end if;
+    end if;
+  end process matrix_assertion;
 
   ------------------------------------------------------------------------------
   -- TENSOR
@@ -1076,5 +1181,64 @@ begin
         REMAINDER_OUT => remainder_out_tensor_integer_divider
         );
   end generate model_tensor_integer_divider_test;
+
+  tensor_assertion : process (CLK, RST)
+  begin
+    if rising_edge(CLK) then
+      if (ready_tensor_integer_adder = '1' and data_out_i_enable_tensor_integer_adder = '1' and data_out_j_enable_tensor_integer_adder = '1' and data_out_k_enable_tensor_integer_adder = '1') then
+        assert data_out_tensor_integer_adder = function_scalar_integer_adder(operation_tensor_integer_adder, data_a_in_tensor_integer_adder, data_b_in_tensor_integer_adder)
+          report "MATRIX ADDER: " & to_string(to_integer(signed(data_out_tensor_integer_adder)))
+          severity error;
+      elsif (data_out_i_enable_tensor_integer_adder = '1' and data_out_j_enable_tensor_integer_adder = '1' and data_out_k_enable_tensor_integer_adder = '1') then
+        assert data_out_tensor_integer_adder = function_scalar_integer_adder(operation_tensor_integer_adder, data_a_in_tensor_integer_adder, data_b_in_tensor_integer_adder)
+          report "MATRIX ADDER: " & to_string(to_integer(signed(data_out_tensor_integer_adder)))
+          severity error;
+      elsif (data_out_j_enable_tensor_integer_adder = '1' and data_out_k_enable_tensor_integer_adder = '1') then
+        assert data_out_tensor_integer_adder = function_scalar_integer_adder(operation_tensor_integer_adder, data_a_in_tensor_integer_adder, data_b_in_tensor_integer_adder)
+          report "MATRIX ADDER: " & to_string(to_integer(signed(data_out_tensor_integer_adder)))
+          severity error;
+      elsif (data_out_k_enable_tensor_integer_adder = '1') then
+        assert data_out_tensor_integer_adder = function_scalar_integer_adder(operation_tensor_integer_adder, data_a_in_tensor_integer_adder, data_b_in_tensor_integer_adder)
+          report "MATRIX ADDER: " & to_string(to_integer(signed(data_out_tensor_integer_adder)))
+          severity error;
+      end if;
+
+      if (ready_tensor_integer_multiplier = '1' and data_out_i_enable_tensor_integer_multiplier = '1' and data_out_j_enable_tensor_integer_multiplier = '1' and data_out_k_enable_tensor_integer_multiplier = '1') then
+        assert data_out_tensor_integer_multiplier = function_scalar_integer_multiplier(data_a_in_tensor_integer_multiplier, data_b_in_tensor_integer_multiplier)
+          report "MATRIX MULTIPLIER: " & to_string(to_integer(signed(data_out_tensor_integer_multiplier)))
+          severity error;
+      elsif (data_out_i_enable_tensor_integer_multiplier = '1' and data_out_j_enable_tensor_integer_multiplier = '1' and data_out_k_enable_tensor_integer_multiplier = '1') then
+        assert data_out_tensor_integer_multiplier = function_scalar_integer_multiplier(data_a_in_tensor_integer_multiplier, data_b_in_tensor_integer_multiplier)
+          report "MATRIX MULTIPLIER: " & to_string(to_integer(signed(data_out_tensor_integer_multiplier)))
+          severity error;
+      elsif (data_out_j_enable_tensor_integer_multiplier = '1' and data_out_k_enable_tensor_integer_multiplier = '1') then
+        assert data_out_tensor_integer_multiplier = function_scalar_integer_multiplier(data_a_in_tensor_integer_multiplier, data_b_in_tensor_integer_multiplier)
+          report "MATRIX MULTIPLIER: " & to_string(to_integer(signed(data_out_tensor_integer_multiplier)))
+          severity error;
+      elsif (data_out_k_enable_tensor_integer_multiplier = '1') then
+        assert data_out_tensor_integer_multiplier = function_scalar_integer_multiplier(data_a_in_tensor_integer_multiplier, data_b_in_tensor_integer_multiplier)
+          report "MATRIX MULTIPLIER: " & to_string(to_integer(signed(data_out_tensor_integer_multiplier)))
+          severity error;
+      end if;
+
+      if (ready_tensor_integer_divider = '1' and data_out_i_enable_tensor_integer_divider = '1' and data_out_j_enable_tensor_integer_divider = '1' and data_out_k_enable_tensor_integer_divider = '1') then
+        assert data_out_tensor_integer_divider = function_scalar_integer_divider(data_a_in_tensor_integer_divider, data_b_in_tensor_integer_divider)
+          report "MATRIX DIVIDER: " & to_string(to_integer(signed(data_out_tensor_integer_divider)))
+          severity error;
+      elsif (data_out_i_enable_tensor_integer_divider = '1' and data_out_j_enable_tensor_integer_divider = '1' and data_out_k_enable_tensor_integer_divider = '1') then
+        assert data_out_tensor_integer_divider = function_scalar_integer_divider(data_a_in_tensor_integer_divider, data_b_in_tensor_integer_divider)
+          report "MATRIX DIVIDER: " & to_string(to_integer(signed(data_out_tensor_integer_divider)))
+          severity error;
+      elsif (data_out_j_enable_tensor_integer_divider = '1' and data_out_k_enable_tensor_integer_divider = '1') then
+        assert data_out_tensor_integer_divider = function_scalar_integer_divider(data_a_in_tensor_integer_divider, data_b_in_tensor_integer_divider)
+          report "MATRIX DIVIDER: " & to_string(to_integer(signed(data_out_tensor_integer_divider)))
+          severity error;
+      elsif (data_out_k_enable_tensor_integer_divider = '1') then
+        assert data_out_tensor_integer_divider = function_scalar_integer_divider(data_a_in_tensor_integer_divider, data_b_in_tensor_integer_divider)
+          report "MATRIX DIVIDER: " & to_string(to_integer(signed(data_out_tensor_integer_divider)))
+          severity error;
+      end if;
+    end if;
+  end process tensor_assertion;
 
 end model_integer_testbench_architecture;
