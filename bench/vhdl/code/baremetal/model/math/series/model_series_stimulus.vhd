@@ -590,7 +590,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_COSH_FIRST_RUN when VECTOR_COSH_READY = '1';
@@ -635,7 +635,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_COSH_SECOND_RUN when VECTOR_COSH_READY = '1';
@@ -693,7 +693,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_EXPONENTIATOR_FIRST_RUN when VECTOR_EXPONENTIATOR_READY = '1';
@@ -738,7 +738,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_EXPONENTIATOR_SECOND_RUN when VECTOR_EXPONENTIATOR_READY = '1';
@@ -796,7 +796,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_LOGARITHM_FIRST_RUN when VECTOR_LOGARITHM_READY = '1';
@@ -841,7 +841,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_LOGARITHM_SECOND_RUN when VECTOR_LOGARITHM_READY = '1';
@@ -899,7 +899,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_SINH_FIRST_RUN when VECTOR_SINH_READY = '1';
@@ -944,7 +944,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_SINH_SECOND_RUN when VECTOR_SINH_READY = '1';
@@ -1002,7 +1002,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_TANH_FIRST_RUN when VECTOR_TANH_READY = '1';
@@ -1047,7 +1047,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_TANH_SECOND_RUN when VECTOR_TANH_READY = '1';
@@ -1125,7 +1125,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_COSH_FIRST_RUN when MATRIX_COSH_READY = '1';
@@ -1185,7 +1185,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_COSH_SECOND_RUN when MATRIX_COSH_READY = '1';
@@ -1259,7 +1259,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_EXPONENTIATOR_FIRST_RUN when MATRIX_EXPONENTIATOR_READY = '1';
@@ -1319,7 +1319,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_EXPONENTIATOR_SECOND_RUN when MATRIX_EXPONENTIATOR_READY = '1';
@@ -1393,7 +1393,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_LOGARITHM_FIRST_RUN when MATRIX_LOGARITHM_READY = '1';
@@ -1453,7 +1453,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_LOGARITHM_SECOND_RUN when MATRIX_LOGARITHM_READY = '1';
@@ -1527,7 +1527,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_SINH_FIRST_RUN when MATRIX_SINH_READY = '1';
@@ -1587,7 +1587,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_SINH_SECOND_RUN when MATRIX_SINH_READY = '1';
@@ -1661,7 +1661,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_TANH_FIRST_RUN when MATRIX_TANH_READY = '1';
@@ -1721,7 +1721,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_TANH_SECOND_RUN when MATRIX_TANH_READY = '1';

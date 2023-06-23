@@ -419,7 +419,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_DIFFERENTIATION_FIRST_RUN when VECTOR_DIFFERENTIATION_READY = '1';
@@ -464,7 +464,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_DIFFERENTIATION_SECOND_RUN when VECTOR_DIFFERENTIATION_READY = '1';
@@ -523,7 +523,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_INTEGRATION_FIRST_RUN when VECTOR_INTEGRATION_READY = '1';
@@ -568,7 +568,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_INTEGRATION_SECOND_RUN when VECTOR_INTEGRATION_READY = '1';
@@ -626,7 +626,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_SOFTMAX_FIRST_RUN when VECTOR_SOFTMAX_READY = '1';
@@ -671,7 +671,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_SOFTMAX_SECOND_RUN when VECTOR_SOFTMAX_READY = '1';
@@ -751,7 +751,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_DIFFERENTIATION_FIRST_RUN when MATRIX_DIFFERENTIATION_READY = '1';
@@ -811,7 +811,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_DIFFERENTIATION_SECOND_RUN when MATRIX_DIFFERENTIATION_READY = '1';
@@ -887,7 +887,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_INTEGRATION_FIRST_RUN when MATRIX_INTEGRATION_READY = '1';
@@ -947,7 +947,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_INTEGRATION_SECOND_RUN when MATRIX_INTEGRATION_READY = '1';
@@ -1021,7 +1021,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_SOFTMAX_FIRST_RUN when MATRIX_SOFTMAX_READY = '1';
@@ -1081,7 +1081,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_SOFTMAX_SECOND_RUN when MATRIX_SOFTMAX_READY = '1';
@@ -1179,7 +1179,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_DIFFERENTIATION_FIRST_RUN when TENSOR_DIFFERENTIATION_READY = '1';
@@ -1255,7 +1255,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_DIFFERENTIATION_SECOND_RUN when TENSOR_DIFFERENTIATION_READY = '1';
@@ -1348,7 +1348,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_INTEGRATION_FIRST_RUN when TENSOR_INTEGRATION_READY = '1';
@@ -1424,7 +1424,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_INTEGRATION_SECOND_RUN when TENSOR_INTEGRATION_READY = '1';
@@ -1515,7 +1515,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_SOFTMAX_FIRST_RUN when TENSOR_SOFTMAX_READY = '1';
@@ -1591,7 +1591,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_SOFTMAX_SECOND_RUN when TENSOR_SOFTMAX_READY = '1';

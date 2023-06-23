@@ -596,7 +596,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_INTEGER_ADDER_FIRST_RUN when VECTOR_INTEGER_ADDER_READY = '1';
@@ -647,7 +647,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_INTEGER_ADDER_SECOND_RUN when VECTOR_INTEGER_ADDER_READY = '1';
@@ -711,7 +711,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_INTEGER_MULTIPLIER_FIRST_RUN when VECTOR_INTEGER_MULTIPLIER_READY = '1';
@@ -762,7 +762,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_INTEGER_MULTIPLIER_SECOND_RUN when VECTOR_INTEGER_MULTIPLIER_READY = '1';
@@ -826,7 +826,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_INTEGER_DIVIDER_FIRST_RUN when VECTOR_INTEGER_DIVIDER_READY = '1';
@@ -877,7 +877,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_INTEGER_DIVIDER_SECOND_RUN when VECTOR_INTEGER_DIVIDER_READY = '1';
@@ -969,7 +969,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_INTEGER_ADDER_FIRST_RUN when MATRIX_INTEGER_ADDER_READY = '1';
@@ -1040,7 +1040,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_INTEGER_ADDER_SECOND_RUN when MATRIX_INTEGER_ADDER_READY = '1';
@@ -1125,7 +1125,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_INTEGER_MULTIPLIER_FIRST_RUN when MATRIX_INTEGER_MULTIPLIER_READY = '1';
@@ -1196,7 +1196,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_INTEGER_MULTIPLIER_SECOND_RUN when MATRIX_INTEGER_MULTIPLIER_READY = '1';
@@ -1281,7 +1281,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_INTEGER_DIVIDER_FIRST_RUN when MATRIX_INTEGER_DIVIDER_READY = '1';
@@ -1352,7 +1352,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_INTEGER_DIVIDER_SECOND_RUN when MATRIX_INTEGER_DIVIDER_READY = '1';
@@ -1467,7 +1467,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_INTEGER_ADDER_FIRST_RUN when TENSOR_INTEGER_ADDER_READY = '1';
@@ -1560,7 +1560,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_INTEGER_ADDER_SECOND_RUN when TENSOR_INTEGER_ADDER_READY = '1';
@@ -1668,7 +1668,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_INTEGER_MULTIPLIER_FIRST_RUN when TENSOR_INTEGER_MULTIPLIER_READY = '1';
@@ -1761,7 +1761,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_INTEGER_MULTIPLIER_SECOND_RUN when TENSOR_INTEGER_MULTIPLIER_READY = '1';
@@ -1869,7 +1869,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_INTEGER_DIVIDER_FIRST_RUN when TENSOR_INTEGER_DIVIDER_READY = '1';
@@ -1962,7 +1962,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_INTEGER_DIVIDER_SECOND_RUN when TENSOR_INTEGER_DIVIDER_READY = '1';

@@ -590,7 +590,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_FIXED_ADDER_FIRST_RUN when VECTOR_FIXED_ADDER_READY = '1';
@@ -641,7 +641,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_FIXED_ADDER_SECOND_RUN when VECTOR_FIXED_ADDER_READY = '1';
@@ -705,7 +705,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_FIXED_MULTIPLIER_FIRST_RUN when VECTOR_FIXED_MULTIPLIER_READY = '1';
@@ -756,7 +756,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_FIXED_MULTIPLIER_SECOND_RUN when VECTOR_FIXED_MULTIPLIER_READY = '1';
@@ -820,7 +820,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_FIXED_DIVIDER_FIRST_RUN when VECTOR_FIXED_DIVIDER_READY = '1';
@@ -871,7 +871,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_FIXED_DIVIDER_SECOND_RUN when VECTOR_FIXED_DIVIDER_READY = '1';
@@ -963,7 +963,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_FIXED_ADDER_FIRST_RUN when MATRIX_FIXED_ADDER_READY = '1';
@@ -1034,7 +1034,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_FIXED_ADDER_SECOND_RUN when MATRIX_FIXED_ADDER_READY = '1';
@@ -1119,7 +1119,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_FIXED_MULTIPLIER_FIRST_RUN when MATRIX_FIXED_MULTIPLIER_READY = '1';
@@ -1190,7 +1190,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_FIXED_MULTIPLIER_SECOND_RUN when MATRIX_FIXED_MULTIPLIER_READY = '1';
@@ -1275,7 +1275,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_FIXED_DIVIDER_FIRST_RUN when MATRIX_FIXED_DIVIDER_READY = '1';
@@ -1346,7 +1346,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_FIXED_DIVIDER_SECOND_RUN when MATRIX_FIXED_DIVIDER_READY = '1';
@@ -1461,7 +1461,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_FIXED_ADDER_FIRST_RUN when TENSOR_FIXED_ADDER_READY = '1';
@@ -1554,7 +1554,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_FIXED_ADDER_SECOND_RUN when TENSOR_FIXED_ADDER_READY = '1';
@@ -1662,7 +1662,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_FIXED_MULTIPLIER_FIRST_RUN when TENSOR_FIXED_MULTIPLIER_READY = '1';
@@ -1755,7 +1755,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_FIXED_MULTIPLIER_SECOND_RUN when TENSOR_FIXED_MULTIPLIER_READY = '1';
@@ -1863,7 +1863,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_FIXED_DIVIDER_FIRST_RUN when TENSOR_FIXED_DIVIDER_READY = '1';
@@ -1956,7 +1956,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_FIXED_DIVIDER_SECOND_RUN when TENSOR_FIXED_DIVIDER_READY = '1';

@@ -376,7 +376,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_LOGISTIC_FIRST_RUN when VECTOR_LOGISTIC_READY = '1';
@@ -421,7 +421,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_LOGISTIC_SECOND_RUN when VECTOR_LOGISTIC_READY = '1';
@@ -479,7 +479,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_ONEPLUS_FIRST_RUN when VECTOR_ONEPLUS_READY = '1';
@@ -524,7 +524,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_ONEPLUS_SECOND_RUN when VECTOR_ONEPLUS_READY = '1';
@@ -602,7 +602,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_LOGISTIC_FIRST_RUN when MATRIX_LOGISTIC_READY = '1';
@@ -662,7 +662,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_LOGISTIC_SECOND_RUN when MATRIX_LOGISTIC_READY = '1';
@@ -736,7 +736,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_ONEPLUS_FIRST_RUN when MATRIX_ONEPLUS_READY = '1';
@@ -796,7 +796,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_ONEPLUS_SECOND_RUN when MATRIX_ONEPLUS_READY = '1';

@@ -588,7 +588,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit DOT_PRODUCT_FIRST_RUN when DOT_PRODUCT_READY = '1';
@@ -639,7 +639,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit DOT_PRODUCT_SECOND_RUN when DOT_PRODUCT_READY = '1';
@@ -703,7 +703,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_CONVOLUTION_FIRST_RUN when VECTOR_CONVOLUTION_READY = '1';
@@ -754,7 +754,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_CONVOLUTION_SECOND_RUN when VECTOR_CONVOLUTION_READY = '1';
@@ -818,7 +818,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_COSINE_SIMILARITY_FIRST_RUN when VECTOR_COSINE_SIMILARITY_READY = '1';
@@ -869,7 +869,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_COSINE_SIMILARITY_SECOND_RUN when VECTOR_COSINE_SIMILARITY_READY = '1';
@@ -944,7 +944,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_MULTIPLICATION_FIRST_RUN when VECTOR_MULTIPLICATION_READY = '1';
@@ -1004,7 +1004,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_MULTIPLICATION_SECOND_RUN when VECTOR_MULTIPLICATION_READY = '1';
@@ -1079,7 +1079,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_SUMMATION_FIRST_RUN when VECTOR_SUMMATION_READY = '1';
@@ -1139,7 +1139,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_SUMMATION_SECOND_RUN when VECTOR_SUMMATION_READY = '1';
@@ -1197,7 +1197,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_MODULE_FIRST_RUN when VECTOR_MODULE_READY = '1';
@@ -1242,7 +1242,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit VECTOR_MODULE_SECOND_RUN when VECTOR_MODULE_READY = '1';
@@ -1329,7 +1329,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_CONVOLUTION_FIRST_RUN when MATRIX_CONVOLUTION_READY = '1';
@@ -1400,7 +1400,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_CONVOLUTION_SECOND_RUN when MATRIX_CONVOLUTION_READY = '1';
@@ -1474,7 +1474,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_INVERSE_FIRST_RUN when MATRIX_INVERSE_READY = '1';
@@ -1534,7 +1534,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_INVERSE_SECOND_RUN when MATRIX_INVERSE_READY = '1';
@@ -1626,7 +1626,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_MULTIPLICATION_FIRST_RUN when MATRIX_MULTIPLICATION_READY = '1';
@@ -1702,7 +1702,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_MULTIPLICATION_SECOND_RUN when MATRIX_MULTIPLICATION_READY = '1';
@@ -1789,7 +1789,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_PRODUCT_FIRST_RUN when MATRIX_PRODUCT_READY = '1';
@@ -1860,7 +1860,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_PRODUCT_SECOND_RUN when MATRIX_PRODUCT_READY = '1';
@@ -1952,7 +1952,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_SUMMATION_FIRST_RUN when MATRIX_SUMMATION_READY = '1';
@@ -2028,7 +2028,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_SUMMATION_SECOND_RUN when MATRIX_SUMMATION_READY = '1';
@@ -2102,7 +2102,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_TRANSPOSE_FIRST_RUN when MATRIX_TRANSPOSE_READY = '1';
@@ -2162,7 +2162,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit MATRIX_TRANSPOSE_SECOND_RUN when MATRIX_TRANSPOSE_READY = '1';
@@ -2273,7 +2273,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_CONVOLUTION_FIRST_RUN when TENSOR_CONVOLUTION_READY = '1';
@@ -2366,7 +2366,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_CONVOLUTION_SECOND_RUN when TENSOR_CONVOLUTION_READY = '1';
@@ -2457,7 +2457,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_INVERSE_FIRST_RUN when TENSOR_INVERSE_READY = '1';
@@ -2533,7 +2533,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_INVERSE_SECOND_RUN when TENSOR_INVERSE_READY = '1';
@@ -2644,7 +2644,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_PRODUCT_FIRST_RUN when TENSOR_PRODUCT_READY = '1';
@@ -2737,7 +2737,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_PRODUCT_SECOND_RUN when TENSOR_PRODUCT_READY = '1';
@@ -2828,7 +2828,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_TRANSPOSE_FIRST_RUN when TENSOR_TRANSPOSE_READY = '1';
@@ -2904,7 +2904,7 @@ begin
           end if;
 
           -- GLOBAL
-          wait until rising_edge(CLK);
+          wait until rising_edge(clk_int);
 
           -- CONTROL
           exit TENSOR_TRANSPOSE_SECOND_RUN when TENSOR_TRANSPOSE_READY = '1';
