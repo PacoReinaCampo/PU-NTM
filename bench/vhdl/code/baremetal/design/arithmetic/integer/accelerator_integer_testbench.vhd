@@ -871,7 +871,7 @@ begin
     if rising_edge(CLK) then
       if (ready_vector_integer_adder = '1' and data_out_enable_vector_integer_adder = '1') then
         assert data_out_vector_integer_adder = function_scalar_integer_adder(operation_vector_integer_adder, data_a_in_vector_integer_adder, data_b_in_vector_integer_adder)
-          report "ADIOS-VECTOR ADDER: CALCULATED = " & to_string(to_integer(signed(data_out_vector_integer_adder))) & "; CORRECT = " & to_string(to_integer(signed(function_scalar_integer_adder(operation_vector_integer_adder, data_a_in_vector_integer_adder, data_b_in_vector_integer_adder))))
+          report "VECTOR ADDER: CALCULATED = " & to_string(to_integer(signed(data_out_vector_integer_adder))) & "; CORRECT = " & to_string(to_integer(signed(function_scalar_integer_adder(operation_vector_integer_adder, data_a_in_vector_integer_adder, data_b_in_vector_integer_adder))))
           severity error;
       elsif (data_out_enable_vector_integer_adder = '1' and not data_out_vector_integer_adder = ZERO_DATA) then
         assert data_out_vector_integer_adder = function_scalar_integer_adder(operation_vector_integer_adder, data_a_in_vector_integer_adder, data_b_in_vector_integer_adder)

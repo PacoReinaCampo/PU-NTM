@@ -868,7 +868,7 @@ begin
     if rising_edge(CLK) then
       if (ready_vector_cosh = '1' and data_out_enable_vector_cosh = '1') then
         assert data_out_vector_cosh = function_scalar_cosh(data_in_vector_cosh)
-          report "ADIOS-VECTOR COSH: CALCULATED = " & to_string(to_integer(signed(data_out_vector_cosh))) & "; CORRECT = " & to_string(to_integer(signed(function_scalar_cosh(data_in_vector_cosh))))
+          report "VECTOR COSH: CALCULATED = " & to_string(to_integer(signed(data_out_vector_cosh))) & "; CORRECT = " & to_string(to_integer(signed(function_scalar_cosh(data_in_vector_cosh))))
           severity error;
       elsif (data_out_enable_vector_cosh = '1' and not data_out_vector_cosh = ZERO_DATA) then
         assert data_out_vector_cosh = function_scalar_cosh(data_in_vector_cosh)
