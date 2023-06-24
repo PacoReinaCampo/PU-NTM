@@ -2,7 +2,6 @@
 # DESIGN COMPILATION
 #*******************
 
-
 do ./variables.do
 
 vlib work
