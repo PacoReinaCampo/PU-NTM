@@ -40,6 +40,7 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+use work.model_math_pkg.all;
 use work.accelerator_math_pkg.all;
 use work.accelerator_algebra_pkg.all;
 
@@ -121,6 +122,12 @@ end accelerator_algebra_testbench;
 architecture accelerator_algebra_testbench_architecture of accelerator_algebra_testbench is
 
   ------------------------------------------------------------------------------
+  -- Constants
+  ------------------------------------------------------------------------------
+
+  constant EMPTY : std_logic_vector(DATA_SIZE-1 downto 0) := (others => '0');
+
+  ------------------------------------------------------------------------------
   -- Signals
   ------------------------------------------------------------------------------
 
@@ -133,10 +140,14 @@ architecture accelerator_algebra_testbench_architecture of accelerator_algebra_t
   signal start_dot_product : std_logic;
   signal ready_dot_product : std_logic;
 
+  signal ready_dot_product_model : std_logic;
+
   signal data_a_in_enable_dot_product : std_logic;
   signal data_b_in_enable_dot_product : std_logic;
 
   signal data_out_enable_dot_product : std_logic;
+
+  signal data_out_enable_dot_product_model : std_logic;
 
   -- DATA
   signal length_in_dot_product : std_logic_vector(CONTROL_SIZE-1 downto 0);
@@ -144,17 +155,25 @@ architecture accelerator_algebra_testbench_architecture of accelerator_algebra_t
   signal data_b_in_dot_product : std_logic_vector(DATA_SIZE-1 downto 0);
   signal data_out_dot_product  : std_logic_vector(DATA_SIZE-1 downto 0);
 
+  signal data_out_dot_product_model : std_logic_vector(DATA_SIZE-1 downto 0);
+
   -- VECTOR CONVOLUTION
   -- CONTROL
   signal start_vector_convolution : std_logic;
   signal ready_vector_convolution : std_logic;
+
+  signal ready_vector_convolution_model : std_logic;
 
   signal data_a_in_enable_vector_convolution : std_logic;
   signal data_b_in_enable_vector_convolution : std_logic;
 
   signal data_enable_vector_convolution : std_logic;
 
+  signal data_enable_vector_convolution_model : std_logic;
+
   signal data_out_enable_vector_convolution : std_logic;
+
+  signal data_out_enable_vector_convolution_model : std_logic;
 
   -- DATA
   signal length_in_vector_convolution : std_logic_vector(CONTROL_SIZE-1 downto 0);
@@ -162,17 +181,25 @@ architecture accelerator_algebra_testbench_architecture of accelerator_algebra_t
   signal data_b_in_vector_convolution : std_logic_vector(DATA_SIZE-1 downto 0);
   signal data_out_vector_convolution  : std_logic_vector(DATA_SIZE-1 downto 0);
 
+  signal data_out_vector_convolution_model : std_logic_vector(DATA_SIZE-1 downto 0);
+
   -- VECTOR COSINE_SIMILARITY
   -- CONTROL
   signal start_vector_cosine_similarity : std_logic;
   signal ready_vector_cosine_similarity : std_logic;
+
+  signal ready_vector_cosine_similarity_model : std_logic;
 
   signal data_a_in_enable_vector_cosine_similarity : std_logic;
   signal data_b_in_enable_vector_cosine_similarity : std_logic;
 
   signal data_enable_vector_cosine_similarity : std_logic;
 
+  signal data_enable_vector_cosine_similarity_model : std_logic;
+
   signal data_out_enable_vector_cosine_similarity : std_logic;
+
+  signal data_out_enable_vector_cosine_similarity_model : std_logic;
 
   -- DATA
   signal length_in_vector_cosine_similarity : std_logic_vector(CONTROL_SIZE-1 downto 0);
@@ -180,10 +207,14 @@ architecture accelerator_algebra_testbench_architecture of accelerator_algebra_t
   signal data_b_in_vector_cosine_similarity : std_logic_vector(DATA_SIZE-1 downto 0);
   signal data_out_vector_cosine_similarity  : std_logic_vector(DATA_SIZE-1 downto 0);
 
+  signal data_out_vector_cosine_similarity_model : std_logic_vector(DATA_SIZE-1 downto 0);
+
   -- VECTOR MULTIPLICATION
   -- CONTROL
   signal start_vector_multiplication : std_logic;
   signal ready_vector_multiplication : std_logic;
+
+  signal ready_vector_multiplication_model : std_logic;
 
   signal data_in_length_enable_vector_multiplication : std_logic;
   signal data_in_enable_vector_multiplication        : std_logic;
@@ -191,7 +222,12 @@ architecture accelerator_algebra_testbench_architecture of accelerator_algebra_t
   signal data_length_enable_vector_multiplication : std_logic;
   signal data_enable_vector_multiplication        : std_logic;
 
+  signal data_length_enable_vector_multiplication_model : std_logic;
+  signal data_enable_vector_multiplication_model        : std_logic;
+
   signal data_out_enable_vector_multiplication : std_logic;
+
+  signal data_out_enable_vector_multiplication_model : std_logic;
 
   -- DATA
   signal size_in_vector_multiplication   : std_logic_vector(CONTROL_SIZE-1 downto 0);
@@ -199,10 +235,14 @@ architecture accelerator_algebra_testbench_architecture of accelerator_algebra_t
   signal data_in_vector_multiplication   : std_logic_vector(DATA_SIZE-1 downto 0);
   signal data_out_vector_multiplication  : std_logic_vector(DATA_SIZE-1 downto 0);
 
+  signal data_out_vector_multiplication_model : std_logic_vector(DATA_SIZE-1 downto 0);
+
   -- VECTOR SUMMATION
   -- CONTROL
   signal start_vector_summation : std_logic;
   signal ready_vector_summation : std_logic;
+
+  signal ready_vector_summation_model : std_logic;
 
   signal data_in_length_enable_vector_summation : std_logic;
   signal data_in_enable_vector_summation        : std_logic;
@@ -210,7 +250,12 @@ architecture accelerator_algebra_testbench_architecture of accelerator_algebra_t
   signal data_length_enable_vector_summation : std_logic;
   signal data_enable_vector_summation        : std_logic;
 
+  signal data_length_enable_vector_summation_model : std_logic;
+  signal data_enable_vector_summation_model        : std_logic;
+
   signal data_out_enable_vector_summation : std_logic;
+
+  signal data_out_enable_vector_summation_model : std_logic;
 
   -- DATA
   signal size_in_vector_summation   : std_logic_vector(CONTROL_SIZE-1 downto 0);
@@ -218,21 +263,31 @@ architecture accelerator_algebra_testbench_architecture of accelerator_algebra_t
   signal data_in_vector_summation   : std_logic_vector(DATA_SIZE-1 downto 0);
   signal data_out_vector_summation  : std_logic_vector(DATA_SIZE-1 downto 0);
 
+  signal data_out_vector_summation_model : std_logic_vector(DATA_SIZE-1 downto 0);
+
   -- VECTOR MODULE
   -- CONTROL
   signal start_vector_module : std_logic;
   signal ready_vector_module : std_logic;
 
+  signal ready_vector_module_model : std_logic;
+
   signal data_in_enable_vector_module : std_logic;
 
   signal data_enable_vector_module : std_logic;
 
+  signal data_enable_vector_module_model : std_logic;
+
   signal data_out_enable_vector_module : std_logic;
+
+  signal data_out_enable_vector_module_model : std_logic;
 
   -- DATA
   signal length_in_vector_module : std_logic_vector(CONTROL_SIZE-1 downto 0);
   signal data_in_vector_module   : std_logic_vector(DATA_SIZE-1 downto 0);
   signal data_out_vector_module  : std_logic_vector(DATA_SIZE-1 downto 0);
+
+  signal data_out_vector_module_model : std_logic_vector(DATA_SIZE-1 downto 0);
 
   -- MATRIX CONVOLUTION
   -- CONTROL
@@ -882,6 +937,32 @@ begin
         DATA_B_IN => data_b_in_dot_product,
         DATA_OUT  => data_out_dot_product
         );
+
+    dot_product_model : model_dot_product
+      generic map (
+        DATA_SIZE    => DATA_SIZE,
+        CONTROL_SIZE => CONTROL_SIZE
+        )
+      port map (
+        -- GLOBAL
+        CLK => CLK,
+        RST => RST,
+
+        -- CONTROL
+        START => start_dot_product,
+        READY => ready_dot_product_model,
+
+        DATA_A_IN_ENABLE => data_a_in_enable_dot_product,
+        DATA_B_IN_ENABLE => data_b_in_enable_dot_product,
+
+        DATA_OUT_ENABLE => data_out_enable_dot_product_model,
+
+        -- DATA
+        LENGTH_IN => length_in_dot_product,
+        DATA_A_IN => data_a_in_dot_product,
+        DATA_B_IN => data_b_in_dot_product,
+        DATA_OUT  => data_out_dot_product_model
+        );
   end generate accelerator_dot_product_test;
 
   -- VECTOR CONVOLUTION
@@ -913,6 +994,34 @@ begin
         DATA_B_IN => data_b_in_vector_convolution,
         DATA_OUT  => data_out_vector_convolution
         );
+
+    vector_convolution_model : model_vector_convolution
+      generic map (
+        DATA_SIZE    => DATA_SIZE,
+        CONTROL_SIZE => CONTROL_SIZE
+        )
+      port map (
+        -- GLOBAL
+        CLK => CLK,
+        RST => RST,
+
+        -- CONTROL
+        START => start_vector_convolution,
+        READY => ready_vector_convolution_model,
+
+        DATA_A_IN_ENABLE => data_a_in_enable_vector_convolution,
+        DATA_B_IN_ENABLE => data_b_in_enable_vector_convolution,
+
+        DATA_ENABLE => data_enable_vector_convolution_model,
+
+        DATA_OUT_ENABLE => data_out_enable_vector_convolution_model,
+
+        -- DATA
+        LENGTH_IN => length_in_vector_convolution,
+        DATA_A_IN => data_a_in_vector_convolution,
+        DATA_B_IN => data_b_in_vector_convolution,
+        DATA_OUT  => data_out_vector_convolution_model
+        );
   end generate accelerator_vector_convolution_test;
 
   -- VECTOR COSINE_SIMILARITY
@@ -941,6 +1050,32 @@ begin
         DATA_A_IN => data_a_in_vector_cosine_similarity,
         DATA_B_IN => data_b_in_vector_cosine_similarity,
         DATA_OUT  => data_out_vector_cosine_similarity
+        );
+
+    vector_cosine_similarity_model : model_vector_cosine_similarity
+      generic map (
+        DATA_SIZE    => DATA_SIZE,
+        CONTROL_SIZE => CONTROL_SIZE
+        )
+      port map (
+        -- GLOBAL
+        CLK => CLK,
+        RST => RST,
+
+        -- CONTROL
+        START => start_vector_cosine_similarity,
+        READY => ready_vector_cosine_similarity_model,
+
+        DATA_A_IN_ENABLE => data_a_in_enable_vector_cosine_similarity,
+        DATA_B_IN_ENABLE => data_b_in_enable_vector_cosine_similarity,
+
+        DATA_OUT_ENABLE => data_out_enable_vector_cosine_similarity_model,
+
+        -- DATA
+        LENGTH_IN => length_in_vector_cosine_similarity,
+        DATA_A_IN => data_a_in_vector_cosine_similarity,
+        DATA_B_IN => data_b_in_vector_cosine_similarity,
+        DATA_OUT  => data_out_vector_cosine_similarity_model
         );
   end generate accelerator_vector_cosine_similarity_test;
 
@@ -974,6 +1109,35 @@ begin
         DATA_IN   => data_in_vector_multiplication,
         DATA_OUT  => data_out_vector_multiplication
         );
+
+    vector_multiplication_model : model_vector_multiplication
+      generic map (
+        DATA_SIZE    => DATA_SIZE,
+        CONTROL_SIZE => CONTROL_SIZE
+        )
+      port map (
+        -- GLOBAL
+        CLK => CLK,
+        RST => RST,
+
+        -- CONTROL
+        START => start_vector_multiplication,
+        READY => ready_vector_multiplication_model,
+
+        DATA_IN_LENGTH_ENABLE => data_in_length_enable_vector_multiplication,
+        DATA_IN_ENABLE        => data_in_enable_vector_multiplication,
+
+        DATA_LENGTH_ENABLE => data_length_enable_vector_multiplication_model,
+        DATA_ENABLE        => data_enable_vector_multiplication_model,
+
+        DATA_OUT_ENABLE => data_out_enable_vector_multiplication_model,
+
+        -- DATA
+        SIZE_IN   => size_in_vector_multiplication,
+        LENGTH_IN => length_in_vector_multiplication,
+        DATA_IN   => data_in_vector_multiplication,
+        DATA_OUT  => data_out_vector_multiplication_model
+        );
   end generate accelerator_vector_multiplication_test;
 
   -- VECTOR SUMMATION
@@ -1006,6 +1170,35 @@ begin
         DATA_IN   => data_in_vector_summation,
         DATA_OUT  => data_out_vector_summation
         );
+
+    vector_summation_model : model_vector_summation
+      generic map (
+        DATA_SIZE    => DATA_SIZE,
+        CONTROL_SIZE => CONTROL_SIZE
+        )
+      port map (
+        -- GLOBAL
+        CLK => CLK,
+        RST => RST,
+
+        -- CONTROL
+        START => start_vector_summation,
+        READY => ready_vector_summation_model,
+
+        DATA_IN_LENGTH_ENABLE => data_in_length_enable_vector_summation,
+        DATA_IN_ENABLE        => data_in_enable_vector_summation,
+
+        DATA_LENGTH_ENABLE => data_length_enable_vector_summation_model,
+        DATA_ENABLE        => data_enable_vector_summation_model,
+
+        DATA_OUT_ENABLE => data_out_enable_vector_summation_model,
+
+        -- DATA
+        SIZE_IN   => size_in_vector_summation,
+        LENGTH_IN => length_in_vector_summation,
+        DATA_IN   => data_in_vector_summation,
+        DATA_OUT  => data_out_vector_summation_model
+        );
   end generate accelerator_vector_summation_test;
 
   -- VECTOR MODULE
@@ -1035,7 +1228,97 @@ begin
         DATA_IN   => data_in_vector_module,
         DATA_OUT  => data_out_vector_module
         );
+
+    vector_module_model : model_vector_module
+      generic map (
+        DATA_SIZE    => DATA_SIZE,
+        CONTROL_SIZE => CONTROL_SIZE
+        )
+      port map (
+        -- GLOBAL
+        CLK => CLK,
+        RST => RST,
+
+        -- CONTROL
+        START => start_vector_module,
+        READY => ready_vector_module_model,
+
+        DATA_IN_ENABLE => data_in_enable_vector_module,
+
+        DATA_ENABLE => data_enable_vector_module_model,
+
+        DATA_OUT_ENABLE => data_out_enable_vector_module_model,
+
+        -- DATA
+        LENGTH_IN => length_in_vector_module,
+        DATA_IN   => data_in_vector_module,
+        DATA_OUT  => data_out_vector_module_model
+        );
   end generate accelerator_vector_module_test;
+
+  vector_assertion : process (CLK, RST)
+  begin
+    if rising_edge(CLK) then
+      if (ready_dot_product = '1' and data_out_enable_dot_product = '1') then
+        assert data_out_dot_product = data_out_dot_product_model
+          report "DOT PROCUCT: CALCULATED = " & to_string(data_out_dot_product) & "; CORRECT = " & to_string(data_out_dot_product_model)
+          severity error;
+      elsif (data_out_enable_dot_product = '1' and not data_out_dot_product = EMPTY) then
+        assert data_out_dot_product = data_out_dot_product_model
+          report "DOT PROCUCT: CALCULATED = " & to_string(data_out_dot_product) & "; CORRECT = " & to_string(data_out_dot_product_model)
+          severity error;
+      end if;
+
+      if (ready_vector_convolution = '1' and data_out_enable_vector_convolution = '1') then
+        assert data_out_vector_convolution = data_out_vector_convolution_model
+          report "VECTOR CONVOLUTION: CALCULATED = " & to_string(data_out_vector_convolution) & "; CORRECT = " & to_string(data_out_vector_convolution_model)
+          severity error;
+      elsif (data_out_enable_vector_convolution = '1' and not data_out_vector_convolution = EMPTY) then
+        assert data_out_vector_convolution = data_out_vector_convolution_model
+          report "VECTOR CONVOLUTION: CALCULATED = " & to_string(data_out_vector_convolution) & "; CORRECT = " & to_string(data_out_vector_convolution_model)
+          severity error;
+      end if;
+
+      if (ready_vector_cosine_similarity = '1' and data_out_enable_vector_cosine_similarity = '1') then
+        assert data_out_vector_cosine_similarity = data_out_vector_cosine_similarity_model
+          report "VECTOR COSINE SIMILARITY: CALCULATED = " & to_string(data_out_vector_cosine_similarity) & "; CORRECT = " & to_string(data_out_vector_cosine_similarity_model)
+          severity error;
+      elsif (data_out_enable_vector_cosine_similarity = '1' and not data_out_vector_cosine_similarity = EMPTY) then
+          report "VECTOR COSINE SIMILARITY: CALCULATED = " & to_string(data_out_vector_cosine_similarity) & "; CORRECT = " & to_string(data_out_vector_cosine_similarity_model)
+          severity error;
+      end if;
+
+      if (ready_vector_multiplication = '1' and data_out_enable_vector_multiplication = '1') then
+        assert data_out_vector_multiplication = data_out_vector_multiplication_model
+          report "VECTOR MULTIPLICATION: CALCULATED = " & to_string(data_out_vector_multiplication) & "; CORRECT = " & to_string(data_out_vector_multiplication_model)
+          severity error;
+      elsif (data_out_enable_vector_multiplication = '1' and not data_out_vector_multiplication = EMPTY) then
+        assert data_out_vector_multiplication = data_out_vector_multiplication_model
+          report "VECTOR MULTIPLICATION: CALCULATED = " & to_string(data_out_vector_multiplication) & "; CORRECT = " & to_string(data_out_vector_multiplication_model)
+          severity error;
+      end if;
+
+      if (ready_vector_summation = '1' and data_out_enable_vector_summation = '1') then
+        assert data_out_vector_summation = data_out_vector_summation_model
+          report "VECTOR SUMMATION: CALCULATED = " & to_string(data_out_vector_summation) & "; CORRECT = " & to_string(data_out_vector_summation_model)
+          severity error;
+      elsif (data_out_enable_vector_summation = '1' and not data_out_vector_summation = EMPTY) then
+        assert data_out_vector_summation = data_out_vector_summation_model
+          report "VECTOR SUMMATION: CALCULATED = " & to_string(data_out_vector_summation) & "; CORRECT = " & to_string(data_out_vector_summation_model)
+          severity error;
+      end if;
+
+      if (ready_vector_module = '1' and data_out_enable_vector_module = '1') then
+        assert data_out_vector_module = data_out_vector_module_model
+          report "VECTOR MODULE: CALCULATED = " & to_string(data_out_vector_module) & "; CORRECT = " & to_string(data_out_vector_module_model)
+          severity error;
+      elsif (data_out_enable_vector_module = '1' and not data_out_vector_module = EMPTY) then
+        assert data_out_vector_module = data_out_vector_module_model
+          report "VECTOR MODULE: CALCULATED = " & to_string(data_out_vector_module) & "; CORRECT = " & to_string(data_out_vector_module_model)
+          severity error;
+      end if;
+    end if;
+  end process vector_assertion;
 
   -- MATRIX CONVOLUTION
   accelerator_matrix_convolution_test : if (ENABLE_ACCELERATOR_MATRIX_CONVOLUTION_TEST) generate
