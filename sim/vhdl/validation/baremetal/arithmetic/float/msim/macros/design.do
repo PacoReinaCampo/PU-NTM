@@ -158,7 +158,7 @@ alias d08 {
 }
 
 alias d09 {
-  model_matrixr_float_divider_design_compilation 
+  model_matrix_float_divider_design_compilation 
 }
 
 alias d10 {
