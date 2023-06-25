@@ -1189,6 +1189,7 @@ begin
           report "VECTOR EXPONENTIATOR: CALCULATED = " & to_string(data_out_vector_exponentiator) & "; CORRECT = " & to_string(data_out_vector_exponentiator_model)
           severity error;
       elsif (data_out_enable_vector_exponentiator = '1' and not data_out_vector_exponentiator = EMPTY) then
+        assert data_out_vector_exponentiator = data_out_vector_exponentiator_model
           report "VECTOR EXPONENTIATOR: CALCULATED = " & to_string(data_out_vector_exponentiator) & "; CORRECT = " & to_string(data_out_vector_exponentiator_model)
           severity error;
       end if;

@@ -1284,6 +1284,7 @@ begin
           report "VECTOR COSINE SIMILARITY: CALCULATED = " & to_string(data_out_vector_cosine_similarity) & "; CORRECT = " & to_string(data_out_vector_cosine_similarity_model)
           severity error;
       elsif (data_out_enable_vector_cosine_similarity = '1' and not data_out_vector_cosine_similarity = EMPTY) then
+        assert data_out_vector_cosine_similarity = data_out_vector_cosine_similarity_model
           report "VECTOR COSINE SIMILARITY: CALCULATED = " & to_string(data_out_vector_cosine_similarity) & "; CORRECT = " & to_string(data_out_vector_cosine_similarity_model)
           severity error;
       end if;
