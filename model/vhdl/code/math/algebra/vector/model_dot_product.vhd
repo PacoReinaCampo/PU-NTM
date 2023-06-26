@@ -85,9 +85,7 @@ architecture model_dot_product_architecture of model_dot_product is
   type product_ctrl_fsm is (
     STARTER_STATE,                      -- STEP 0
     INPUT_STATE,                        -- STEP 1
-    ENDER_STATE,                        -- STEP 2
-    CLEAN_STATE,                        -- STEP 3
-    OPERATION_STATE                     -- STEP 4
+    ENDER_STATE                         -- STEP 2
     );
 
   ------------------------------------------------------------------------------
