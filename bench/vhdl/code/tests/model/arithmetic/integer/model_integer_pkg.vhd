@@ -151,6 +151,30 @@ package model_integer_pkg is
   signal STIMULUS_NTM_SCALAR_INTEGER_MULTIPLIER_CASE_1 : boolean := false;
   signal STIMULUS_NTM_SCALAR_INTEGER_DIVIDER_CASE_1    : boolean := false;
 
+  signal STIMULUS_NTM_SCALAR_INTEGER_ADDER_CASE_2      : boolean := false;
+  signal STIMULUS_NTM_SCALAR_INTEGER_MULTIPLIER_CASE_2 : boolean := false;
+  signal STIMULUS_NTM_SCALAR_INTEGER_DIVIDER_CASE_2    : boolean := false;
+
+  signal STIMULUS_NTM_SCALAR_INTEGER_ADDER_CASE_3      : boolean := false;
+  signal STIMULUS_NTM_SCALAR_INTEGER_MULTIPLIER_CASE_3 : boolean := false;
+  signal STIMULUS_NTM_SCALAR_INTEGER_DIVIDER_CASE_3    : boolean := false;
+
+  signal STIMULUS_NTM_SCALAR_INTEGER_ADDER_CASE_4      : boolean := false;
+  signal STIMULUS_NTM_SCALAR_INTEGER_MULTIPLIER_CASE_4 : boolean := false;
+  signal STIMULUS_NTM_SCALAR_INTEGER_DIVIDER_CASE_4    : boolean := false;
+
+  signal STIMULUS_NTM_SCALAR_INTEGER_ADDER_CASE_5      : boolean := false;
+  signal STIMULUS_NTM_SCALAR_INTEGER_MULTIPLIER_CASE_5 : boolean := false;
+  signal STIMULUS_NTM_SCALAR_INTEGER_DIVIDER_CASE_5    : boolean := false;
+
+  signal STIMULUS_NTM_SCALAR_INTEGER_ADDER_CASE_6      : boolean := false;
+  signal STIMULUS_NTM_SCALAR_INTEGER_MULTIPLIER_CASE_6 : boolean := false;
+  signal STIMULUS_NTM_SCALAR_INTEGER_DIVIDER_CASE_6    : boolean := false;
+
+  signal STIMULUS_NTM_SCALAR_INTEGER_ADDER_CASE_7      : boolean := false;
+  signal STIMULUS_NTM_SCALAR_INTEGER_MULTIPLIER_CASE_7 : boolean := false;
+  signal STIMULUS_NTM_SCALAR_INTEGER_DIVIDER_CASE_7    : boolean := false;
+
   -- VECTOR-FUNCTIONALITY
   signal STIMULUS_NTM_VECTOR_INTEGER_ADDER_TEST      : boolean := false;
   signal STIMULUS_NTM_VECTOR_INTEGER_MULTIPLIER_TEST : boolean := false;
