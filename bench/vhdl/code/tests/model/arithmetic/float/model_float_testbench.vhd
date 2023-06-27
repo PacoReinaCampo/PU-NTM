@@ -93,14 +93,37 @@ entity model_float_testbench is
     ENABLE_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_7 : boolean := false;
     ENABLE_NTM_SCALAR_FLOAT_DIVIDER_CASE_7    : boolean := false;
 
-    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_8  : boolean := false;
-    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_9  : boolean := false;
-    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_10 : boolean := false;
-    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_11 : boolean := false;
-    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_12 : boolean := false;
-    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_13 : boolean := false;
-    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_14 : boolean := false;
-    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_15 : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_8      : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_8 : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_DIVIDER_CASE_8    : boolean := false;
+
+    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_9      : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_9 : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_DIVIDER_CASE_9    : boolean := false;
+
+    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_10      : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_10 : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_DIVIDER_CASE_10    : boolean := false;
+
+    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_11      : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_11 : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_DIVIDER_CASE_11    : boolean := false;
+
+    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_12      : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_12 : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_DIVIDER_CASE_12    : boolean := false;
+
+    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_13      : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_13 : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_DIVIDER_CASE_13    : boolean := false;
+
+    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_14      : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_14 : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_DIVIDER_CASE_14    : boolean := false;
+
+    ENABLE_NTM_SCALAR_FLOAT_ADDER_CASE_15      : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_15 : boolean := false;
+    ENABLE_NTM_SCALAR_FLOAT_DIVIDER_CASE_15    : boolean := false;
 
     -- VECTOR-FUNCTIONALITY
     ENABLE_NTM_VECTOR_FLOAT_ADDER_TEST      : boolean := false;

@@ -342,10 +342,8 @@ architecture model_float_stimulus_architecture of model_float_stimulus is
   constant TWO_DATA   : std_logic_vector(DATA_SIZE-1 downto 0) := std_logic_vector(to_unsigned(2, DATA_SIZE));
   constant THREE_DATA : std_logic_vector(DATA_SIZE-1 downto 0) := std_logic_vector(to_unsigned(3, DATA_SIZE));
 
-  constant FULL  : std_logic_vector(DATA_SIZE-1 downto 0) := (others => '1');
-  constant EMPTY : std_logic_vector(DATA_SIZE-1 downto 0) := (others => '0');
-
-  constant EULER : std_logic_vector(DATA_SIZE-1 downto 0) := (others => '0');
+  constant MAX_POSITIVE : std_logic_vector(DATA_SIZE-1 downto 0) := "0111111111111111111111111111111111111111111111111111111111111111";
+  constant MIN_NEGATIVE : std_logic_vector(DATA_SIZE-1 downto 0) := "1000000000000000000000000000000000000000000000000000000000000000";
 
   ------------------------------------------------------------------------------
   -- Signals
@@ -665,8 +663,8 @@ begin
         MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_MULTIPL_CASE 4";
         -------------------------------------------------------------------
 
-        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_P_NINE;
-        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_P_ONE;
+        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_P_INF;
+        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_P_ZERO;
       end if;
 
       if (STIMULUS_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_5) then
@@ -675,8 +673,8 @@ begin
         MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_MULTIPL_CASE 5";
         -------------------------------------------------------------------
 
-        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_P_TWO;
-        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_N_EIGHT;
+        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_P_INF;
+        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_N_ZERO;
       end if;
 
       if (STIMULUS_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_6) then
@@ -685,8 +683,8 @@ begin
         MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_MULTIPL_CASE 6";
         -------------------------------------------------------------------
 
-        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_N_SEVEN;
-        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_P_THREE;
+        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_N_INF;
+        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_P_ZERO;
       end if;
 
       if (STIMULUS_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_7) then
@@ -695,8 +693,88 @@ begin
         MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_MULTIPL_CASE 7";
         -------------------------------------------------------------------
 
+        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_N_INF;
+        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_N_ZERO;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_8) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_MULTIPL_CASE 8";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_P_NINE;
+        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_P_ONE;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_9) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_MULTIPL_CASE 9";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_P_TWO;
+        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_N_EIGHT;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_10) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_MULTIP_CASE 10";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_N_SEVEN;
+        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_P_THREE;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_11) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_MULTIP_CASE 11";
+        -------------------------------------------------------------------
+
         SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_N_FOUR;
         SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_N_SIX;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_12) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_MULTIP_CASE 12";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_N_NINE;
+        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_N_ONE;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_13) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_MULTIP_CASE 13";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_N_TWO;
+        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_P_EIGHT;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_14) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_MULTIP_CASE 14";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_P_SEVEN;
+        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_N_THREE;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_MULTIPLIER_CASE_15) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_MULTIP_CASE 15";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_MULTIPLIER_DATA_A_IN <= FLOAT_P_FOUR;
+        SCALAR_FLOAT_MULTIPLIER_DATA_B_IN <= FLOAT_P_SIX;
       end if;
 
       wait for WORKING;
@@ -755,8 +833,8 @@ begin
         MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE 4";
         -------------------------------------------------------------------
 
-        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_P_NINE;
-        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_P_ONE;
+        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_P_ZERO;
+        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_P_ZERO;
       end if;
 
       if (STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE_5) then
@@ -765,8 +843,8 @@ begin
         MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE 5";
         -------------------------------------------------------------------
 
-        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_P_TWO;
-        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_N_EIGHT;
+        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_P_ZERO;
+        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_N_ZERO;
       end if;
 
       if (STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE_6) then
@@ -775,8 +853,8 @@ begin
         MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE 6";
         -------------------------------------------------------------------
 
-        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_N_SEVEN;
-        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_P_THREE;
+        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_N_ZERO;
+        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_P_ZERO;
       end if;
 
       if (STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE_7) then
@@ -785,8 +863,88 @@ begin
         MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE 7";
         -------------------------------------------------------------------
 
+        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_N_ZERO;
+        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_N_ZERO;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE_8) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE 8";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_P_NINE;
+        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_P_ONE;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE_9) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE 9";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_P_TWO;
+        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_N_EIGHT;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE_10) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_DIVIDE_CASE 10";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_N_SEVEN;
+        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_P_THREE;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE_11) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_DIVIDE_CASE 11";
+        -------------------------------------------------------------------
+
         SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_N_FOUR;
         SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_N_SIX;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE_12) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_DIVIDE_CASE 12";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_N_NINE;
+        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_N_ONE;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE_13) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_DIVIDE_CASE 13";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_N_TWO;
+        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_P_EIGHT;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE_14) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_DIVIDE_CASE 14";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_P_SEVEN;
+        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_N_THREE;
+      end if;
+
+      if (STIMULUS_NTM_SCALAR_FLOAT_DIVIDER_CASE_15) then
+
+        -------------------------------------------------------------------
+        MONITOR_CASE <= "STIMULUS_NTM_SCALAR_FLOAT_DIVIDE_CASE 15";
+        -------------------------------------------------------------------
+
+        SCALAR_FLOAT_DIVIDER_DATA_A_IN <= FLOAT_P_FOUR;
+        SCALAR_FLOAT_DIVIDER_DATA_B_IN <= FLOAT_P_SIX;
       end if;
 
       wait for WORKING;
