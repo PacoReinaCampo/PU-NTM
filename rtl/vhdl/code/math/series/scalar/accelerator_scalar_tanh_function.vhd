@@ -42,6 +42,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+use ieee.float_pkg.all;
+
 use work.accelerator_arithmetic_pkg.all;
 use work.accelerator_math_pkg.all;
 
@@ -194,7 +196,7 @@ begin
 
               -- Data Internal
               data_a_in_scalar_float_divider <= data_out_scalar_float_multiplier;
-              data_b_in_scalar_float_divider <= index_adder_loop;
+              data_b_in_scalar_float_divider <= std_logic_vector(to_float(to_integer(index_adder_loop), float64'high, -float64'low));
 
               index_multiplier_loop <= ZERO_IDATA;
 
@@ -202,7 +204,7 @@ begin
               controller_ctrl_fsm_int <= SCALAR_DIVIDER_STATE;
             else
               -- Data Internal
-              if (signed(index_multiplier_loop) = signed(ZERO_DATA)) then
+              if (signed(index_multiplier_loop) = signed(ZERO_IDATA)) then
                 data_b_in_scalar_float_multiplier <= ONE_DATA;
               else
                 data_b_in_scalar_float_multiplier <= data_out_scalar_float_multiplier;
