@@ -172,8 +172,8 @@ begin
 
       operation_scalar_float_adder <= '0';
 
-      index_adder_loop      <= ZERO_SDATA;
-      index_multiplier_loop <= ZERO_SDATA;
+      index_adder_loop      <= ZERO_UDATA;
+      index_multiplier_loop <= ZERO_UDATA;
 
     elsif (rising_edge(CLK)) then
 
@@ -186,8 +186,8 @@ begin
             -- Control Internal
             start_scalar_float_multiplier <= '1';
 
-            index_adder_loop      <= ZERO_SDATA;
-            index_multiplier_loop <= ZERO_SDATA;
+            index_adder_loop      <= ZERO_UDATA;
+            index_multiplier_loop <= ZERO_UDATA;
 
             -- Data Input
             data_a_in_scalar_float_multiplier <= ONE_DATA;
@@ -202,15 +202,13 @@ begin
           -- Exponential Part
 
           if (ready_scalar_float_multiplier = '1') then
-            if (signed(index_multiplier_loop) = signed(index_adder_loop)) then
+            if (unsigned(index_multiplier_loop) = unsigned(index_adder_loop)) then
               -- Control Internal
               start_scalar_float_divider <= '1';
 
               -- Data Internal
               data_a_in_scalar_float_divider <= data_out_scalar_float_multiplier;
-              data_b_in_scalar_float_divider <= EXPONENTIATOR_COEFFICIENTS(to_integer(signed(index_adder_loop)));
-
-              index_multiplier_loop <= ZERO_SDATA;
+              data_b_in_scalar_float_divider <= EXPONENTIATOR_COEFFICIENTS(to_integer(unsigned(index_adder_loop)));
 
               -- FSM Control
               controller_ctrl_fsm_int <= SCALAR_DIVIDER_STATE;
@@ -218,7 +216,7 @@ begin
               -- Data Internal
               data_a_in_scalar_float_multiplier <= DATA_IN;
 
-              if (signed(index_multiplier_loop) = signed(ZERO_SDATA)) then
+              if (unsigned(index_multiplier_loop) = unsigned(ZERO_UDATA)) then
                 data_b_in_scalar_float_multiplier <= ONE_DATA;
               else
                 data_b_in_scalar_float_multiplier <= data_out_scalar_float_multiplier;
@@ -227,7 +225,7 @@ begin
               -- Control Internal
               start_scalar_float_multiplier <= '1';
 
-              index_multiplier_loop <= std_logic_vector(signed(index_multiplier_loop)+signed(ONE_SDATA));
+              index_multiplier_loop <= std_logic_vector(unsigned(index_multiplier_loop)+unsigned(ONE_UDATA));
             end if;
           else
             -- Control Internal
@@ -245,7 +243,7 @@ begin
             -- Data Internal
             data_a_in_scalar_float_adder <= data_out_scalar_float_divider;
 
-            if (signed(index_adder_loop) = signed(ZERO_SDATA)) then
+            if (unsigned(index_adder_loop) = unsigned(ZERO_UDATA)) then
               data_b_in_scalar_float_adder <= ZERO_DATA;
             else
               data_b_in_scalar_float_adder <= data_out_scalar_float_adder;
@@ -262,12 +260,15 @@ begin
         when SCALAR_ADDER_STATE =>      -- STEP 3
 
           if (ready_scalar_float_adder = '1') then
-            if (signed(index_adder_loop) = signed(FOUR_SDATA)) then
+            if (unsigned(index_adder_loop) = unsigned(FOUR_UDATA)) then
               -- Data Outputs
               DATA_OUT <= data_out_scalar_float_adder;
 
               -- Control Outputs
               READY <= '1';
+
+              -- Control Internal
+              index_adder_loop <= ZERO_UDATA;
 
               -- FSM Control
               controller_ctrl_fsm_int <= STARTER_STATE;
@@ -275,7 +276,7 @@ begin
               -- Control Internal
               start_scalar_float_multiplier <= '1';
 
-              index_adder_loop <= std_logic_vector(signed(index_adder_loop)+signed(ONE_SDATA));
+              index_adder_loop <= std_logic_vector(unsigned(index_adder_loop)+unsigned(ONE_UDATA));
 
               -- Data Input
               data_a_in_scalar_float_multiplier <= ONE_DATA;
@@ -284,6 +285,9 @@ begin
               -- FSM Control
               controller_ctrl_fsm_int <= SCALAR_MULTIPLIER_STATE;
             end if;
+
+            -- Control Internal
+            index_multiplier_loop <= ZERO_UDATA;
           else
             -- Control Internal
             start_scalar_float_adder <= '0';
