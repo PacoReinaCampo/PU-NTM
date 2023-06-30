@@ -87,9 +87,9 @@ architecture accelerator_scalar_logarithm_function_architecture of accelerator_s
   ------------------------------------------------------------------------------
 
   constant COEFFICIENT_ZERO  : std_logic_vector(DATA_SIZE-1 downto 0) := std_logic_vector(to_float(1.0, float64'high, -float64'low));
-  constant COEFFICIENT_ONE   : std_logic_vector(DATA_SIZE-1 downto 0) := std_logic_vector(to_float(2.0, float64'high, -float64'low));
+  constant COEFFICIENT_ONE   : std_logic_vector(DATA_SIZE-1 downto 0) := std_logic_vector(to_float(-2.0, float64'high, -float64'low));
   constant COEFFICIENT_TWO   : std_logic_vector(DATA_SIZE-1 downto 0) := std_logic_vector(to_float(3.0, float64'high, -float64'low));
-  constant COEFFICIENT_THREE : std_logic_vector(DATA_SIZE-1 downto 0) := std_logic_vector(to_float(4.0, float64'high, -float64'low));
+  constant COEFFICIENT_THREE : std_logic_vector(DATA_SIZE-1 downto 0) := std_logic_vector(to_float(-4.0, float64'high, -float64'low));
   constant COEFFICIENT_FOUR  : std_logic_vector(DATA_SIZE-1 downto 0) := std_logic_vector(to_float(5.0, float64'high, -float64'low));
 
   constant LOGARITHM_COEFFICIENTS : vector_coefficients := (COEFFICIENT_FOUR, COEFFICIENT_THREE, COEFFICIENT_TWO, COEFFICIENT_ONE, COEFFICIENT_ZERO);
@@ -202,7 +202,7 @@ begin
           -- Exponential Part
 
           if (ready_scalar_float_multiplier = '1') then
-            if (unsigned(index_multiplier_loop) = unsigned(index_adder_loop)) then
+            if (unsigned(index_multiplier_loop) = unsigned(index_adder_loop)+unsigned(ONE_UDATA)) then
               -- Control Internal
               start_scalar_float_divider <= '1';
 
@@ -238,11 +238,7 @@ begin
             -- Control Internal
             start_scalar_float_adder <= '1';
 
-            if (index_adder_loop(0) = '0') then
-              operation_scalar_float_adder <= '1';
-            else
-              operation_scalar_float_adder <= '0';
-            end if;
+            operation_scalar_float_adder <= '0';
 
             -- Data Internal
             data_a_in_scalar_float_adder <= data_out_scalar_float_divider;
@@ -283,7 +279,7 @@ begin
               index_adder_loop <= std_logic_vector(unsigned(index_adder_loop)+unsigned(ONE_UDATA));
 
               -- Data Input
-              data_a_in_scalar_float_multiplier <= ONE_DATA;
+              data_a_in_scalar_float_multiplier <= DATA_IN;
               data_b_in_scalar_float_multiplier <= ONE_DATA;
 
               -- FSM Control
