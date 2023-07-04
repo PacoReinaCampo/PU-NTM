@@ -275,7 +275,7 @@ begin
         when STARTER_H_OUT_STATE =>     -- STEP 0
           if (data_in_enable_int = '1') then
             -- Data Internal
-            vector_h_out_int <= function_model_hidden_convolutional_gate_vector (
+            vector_h_out_int <= function_model_hidden_standard_gate_vector (
               SIZE_X_IN => SIZE_L_IN,
               SIZE_W_IN => SIZE_L_IN,
               SIZE_L_IN => SIZE_L_IN,
