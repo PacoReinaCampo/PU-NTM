@@ -45,7 +45,7 @@ use ieee.numeric_std.all;
 use work.accelerator_arithmetic_pkg.all;
 use work.accelerator_math_pkg.all;
 
-use work.accelerator_lstm_controller_pkg.all;
+use work.accelerator_transformer_controller_pkg.all;
 
 entity accelerator_state_gate_vector is
   generic (
@@ -320,19 +320,7 @@ begin
         when STARTER_S_OUT_STATE =>     -- STEP 0
           if (data_in_enable_int = '1') then
             -- Data Internal
-            vector_s_out_int <= function_accelerator_state_convolutional_gate_vector (
-              SIZE_X_IN => SIZE_L_IN,
-              SIZE_W_IN => SIZE_L_IN,
-              SIZE_L_IN => SIZE_L_IN,
-              SIZE_R_IN => SIZE_L_IN,
-              SIZE_S_IN => SIZE_L_IN,
-              SIZE_M_IN => SIZE_L_IN,
-
-              vector_s_input => vector_s_in_int,
-              vector_i_input => vector_i_in_int,
-              vector_f_input => vector_f_in_int,
-              vector_a_input => vector_a_in_int
-              );
+            vector_s_out_int <= (others => ZERO_DATA);
 
             -- Control Internal
             index_l_s_out_loop <= ZERO_CONTROL;

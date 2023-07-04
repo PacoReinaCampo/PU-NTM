@@ -254,9 +254,12 @@ begin
       -------------------------------------------------------------------
 
       -- DATA
-      STANDARD_FNN_SIZE_R_IN <= THREE_CONTROL;
-      STANDARD_FNN_SIZE_L_IN <= THREE_CONTROL;
       STANDARD_FNN_SIZE_X_IN <= THREE_CONTROL;
+      STANDARD_FNN_SIZE_W_IN <= THREE_CONTROL;
+      STANDARD_FNN_SIZE_L_IN <= THREE_CONTROL;
+      STANDARD_FNN_SIZE_R_IN <= THREE_CONTROL;
+      STANDARD_FNN_SIZE_S_IN <= THREE_CONTROL;
+      STANDARD_FNN_SIZE_M_IN <= THREE_CONTROL;
 
       if (STIMULUS_STANDARD_FNN_CASE_0) then
 
@@ -337,6 +340,146 @@ begin
             STANDARD_FNN_K_IN_K_ENABLE <= '0';
           end if;
 
+          if (STANDARD_FNN_D_OUT_I_ENABLE = '1' and STANDARD_FNN_D_OUT_L_ENABLE = '1' and STANDARD_FNN_D_OUT_M_ENABLE = '1' and unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL) and unsigned(index_k_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_D_IN <= TENSOR_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_D_IN_I_ENABLE <= '1';
+            STANDARD_FNN_D_IN_L_ENABLE <= '1';
+            STANDARD_FNN_D_IN_M_ENABLE <= '1';
+          elsif (STANDARD_FNN_D_OUT_I_ENABLE = '1' and STANDARD_FNN_D_OUT_L_ENABLE = '1' and STANDARD_FNN_D_OUT_M_ENABLE = '1' and unsigned(index_j_loop) = unsigned(ZERO_CONTROL) and unsigned(index_k_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_D_IN <= TENSOR_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_D_IN_I_ENABLE <= '1';
+            STANDARD_FNN_D_IN_L_ENABLE <= '1';
+            STANDARD_FNN_D_IN_M_ENABLE <= '1';
+          elsif (STANDARD_FNN_D_OUT_L_ENABLE = '1' and STANDARD_FNN_D_OUT_M_ENABLE = '1' and unsigned(index_k_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_D_IN <= TENSOR_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_D_IN_L_ENABLE <= '1';
+            STANDARD_FNN_D_IN_M_ENABLE <= '1';
+          elsif (STANDARD_FNN_D_OUT_M_ENABLE = '1' and unsigned(index_k_loop) > unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_D_IN <= TENSOR_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_D_IN_M_ENABLE <= '1';
+          else
+            -- CONTROL
+            STANDARD_FNN_D_IN_I_ENABLE <= '0';
+            STANDARD_FNN_D_IN_L_ENABLE <= '0';
+            STANDARD_FNN_D_IN_M_ENABLE <= '0';
+          end if;
+
+          if (STANDARD_FNN_U_OUT_L_ENABLE = '1' and STANDARD_FNN_U_OUT_P_ENABLE = '1' and unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_U_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_U_IN_L_ENABLE <= '1';
+            STANDARD_FNN_U_IN_P_ENABLE <= '1';
+          elsif (STANDARD_FNN_U_OUT_L_ENABLE = '1' and STANDARD_FNN_U_OUT_P_ENABLE = '1' and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_U_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_U_IN_L_ENABLE <= '1';
+            STANDARD_FNN_U_IN_P_ENABLE <= '1';
+          elsif (STANDARD_FNN_U_OUT_P_ENABLE = '1' and unsigned(index_j_loop) > unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_U_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_U_IN_P_ENABLE <= '1';
+          else
+            -- CONTROL
+            STANDARD_FNN_U_IN_L_ENABLE <= '0';
+            STANDARD_FNN_U_IN_P_ENABLE <= '0';
+          end if;
+
+          if (STANDARD_FNN_V_OUT_L_ENABLE = '1' and STANDARD_FNN_V_OUT_S_ENABLE = '1' and unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_V_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_V_IN_L_ENABLE <= '1';
+            STANDARD_FNN_V_IN_S_ENABLE <= '1';
+          elsif (STANDARD_FNN_V_OUT_L_ENABLE = '1' and STANDARD_FNN_V_OUT_S_ENABLE = '1' and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_V_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_V_IN_L_ENABLE <= '1';
+            STANDARD_FNN_V_IN_S_ENABLE <= '1';
+          elsif (STANDARD_FNN_V_OUT_S_ENABLE = '1' and unsigned(index_j_loop) > unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_V_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_V_IN_S_ENABLE <= '1';
+          else
+            -- CONTROL
+            STANDARD_FNN_V_IN_L_ENABLE <= '0';
+            STANDARD_FNN_V_IN_S_ENABLE <= '0';
+          end if;
+
+          if (STANDARD_FNN_R_OUT_I_ENABLE = '1' and STANDARD_FNN_R_OUT_K_ENABLE = '1' and unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_R_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_R_IN_I_ENABLE <= '1';
+            STANDARD_FNN_R_IN_K_ENABLE <= '1';
+          elsif (STANDARD_FNN_R_OUT_I_ENABLE = '1' and STANDARD_FNN_R_OUT_K_ENABLE = '1' and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_R_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_R_IN_I_ENABLE <= '1';
+            STANDARD_FNN_R_IN_K_ENABLE <= '1';
+          elsif (STANDARD_FNN_R_OUT_K_ENABLE = '1' and unsigned(index_j_loop) > unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_R_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_R_IN_K_ENABLE <= '1';
+          else
+            -- CONTROL
+            STANDARD_FNN_R_IN_I_ENABLE <= '0';
+            STANDARD_FNN_R_IN_K_ENABLE <= '0';
+          end if;
+
+          if (STANDARD_FNN_RHO_OUT_I_ENABLE = '1' and STANDARD_FNN_RHO_OUT_M_ENABLE = '1' and unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_RHO_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_RHO_IN_I_ENABLE <= '1';
+            STANDARD_FNN_RHO_IN_M_ENABLE <= '1';
+          elsif (STANDARD_FNN_RHO_OUT_I_ENABLE = '1' and STANDARD_FNN_RHO_OUT_M_ENABLE = '1' and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_RHO_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_RHO_IN_I_ENABLE <= '1';
+            STANDARD_FNN_RHO_IN_M_ENABLE <= '1';
+          elsif (STANDARD_FNN_RHO_OUT_M_ENABLE = '1' and unsigned(index_j_loop) > unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_RHO_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_RHO_IN_M_ENABLE <= '1';
+          else
+            -- CONTROL
+            STANDARD_FNN_RHO_IN_I_ENABLE <= '0';
+            STANDARD_FNN_RHO_IN_M_ENABLE <= '0';
+          end if;
+
           -- LOOP
           if (STANDARD_FNN_W_OUT_X_ENABLE = '1' and (unsigned(index_i_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_i_loop <= ZERO_CONTROL;
@@ -361,6 +504,61 @@ begin
             index_k_loop <= ZERO_CONTROL;
           elsif ((STANDARD_FNN_K_OUT_K_ENABLE = '1' or STANDARD_FNN_START = '1') and (unsigned(index_k_loop) < unsigned(STANDARD_FNN_SIZE_W_IN)-unsigned(ONE_CONTROL))) then
             index_k_loop <= std_logic_vector(unsigned(index_k_loop) + unsigned(ONE_CONTROL));
+          end if;          
+
+          if (STANDARD_FNN_D_OUT_M_ENABLE = '1' and (unsigned(index_i_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(STANDARD_FNN_SIZE_W_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= ZERO_CONTROL;
+            index_j_loop <= ZERO_CONTROL;
+            index_k_loop <= ZERO_CONTROL;
+          elsif (STANDARD_FNN_D_OUT_M_ENABLE = '1' and (unsigned(index_i_loop) < unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(STANDARD_FNN_SIZE_W_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= std_logic_vector(unsigned(index_i_loop) + unsigned(ONE_CONTROL));
+            index_j_loop <= ZERO_CONTROL;
+            index_k_loop <= ZERO_CONTROL;
+          elsif (STANDARD_FNN_D_OUT_M_ENABLE = '1' and (unsigned(index_j_loop) < unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(STANDARD_FNN_SIZE_W_IN)-unsigned(ONE_CONTROL))) then
+            index_j_loop <= std_logic_vector(unsigned(index_j_loop) + unsigned(ONE_CONTROL));
+            index_k_loop <= ZERO_CONTROL;
+          elsif ((STANDARD_FNN_D_OUT_M_ENABLE = '1' or STANDARD_FNN_START = '1') and (unsigned(index_k_loop) < unsigned(STANDARD_FNN_SIZE_W_IN)-unsigned(ONE_CONTROL))) then
+            index_k_loop <= std_logic_vector(unsigned(index_k_loop) + unsigned(ONE_CONTROL));
+          end if;
+
+          if (STANDARD_FNN_U_OUT_P_ENABLE = '1' and (unsigned(index_i_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= ZERO_CONTROL;
+            index_j_loop <= ZERO_CONTROL;
+          elsif (STANDARD_FNN_U_OUT_P_ENABLE = '1' and (unsigned(index_i_loop) < unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= std_logic_vector(unsigned(index_i_loop) + unsigned(ONE_CONTROL));
+            index_j_loop <= ZERO_CONTROL;
+          elsif ((STANDARD_FNN_U_OUT_P_ENABLE = '1' or STANDARD_FNN_START = '1') and (unsigned(index_j_loop) < unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL))) then
+            index_j_loop <= std_logic_vector(unsigned(index_j_loop) + unsigned(ONE_CONTROL));
+          end if;
+
+          if (STANDARD_FNN_V_OUT_S_ENABLE = '1' and (unsigned(index_i_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= ZERO_CONTROL;
+            index_j_loop <= ZERO_CONTROL;
+          elsif (STANDARD_FNN_V_OUT_S_ENABLE = '1' and (unsigned(index_i_loop) < unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= std_logic_vector(unsigned(index_i_loop) + unsigned(ONE_CONTROL));
+            index_j_loop <= ZERO_CONTROL;
+          elsif ((STANDARD_FNN_V_OUT_S_ENABLE = '1' or STANDARD_FNN_START = '1') and (unsigned(index_j_loop) < unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL))) then
+            index_j_loop <= std_logic_vector(unsigned(index_j_loop) + unsigned(ONE_CONTROL));
+          end if;
+
+          if (STANDARD_FNN_R_OUT_K_ENABLE = '1' and (unsigned(index_i_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= ZERO_CONTROL;
+            index_j_loop <= ZERO_CONTROL;
+          elsif (STANDARD_FNN_R_OUT_K_ENABLE = '1' and (unsigned(index_i_loop) < unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= std_logic_vector(unsigned(index_i_loop) + unsigned(ONE_CONTROL));
+            index_j_loop <= ZERO_CONTROL;
+          elsif ((STANDARD_FNN_R_OUT_K_ENABLE = '1' or STANDARD_FNN_START = '1') and (unsigned(index_j_loop) < unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL))) then
+            index_j_loop <= std_logic_vector(unsigned(index_j_loop) + unsigned(ONE_CONTROL));
+          end if;
+
+          if (STANDARD_FNN_RHO_OUT_M_ENABLE = '1' and (unsigned(index_i_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= ZERO_CONTROL;
+            index_j_loop <= ZERO_CONTROL;
+          elsif (STANDARD_FNN_RHO_OUT_M_ENABLE = '1' and (unsigned(index_i_loop) < unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= std_logic_vector(unsigned(index_i_loop) + unsigned(ONE_CONTROL));
+            index_j_loop <= ZERO_CONTROL;
+          elsif ((STANDARD_FNN_RHO_OUT_M_ENABLE = '1' or STANDARD_FNN_START = '1') and (unsigned(index_j_loop) < unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL))) then
+            index_j_loop <= std_logic_vector(unsigned(index_j_loop) + unsigned(ONE_CONTROL));
           end if;
 
           -- GLOBAL
@@ -450,6 +648,146 @@ begin
             STANDARD_FNN_K_IN_K_ENABLE <= '0';
           end if;
 
+          if (STANDARD_FNN_D_OUT_I_ENABLE = '1' and STANDARD_FNN_D_OUT_L_ENABLE = '1' and STANDARD_FNN_D_OUT_M_ENABLE = '1' and unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL) and unsigned(index_k_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_D_IN <= TENSOR_SAMPLE_B(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_D_IN_I_ENABLE <= '1';
+            STANDARD_FNN_D_IN_L_ENABLE <= '1';
+            STANDARD_FNN_D_IN_M_ENABLE <= '1';
+          elsif (STANDARD_FNN_D_OUT_I_ENABLE = '1' and STANDARD_FNN_D_OUT_L_ENABLE = '1' and STANDARD_FNN_D_OUT_M_ENABLE = '1' and unsigned(index_j_loop) = unsigned(ZERO_CONTROL) and unsigned(index_k_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_D_IN <= TENSOR_SAMPLE_B(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_D_IN_I_ENABLE <= '1';
+            STANDARD_FNN_D_IN_L_ENABLE <= '1';
+            STANDARD_FNN_D_IN_M_ENABLE <= '1';
+          elsif (STANDARD_FNN_D_OUT_L_ENABLE = '1' and STANDARD_FNN_D_OUT_M_ENABLE = '1' and unsigned(index_k_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_D_IN <= TENSOR_SAMPLE_B(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_D_IN_L_ENABLE <= '1';
+            STANDARD_FNN_D_IN_M_ENABLE <= '1';
+          elsif (STANDARD_FNN_D_OUT_M_ENABLE = '1' and unsigned(index_k_loop) > unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_D_IN <= TENSOR_SAMPLE_B(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_D_IN_M_ENABLE <= '1';
+          else
+            -- CONTROL
+            STANDARD_FNN_D_IN_I_ENABLE <= '0';
+            STANDARD_FNN_D_IN_L_ENABLE <= '0';
+            STANDARD_FNN_D_IN_M_ENABLE <= '0';
+          end if;
+
+          if (STANDARD_FNN_U_OUT_L_ENABLE = '1' and STANDARD_FNN_U_OUT_P_ENABLE = '1' and unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_U_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_U_IN_L_ENABLE <= '1';
+            STANDARD_FNN_U_IN_P_ENABLE <= '1';
+          elsif (STANDARD_FNN_U_OUT_L_ENABLE = '1' and STANDARD_FNN_U_OUT_P_ENABLE = '1' and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_U_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_U_IN_L_ENABLE <= '1';
+            STANDARD_FNN_U_IN_P_ENABLE <= '1';
+          elsif (STANDARD_FNN_U_OUT_P_ENABLE = '1' and unsigned(index_j_loop) > unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_U_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_U_IN_P_ENABLE <= '1';
+          else
+            -- CONTROL
+            STANDARD_FNN_U_IN_L_ENABLE <= '0';
+            STANDARD_FNN_U_IN_P_ENABLE <= '0';
+          end if;
+
+          if (STANDARD_FNN_V_OUT_L_ENABLE = '1' and STANDARD_FNN_V_OUT_S_ENABLE = '1' and unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_V_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_V_IN_L_ENABLE <= '1';
+            STANDARD_FNN_V_IN_S_ENABLE <= '1';
+          elsif (STANDARD_FNN_V_OUT_L_ENABLE = '1' and STANDARD_FNN_V_OUT_S_ENABLE = '1' and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_V_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_V_IN_L_ENABLE <= '1';
+            STANDARD_FNN_V_IN_S_ENABLE <= '1';
+          elsif (STANDARD_FNN_V_OUT_S_ENABLE = '1' and unsigned(index_j_loop) > unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_V_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_V_IN_S_ENABLE <= '1';
+          else
+            -- CONTROL
+            STANDARD_FNN_V_IN_L_ENABLE <= '0';
+            STANDARD_FNN_V_IN_S_ENABLE <= '0';
+          end if;
+
+          if (STANDARD_FNN_R_OUT_I_ENABLE = '1' and STANDARD_FNN_R_OUT_K_ENABLE = '1' and unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_R_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_R_IN_I_ENABLE <= '1';
+            STANDARD_FNN_R_IN_K_ENABLE <= '1';
+          elsif (STANDARD_FNN_R_OUT_I_ENABLE = '1' and STANDARD_FNN_R_OUT_K_ENABLE = '1' and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_R_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_R_IN_I_ENABLE <= '1';
+            STANDARD_FNN_R_IN_K_ENABLE <= '1';
+          elsif (STANDARD_FNN_R_OUT_K_ENABLE = '1' and unsigned(index_j_loop) > unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_R_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_R_IN_K_ENABLE <= '1';
+          else
+            -- CONTROL
+            STANDARD_FNN_R_IN_I_ENABLE <= '0';
+            STANDARD_FNN_R_IN_K_ENABLE <= '0';
+          end if;
+
+          if (STANDARD_FNN_RHO_OUT_I_ENABLE = '1' and STANDARD_FNN_RHO_OUT_M_ENABLE = '1' and unsigned(index_i_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_RHO_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_RHO_IN_I_ENABLE <= '1';
+            STANDARD_FNN_RHO_IN_M_ENABLE <= '1';
+          elsif (STANDARD_FNN_RHO_OUT_I_ENABLE = '1' and STANDARD_FNN_RHO_OUT_M_ENABLE = '1' and unsigned(index_j_loop) = unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_RHO_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_RHO_IN_I_ENABLE <= '1';
+            STANDARD_FNN_RHO_IN_M_ENABLE <= '1';
+          elsif (STANDARD_FNN_RHO_OUT_M_ENABLE = '1' and unsigned(index_j_loop) > unsigned(ZERO_CONTROL)) then
+            -- DATA
+            STANDARD_FNN_RHO_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
+
+            -- CONTROL
+            STANDARD_FNN_RHO_IN_M_ENABLE <= '1';
+          else
+            -- CONTROL
+            STANDARD_FNN_RHO_IN_I_ENABLE <= '0';
+            STANDARD_FNN_RHO_IN_M_ENABLE <= '0';
+          end if;
+
           -- LOOP
           if (STANDARD_FNN_W_OUT_X_ENABLE = '1' and (unsigned(index_i_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_i_loop <= ZERO_CONTROL;
@@ -474,6 +812,61 @@ begin
             index_k_loop <= ZERO_CONTROL;
           elsif ((STANDARD_FNN_K_OUT_K_ENABLE = '1' or STANDARD_FNN_START = '1') and (unsigned(index_k_loop) < unsigned(STANDARD_FNN_SIZE_W_IN)-unsigned(ONE_CONTROL))) then
             index_k_loop <= std_logic_vector(unsigned(index_k_loop) + unsigned(ONE_CONTROL));
+          end if;          
+
+          if (STANDARD_FNN_D_OUT_M_ENABLE = '1' and (unsigned(index_i_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(STANDARD_FNN_SIZE_W_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= ZERO_CONTROL;
+            index_j_loop <= ZERO_CONTROL;
+            index_k_loop <= ZERO_CONTROL;
+          elsif (STANDARD_FNN_D_OUT_M_ENABLE = '1' and (unsigned(index_i_loop) < unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(STANDARD_FNN_SIZE_W_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= std_logic_vector(unsigned(index_i_loop) + unsigned(ONE_CONTROL));
+            index_j_loop <= ZERO_CONTROL;
+            index_k_loop <= ZERO_CONTROL;
+          elsif (STANDARD_FNN_D_OUT_M_ENABLE = '1' and (unsigned(index_j_loop) < unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_loop) = unsigned(STANDARD_FNN_SIZE_W_IN)-unsigned(ONE_CONTROL))) then
+            index_j_loop <= std_logic_vector(unsigned(index_j_loop) + unsigned(ONE_CONTROL));
+            index_k_loop <= ZERO_CONTROL;
+          elsif ((STANDARD_FNN_D_OUT_M_ENABLE = '1' or STANDARD_FNN_START = '1') and (unsigned(index_k_loop) < unsigned(STANDARD_FNN_SIZE_W_IN)-unsigned(ONE_CONTROL))) then
+            index_k_loop <= std_logic_vector(unsigned(index_k_loop) + unsigned(ONE_CONTROL));
+          end if;
+
+          if (STANDARD_FNN_U_OUT_P_ENABLE = '1' and (unsigned(index_i_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= ZERO_CONTROL;
+            index_j_loop <= ZERO_CONTROL;
+          elsif (STANDARD_FNN_U_OUT_P_ENABLE = '1' and (unsigned(index_i_loop) < unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= std_logic_vector(unsigned(index_i_loop) + unsigned(ONE_CONTROL));
+            index_j_loop <= ZERO_CONTROL;
+          elsif ((STANDARD_FNN_U_OUT_P_ENABLE = '1' or STANDARD_FNN_START = '1') and (unsigned(index_j_loop) < unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL))) then
+            index_j_loop <= std_logic_vector(unsigned(index_j_loop) + unsigned(ONE_CONTROL));
+          end if;
+
+          if (STANDARD_FNN_V_OUT_S_ENABLE = '1' and (unsigned(index_i_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= ZERO_CONTROL;
+            index_j_loop <= ZERO_CONTROL;
+          elsif (STANDARD_FNN_V_OUT_S_ENABLE = '1' and (unsigned(index_i_loop) < unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= std_logic_vector(unsigned(index_i_loop) + unsigned(ONE_CONTROL));
+            index_j_loop <= ZERO_CONTROL;
+          elsif ((STANDARD_FNN_V_OUT_S_ENABLE = '1' or STANDARD_FNN_START = '1') and (unsigned(index_j_loop) < unsigned(STANDARD_FNN_SIZE_L_IN)-unsigned(ONE_CONTROL))) then
+            index_j_loop <= std_logic_vector(unsigned(index_j_loop) + unsigned(ONE_CONTROL));
+          end if;
+
+          if (STANDARD_FNN_R_OUT_K_ENABLE = '1' and (unsigned(index_i_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= ZERO_CONTROL;
+            index_j_loop <= ZERO_CONTROL;
+          elsif (STANDARD_FNN_R_OUT_K_ENABLE = '1' and (unsigned(index_i_loop) < unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= std_logic_vector(unsigned(index_i_loop) + unsigned(ONE_CONTROL));
+            index_j_loop <= ZERO_CONTROL;
+          elsif ((STANDARD_FNN_R_OUT_K_ENABLE = '1' or STANDARD_FNN_START = '1') and (unsigned(index_j_loop) < unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL))) then
+            index_j_loop <= std_logic_vector(unsigned(index_j_loop) + unsigned(ONE_CONTROL));
+          end if;
+
+          if (STANDARD_FNN_RHO_OUT_M_ENABLE = '1' and (unsigned(index_i_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= ZERO_CONTROL;
+            index_j_loop <= ZERO_CONTROL;
+          elsif (STANDARD_FNN_RHO_OUT_M_ENABLE = '1' and (unsigned(index_i_loop) < unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_loop) = unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL))) then
+            index_i_loop <= std_logic_vector(unsigned(index_i_loop) + unsigned(ONE_CONTROL));
+            index_j_loop <= ZERO_CONTROL;
+          elsif ((STANDARD_FNN_RHO_OUT_M_ENABLE = '1' or STANDARD_FNN_START = '1') and (unsigned(index_j_loop) < unsigned(STANDARD_FNN_SIZE_R_IN)-unsigned(ONE_CONTROL))) then
+            index_j_loop <= std_logic_vector(unsigned(index_j_loop) + unsigned(ONE_CONTROL));
           end if;
 
           -- GLOBAL

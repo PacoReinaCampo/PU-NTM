@@ -1937,6 +1937,73 @@ package model_transformer_controller_pkg is
   -- COMPOMENTS
   ------------------------------------------------------------------------------
 
+  function function_model_masked_multi_head_attention (
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_H_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    tensor_k_input : tensor_buffer;
+    tensor_q_input : tensor_buffer;
+    tensor_v_input : tensor_buffer;
+
+    matrix_m_input : matrix_buffer;
+
+    matrix_w_oh_input : matrix_buffer;
+
+    matrix_x_input : matrix_buffer;
+    ) return matrix_buffer;
+
+  function function_model_masked_scaled_dot_product_attention (
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    matrix_k_input : matrix_buffer;
+    matrix_q_input : matrix_buffer;
+    matrix_v_input : matrix_buffer;
+
+    matrix_x_input : matrix_buffer;
+    ) return matrix_buffer;
+
+  function function_model_multi_head_attention (
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_H_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    tensor_k_input : tensor_buffer;
+    tensor_q_input : tensor_buffer;
+    tensor_v_input : tensor_buffer;
+
+    matrix_m_input : matrix_buffer;
+
+    matrix_w_oh_input : matrix_buffer;
+
+    matrix_x_input : matrix_buffer;
+    ) return matrix_buffer;
+
+  function function_model_scaled_dot_product_attention (
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_H_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    tensor_k_input : tensor_buffer;
+    tensor_q_input : tensor_buffer;
+    tensor_v_input : tensor_buffer;
+
+    matrix_m_input : matrix_buffer;
+
+    matrix_w_oh_input : matrix_buffer;
+
+    matrix_x_input : matrix_buffer;
+    ) return matrix_buffer;
+
   ------------------------------------------------------------------------------
   -- INPUTS
   ------------------------------------------------------------------------------

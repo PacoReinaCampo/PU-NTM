@@ -98,6 +98,6 @@
 ../../../../../../../../rtl/vhdl/code/controller/transformer/top/accelerator_decoder.vhd
 ../../../../../../../../rtl/vhdl/code/controller/transformer/top/accelerator_encoder.vhd
 
-../../../../../../../../bench/vhdl/code/tests/design/controller/transformer/standard/accelerator_standard_transformer_pkg.vhd
-../../../../../../../../bench/vhdl/code/tests/design/controller/transformer/standard/accelerator_standard_transformer_stimulus.vhd
-../../../../../../../../bench/vhdl/code/tests/design/controller/transformer/standard/accelerator_standard_transformer_testbench.vhd
+../../../../../../../../bench/vhdl/code/tests/design/controller/transformer/accelerator_transformer_pkg.vhd
+../../../../../../../../bench/vhdl/code/tests/design/controller/transformer/accelerator_transformer_stimulus.vhd
+../../../../../../../../bench/vhdl/code/tests/design/controller/transformer/accelerator_transformer_testbench.vhd
