@@ -51,6 +51,7 @@
 #define SIZE_IN 3
 
 double ntm_matrix_inverse(double **data_in) {
+  double vector[SIZE];
   double matrix[SIZE][SIZE];
 
   double **data_out;
@@ -80,8 +81,22 @@ double ntm_matrix_inverse(double **data_in) {
 
   // Applying Gauss Jordan Elimination
   for (i = 0; i < SIZE_IN; i++) {
-    if (matrix[i][i] == 0.0) {
-      printf("Mathematical Error!");
+    while (matrix[i][i] == 0.0) {
+      for (j = 0; j < SIZE_IN; j++) {
+        vector[j] = matrix[i][j];
+      }
+
+      if (i < SIZE_IN - 1) {
+        for (j = 0; j < SIZE_IN; j++) {
+          matrix[i][j] = matrix[i + 1][j];
+          matrix[i + 1][j] = vector[j];
+        }
+      } else {
+        for (j = 0; j < SIZE_IN; j++) {
+          matrix[i][j] = matrix[i - 1][j];
+          matrix[i - 1][j] = vector[j];
+        }
+      }
     }
     for (j = 0; j < SIZE_IN; j++) {
       if (i != j) {
