@@ -89,11 +89,15 @@ double ntm_matrix_inverse(double **data_in) {
       if (i < SIZE_IN - 1) {
         for (j = 0; j < 2*SIZE_IN; j++) {
           matrix[i][j] = matrix[i + 1][j];
+        }
+        for (j = 0; j < 2*SIZE_IN; j++) {
           matrix[i + 1][j] = vector[j];
         }
       } else {
         for (j = 0; j < 2*SIZE_IN; j++) {
           matrix[i][j] = matrix[i - 1][j];
+        }
+        for (j = 0; j < 2*SIZE_IN; j++) {
           matrix[i - 1][j] = vector[j];
         }
       }

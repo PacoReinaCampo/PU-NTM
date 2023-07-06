@@ -2656,13 +2656,19 @@ package body model_math_pkg is
 
         if i < to_integer(unsigned(SIZE_I_IN))-1 then
           for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
-             matrix_in_int(i, j) :=  matrix_in_int(i+1, j);
-             matrix_in_int(i+1, j) := vector_in_int(j);
+            matrix_in_int(i, j) :=  matrix_in_int(i+1, j);
+          end loop;
+
+          for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
+            matrix_in_int(i+1, j) := vector_in_int(j);
           end loop;
         else
           for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
-             matrix_in_int(i, j) :=  matrix_in_int(i-1, j);
-             matrix_in_int(i-1, j) := vector_in_int(j);
+            matrix_in_int(i, j) :=  matrix_in_int(i-1, j);
+          end loop;
+
+          for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
+            matrix_in_int(i-1, j) := vector_in_int(j);
           end loop;
         end if;
       end loop;
