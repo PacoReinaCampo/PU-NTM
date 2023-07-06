@@ -29,7 +29,6 @@
 ../../../../../../../../rtl/vhdl/code/math/algebra/matrix/accelerator_matrix_transpose.vhd
 ../../../../../../../../rtl/vhdl/code/math/algebra/matrix/accelerator_matrix_vector_convolution.vhd
 ../../../../../../../../rtl/vhdl/code/math/algebra/matrix/accelerator_matrix_vector_product.vhd
-../../../../../../../../rtl/vhdl/code/math/algebra/matrix/accelerator_transpose_vector_product.vhd
 
 ../../../../../../../../rtl/vhdl/code/math/algebra/tensor/accelerator_tensor_convolution.vhd
 ../../../../../../../../rtl/vhdl/code/math/algebra/tensor/accelerator_tensor_inverse.vhd
