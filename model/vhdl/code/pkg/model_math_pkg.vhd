@@ -2647,18 +2647,18 @@ package body model_math_pkg is
     end loop;
 
     for i in 0 to to_integer(unsigned(SIZE_I_IN))-1 loop
-      for j in 0 to to_integer(unsigned(SIZE_J_IN))-1 loop
---        while (matrix_input(i, j) = ZERO_DATA) loop
---          vector_in_int(j) :=  matrix_in_int(i, j);
---
---          if i < to_integer(unsigned(SIZE_I_IN))-1 then
---             matrix_in_int(i, j) :=  matrix_in_int(i+1, j);
---             matrix_in_int(i+1, j) := vector_in_int(j);
---          else
---             matrix_in_int(i, j) :=  matrix_in_int(i-1, j);
---             matrix_in_int(i-1, j) := vector_in_int(j);
---          end if;
---        end loop;
+      while (matrix_input(i, i) = ZERO_DATA) loop
+        for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
+          vector_in_int(j) :=  matrix_in_int(i, j);
+
+          if i < to_integer(unsigned(SIZE_I_IN))-1 then
+             matrix_in_int(i, j) :=  matrix_in_int(i+1, j);
+             matrix_in_int(i+1, j) := vector_in_int(j);
+          else
+             matrix_in_int(i, j) :=  matrix_in_int(i-1, j);
+             matrix_in_int(i-1, j) := vector_in_int(j);
+          end if;
+        end loop;
       end loop;
 
       for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
@@ -2667,11 +2667,9 @@ package body model_math_pkg is
           scalar_b_input => matrix_in_int(i, i)
           );
       end loop;
-    end loop;
 
-    for i in 0 to to_integer(unsigned(SIZE_I_IN))-1 loop
-      for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
-        for m in i to to_integer(unsigned(SIZE_I_IN))-2 loop
+      for m in i to to_integer(unsigned(SIZE_I_IN))-2 loop
+        for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
           scalar_operation_int := function_scalar_float_multiplier (
             scalar_a_input => matrix_in_int(i, j),
             scalar_b_input => matrix_in_int(m+1, i)
@@ -2688,8 +2686,8 @@ package body model_math_pkg is
     end loop;
 
     for i in 1 to to_integer(unsigned(SIZE_I_IN))-1 loop
-      for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
-        for m in 0 to i-1 loop
+      for m in 0 to i-1 loop
+        for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
           scalar_operation_int := function_scalar_float_multiplier (
             scalar_a_input => matrix_in_int(i, j),
             scalar_b_input => matrix_in_int(m+1, i)

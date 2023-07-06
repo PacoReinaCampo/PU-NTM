@@ -52,7 +52,7 @@ SIZE_I_IN = 3;
 SIZE_J_IN = 3;
 
 % Signals
-DATA_IN = rand(SIZE_I_IN, SIZE_J_IN);
+DATA_IN = [1.1 4.4 1.1; 0.0 8.8 4.4; 5.5 3.3 9.9];
 
 % DUT
 DATA_OUT = ntm_matrix_inverse(DATA_IN);

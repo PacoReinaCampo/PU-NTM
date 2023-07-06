@@ -74,7 +74,7 @@ function DATA_OUT = ntm_matrix_inverse(DATA_IN)
   end
 
   for i = 2:SIZE_I_IN
-    for m = (i - 1): - 1:1
+    for m = 1:i - 1
       data_int(m, :) = data_int(m, :) - data_int(i, :)*data_int(m, i);
     end
   end
