@@ -79,25 +79,27 @@ double ntm_matrix_inverse(double **data_in) {
     }
   }
 
-  // Applying Gauss Jordan Elimination
   for (i = 0; i < SIZE_IN; i++) {
+    // Row swapping
     while (matrix[i][i] == 0.0) {
-      for (j = 0; j < SIZE_IN; j++) {
+      for (j = 0; j < 2*SIZE_IN; j++) {
         vector[j] = matrix[i][j];
       }
 
       if (i < SIZE_IN - 1) {
-        for (j = 0; j < SIZE_IN; j++) {
+        for (j = 0; j < 2*SIZE_IN; j++) {
           matrix[i][j] = matrix[i + 1][j];
           matrix[i + 1][j] = vector[j];
         }
       } else {
-        for (j = 0; j < SIZE_IN; j++) {
+        for (j = 0; j < 2*SIZE_IN; j++) {
           matrix[i][j] = matrix[i - 1][j];
           matrix[i - 1][j] = vector[j];
         }
       }
     }
+
+    // Applying Gauss Jordan Elimination
     for (j = 0; j < SIZE_IN; j++) {
       if (i != j) {
         ratio = matrix[j][i]/matrix[i][i];
