@@ -2626,6 +2626,8 @@ package body model_math_pkg is
     matrix_input : matrix_buffer
     ) return matrix_buffer is
 
+    variable n : integer;
+
     variable matrix_output : matrix_buffer;
 
     variable vector_in_int : vector_buffer;
@@ -2649,6 +2651,8 @@ package body model_math_pkg is
 
     for i in 0 to to_integer(unsigned(SIZE_I_IN))-1 loop
       -- Row swapping
+      n := 1;
+
       while (matrix_input(i, i) = ZERO_DATA) loop
         for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
           vector_in_int(j) :=  matrix_in_int(i, j);
@@ -2656,21 +2660,23 @@ package body model_math_pkg is
 
         if i < to_integer(unsigned(SIZE_I_IN))-1 then
           for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
-            matrix_in_int(i, j) :=  matrix_in_int(i+1, j);
+            matrix_in_int(i, j) :=  matrix_in_int(i+n, j);
           end loop;
 
           for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
-            matrix_in_int(i+1, j) := vector_in_int(j);
+            matrix_in_int(i+n, j) := vector_in_int(j);
           end loop;
         else
           for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
-            matrix_in_int(i, j) :=  matrix_in_int(i-1, j);
+            matrix_in_int(i, j) :=  matrix_in_int(i-n, j);
           end loop;
 
           for j in 0 to 2*to_integer(unsigned(SIZE_J_IN))-1 loop
-            matrix_in_int(i-1, j) := vector_in_int(j);
+            matrix_in_int(i-n, j) := vector_in_int(j);
           end loop;
         end if;
+
+        n := n + 1;
       end loop;
 
       -- Applying Gauss Jordan Elimination
