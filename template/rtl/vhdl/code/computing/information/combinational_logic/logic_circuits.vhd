@@ -47,7 +47,7 @@ use work.computing_pkg.all;
 entity logic_circuits is
   generic (
     DATA_SIZE    : integer := 64;
-    CONTROL_SIZE : integer := 64
+    CONTROL_SIZE : integer := 4
     );
   port (
     -- GLOBAL

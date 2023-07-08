@@ -109,7 +109,7 @@ package model_arithmetic_pkg is
   component model_scalar_integer_adder is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -134,7 +134,7 @@ package model_arithmetic_pkg is
   component model_scalar_integer_multiplier is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -157,7 +157,7 @@ package model_arithmetic_pkg is
   component model_scalar_integer_divider is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -181,7 +181,7 @@ package model_arithmetic_pkg is
   component model_vector_integer_adder is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -212,7 +212,7 @@ package model_arithmetic_pkg is
   component model_vector_integer_multiplier is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -241,7 +241,7 @@ package model_arithmetic_pkg is
   component model_vector_integer_divider is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -271,7 +271,7 @@ package model_arithmetic_pkg is
   component model_matrix_integer_adder is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -306,7 +306,7 @@ package model_arithmetic_pkg is
   component model_matrix_integer_multiplier is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -339,7 +339,7 @@ package model_arithmetic_pkg is
   component model_matrix_integer_divider is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -373,7 +373,7 @@ package model_arithmetic_pkg is
   component model_tensor_integer_adder is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -412,7 +412,7 @@ package model_arithmetic_pkg is
   component model_tensor_integer_multiplier is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -449,7 +449,7 @@ package model_arithmetic_pkg is
   component model_tensor_integer_divider is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -491,7 +491,7 @@ package model_arithmetic_pkg is
   component model_scalar_float_adder is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -516,7 +516,7 @@ package model_arithmetic_pkg is
   component model_scalar_float_multiplier is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -539,7 +539,7 @@ package model_arithmetic_pkg is
   component model_scalar_float_divider is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -563,7 +563,7 @@ package model_arithmetic_pkg is
   component model_vector_float_adder is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -594,7 +594,7 @@ package model_arithmetic_pkg is
   component model_vector_float_multiplier is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -623,7 +623,7 @@ package model_arithmetic_pkg is
   component model_vector_float_divider is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -653,7 +653,7 @@ package model_arithmetic_pkg is
   component model_matrix_float_adder is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -688,7 +688,7 @@ package model_arithmetic_pkg is
   component model_matrix_float_multiplier is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -721,7 +721,7 @@ package model_arithmetic_pkg is
   component model_matrix_float_divider is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -755,7 +755,7 @@ package model_arithmetic_pkg is
   component model_tensor_float_adder is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -794,7 +794,7 @@ package model_arithmetic_pkg is
   component model_tensor_float_multiplier is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -831,7 +831,7 @@ package model_arithmetic_pkg is
   component model_tensor_float_divider is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -873,7 +873,7 @@ package model_arithmetic_pkg is
   component model_scalar_fixed_adder is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -898,7 +898,7 @@ package model_arithmetic_pkg is
   component model_scalar_fixed_multiplier is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -921,7 +921,7 @@ package model_arithmetic_pkg is
   component model_scalar_fixed_divider is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -945,7 +945,7 @@ package model_arithmetic_pkg is
   component model_vector_fixed_adder is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -976,7 +976,7 @@ package model_arithmetic_pkg is
   component model_vector_fixed_multiplier is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -1005,7 +1005,7 @@ package model_arithmetic_pkg is
   component model_vector_fixed_divider is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -1035,7 +1035,7 @@ package model_arithmetic_pkg is
   component model_matrix_fixed_adder is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -1070,7 +1070,7 @@ package model_arithmetic_pkg is
   component model_matrix_fixed_multiplier is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -1103,7 +1103,7 @@ package model_arithmetic_pkg is
   component model_matrix_fixed_divider is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -1137,7 +1137,7 @@ package model_arithmetic_pkg is
   component model_tensor_fixed_adder is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -1176,7 +1176,7 @@ package model_arithmetic_pkg is
   component model_tensor_fixed_multiplier is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -1213,7 +1213,7 @@ package model_arithmetic_pkg is
   component model_tensor_fixed_divider is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL

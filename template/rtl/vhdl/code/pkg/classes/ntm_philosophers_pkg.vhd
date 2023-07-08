@@ -56,7 +56,7 @@ package ntm_philosophers_pkg is
   component ntm_philosophers_rational is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -82,7 +82,7 @@ package ntm_philosophers_pkg is
   component ntm_philosophers_spirited is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
@@ -108,7 +108,7 @@ package ntm_philosophers_pkg is
   component ntm_philosophers_appetitive is
     generic (
       DATA_SIZE    : integer := 64;
-      CONTROL_SIZE : integer := 64
+      CONTROL_SIZE : integer := 4
       );
     port (
       -- GLOBAL
