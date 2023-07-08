@@ -2626,12 +2626,15 @@ package body model_math_pkg is
     matrix_input : matrix_buffer
     ) return matrix_buffer is
 
+    type augmented_vector_buffer is array (2*CONTROL_SIZE-1 downto 0) of std_logic_vector(DATA_SIZE-1 downto 0);
+    type augmented_matrix_buffer is array (CONTROL_SIZE-1 downto 0, 2*CONTROL_SIZE-1 downto 0) of std_logic_vector(DATA_SIZE-1 downto 0);
+
     variable n : integer;
 
     variable matrix_output : matrix_buffer;
 
-    variable vector_in_int : vector_buffer;
-    variable matrix_in_int : matrix_buffer;
+    variable vector_in_int : augmented_vector_buffer;
+    variable matrix_in_int : augmented_matrix_buffer;
 
     variable scalar_ratio_int : std_logic_vector(DATA_SIZE-1 downto 0);
     variable scalar_sum_int   : std_logic_vector(DATA_SIZE-1 downto 0);
