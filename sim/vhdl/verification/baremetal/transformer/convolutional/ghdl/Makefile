@@ -80,17 +80,17 @@ build:
 	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/trainer/transformer/accelerator_input_trainer.vhd
 	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/trainer/transformer/accelerator_output_trainer.vhd
 
-	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/controller/transformer/convolutional/accelerator_controller.vhd
-	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/controller/transformer/convolutional/accelerator_activation_gate_vector.vhd
-	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/controller/transformer/convolutional/accelerator_forget_gate_vector.vhd
-	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/controller/transformer/convolutional/accelerator_hidden_gate_vector.vhd
-	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/controller/transformer/convolutional/accelerator_input_gate_vector.vhd
-	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/controller/transformer/convolutional/accelerator_output_gate_vector.vhd
-	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/controller/transformer/convolutional/accelerator_state_gate_vector.vhd
+	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_controller.vhd
+	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_activation_gate_vector.vhd
+	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_forget_gate_vector.vhd
+	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_hidden_gate_vector.vhd
+	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_input_gate_vector.vhd
+	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_output_gate_vector.vhd
+	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_state_gate_vector.vhd
 
-	ghdl -a --std=08 ../../../../../../../bench/vhdl/code/baremetal/design/controller/transformer/convolutional/accelerator_convolutional_transformer_pkg.vhd
-	ghdl -a --std=08 ../../../../../../../bench/vhdl/code/baremetal/design/controller/transformer/convolutional/accelerator_convolutional_transformer_stimulus.vhd
-	ghdl -a --std=08 ../../../../../../../bench/vhdl/code/baremetal/design/controller/transformer/convolutional/accelerator_convolutional_transformer_testbench.vhd
+	ghdl -a --std=08 ../../../../../../../bench/vhdl/code/baremetal/design/transformer/convolutional/accelerator_convolutional_transformer_pkg.vhd
+	ghdl -a --std=08 ../../../../../../../bench/vhdl/code/baremetal/design/transformer/convolutional/accelerator_convolutional_transformer_stimulus.vhd
+	ghdl -a --std=08 ../../../../../../../bench/vhdl/code/baremetal/design/transformer/convolutional/accelerator_convolutional_transformer_testbench.vhd
 
 simulate:
 

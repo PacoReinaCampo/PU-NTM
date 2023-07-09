@@ -75,9 +75,9 @@ build:
 	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/math/series/matrix/accelerator_matrix_sinh_function.vhd
 	ghdl -a --std=08 ../../../../../../../rtl/vhdl/code/math/series/matrix/accelerator_matrix_tanh_function.vhd
 
-	ghdl -a --std=08 ../../../../../../../bench/vhdl/code/baremetal/design/controller/transformer/standard/accelerator_standard_transformer_pkg.vhd
-	ghdl -a --std=08 ../../../../../../../bench/vhdl/code/baremetal/design/controller/transformer/standard/accelerator_standard_transformer_stimulus.vhd
-	ghdl -a --std=08 ../../../../../../../bench/vhdl/code/baremetal/design/controller/transformer/standard/accelerator_standard_transformer_testbench.vhd
+	ghdl -a --std=08 ../../../../../../../bench/vhdl/code/baremetal/design/transformer/standard/accelerator_standard_transformer_pkg.vhd
+	ghdl -a --std=08 ../../../../../../../bench/vhdl/code/baremetal/design/transformer/standard/accelerator_standard_transformer_stimulus.vhd
+	ghdl -a --std=08 ../../../../../../../bench/vhdl/code/baremetal/design/transformer/standard/accelerator_standard_transformer_testbench.vhd
 
 simulate:
 	ghdl -m --std=08 accelerator_standard_transformer_testbench
