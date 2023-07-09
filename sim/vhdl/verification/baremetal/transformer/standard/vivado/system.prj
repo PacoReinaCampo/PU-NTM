@@ -77,14 +77,14 @@ vhdl2008 work ../../../../../../../rtl/vhdl/code/trainer/transformer/accelerator
 vhdl2008 work ../../../../../../../rtl/vhdl/code/trainer/transformer/accelerator_input_trainer.vhd
 vhdl2008 work ../../../../../../../rtl/vhdl/code/trainer/transformer/accelerator_output_trainer.vhd
 
-vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_controller.vhd
-vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_activation_gate_vector.vhd
-vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_forget_gate_vector.vhd
-vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_hidden_gate_vector.vhd
-vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_input_gate_vector.vhd
-vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_output_gate_vector.vhd
-vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/convolutional/accelerator_state_gate_vector.vhd
+vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/standard/accelerator_controller.vhd
+vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/standard/accelerator_activation_gate_vector.vhd
+vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/standard/accelerator_forget_gate_vector.vhd
+vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/standard/accelerator_hidden_gate_vector.vhd
+vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/standard/accelerator_input_gate_vector.vhd
+vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/standard/accelerator_output_gate_vector.vhd
+vhdl2008 work ../../../../../../../rtl/vhdl/code/transformer/standard/accelerator_state_gate_vector.vhd
 
-vhdl2008 work ../../../../../../../bench/vhdl/code/baremetal/design/trainer/transformer/accelerator_trainer_transformer_pkg.vhd
-vhdl2008 work ../../../../../../../bench/vhdl/code/baremetal/design/trainer/transformer/accelerator_trainer_transformer_stimulus.vhd
-vhdl2008 work ../../../../../../../bench/vhdl/code/baremetal/design/trainer/transformer/accelerator_trainer_transformer_testbench.vhd
+vhdl2008 work ../../../../../../../bench/vhdl/code/baremetal/design/transformer/standard/accelerator_standard_transformer_pkg.vhd
+vhdl2008 work ../../../../../../../bench/vhdl/code/baremetal/design/transformer/standard/accelerator_standard_transformer_stimulus.vhd
+vhdl2008 work ../../../../../../../bench/vhdl/code/baremetal/design/transformer/standard/accelerator_standard_transformer_testbench.vhd
