@@ -50,7 +50,7 @@ use work.ntm_template_pkg.all;
 entity ntm_template is
   generic (
     DATA_SIZE    : integer := 64;
-    CONTROL_SIZE : integer := 4
+    CONTROL_SIZE : integer := 64
     );
   port (
     -- GLOBAL
