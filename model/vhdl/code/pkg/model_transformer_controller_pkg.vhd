@@ -40,6 +40,9 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+use ieee.math_real.all;
+use ieee.float_pkg.all;
+
 use work.model_arithmetic_pkg.all;
 use work.model_math_pkg.all;
 
@@ -2022,9 +2025,9 @@ package model_transformer_controller_pkg is
     matrix_v_input : matrix_buffer;
     tensor_d_input : tensor_buffer;
 
-    tensor_x_input : tensor_buffer;
-    array4_r_input : array4_buffer;
-    tensor_xi_input : tensor_buffer;
+    tensor_x_input   : tensor_buffer;
+    array4_r_input   : array4_buffer;
+    tensor_xi_input  : tensor_buffer;
     array4_rho_input : array4_buffer
     ) return tensor_buffer;
 
@@ -2063,9 +2066,9 @@ package model_transformer_controller_pkg is
     SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
     SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
 
-    matrix_z_input : matrix_buffer;
+    matrix_z_input     : matrix_buffer;
     matrix_gamma_input : matrix_buffer;
-    matrix_beta_input : matrix_buffer
+    matrix_beta_input  : matrix_buffer
     ) return matrix_buffer;
 
   function function_model_positional_encoding (
@@ -2073,7 +2076,7 @@ package model_transformer_controller_pkg is
     SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
     SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
 
-    tensor_x_input : tensor_buffer;
+    tensor_x_input  : tensor_buffer;
     tensor_pe_input : tensor_buffer
     ) return tensor_buffer;
 
@@ -2501,9 +2504,9 @@ package model_transformer_controller_pkg is
     matrix_v_i_input : matrix_buffer;
     tensor_d_i_input : tensor_buffer;
 
-    tensor_x_i_input : tensor_buffer;
-    array4_r_i_input : array4_buffer;
-    tensor_xi_i_input : tensor_buffer;
+    tensor_x_i_input   : tensor_buffer;
+    array4_r_i_input   : array4_buffer;
+    tensor_xi_i_input  : tensor_buffer;
     array4_rho_i_input : array4_buffer;
 
     matrix_w_o_input : matrix_buffer;
@@ -2511,9 +2514,9 @@ package model_transformer_controller_pkg is
     matrix_v_o_input : matrix_buffer;
     tensor_d_o_input : tensor_buffer;
 
-    tensor_x_o_input : tensor_buffer;
-    array4_r_o_input : array4_buffer;
-    tensor_xi_o_input : tensor_buffer;
+    tensor_x_o_input   : tensor_buffer;
+    array4_r_o_input   : array4_buffer;
+    tensor_xi_o_input  : tensor_buffer;
     array4_rho_o_input : array4_buffer;
 
     tensor_pe_input : tensor_buffer
@@ -2644,9 +2647,9 @@ package body model_transformer_controller_pkg is
     matrix_v_input : matrix_buffer;
     tensor_d_input : tensor_buffer;
 
-    tensor_x_input : tensor_buffer;
-    array4_r_input : array4_buffer;
-    tensor_xi_input : tensor_buffer;
+    tensor_x_input   : tensor_buffer;
+    array4_r_input   : array4_buffer;
+    tensor_xi_input  : tensor_buffer;
     array4_rho_input : array4_buffer
     ) return tensor_buffer is
 
@@ -2675,7 +2678,7 @@ package body model_transformer_controller_pkg is
       SIZE_A_I_IN => SIZE_N_IN,
       SIZE_A_J_IN => SIZE_D_IN,
       SIZE_B_I_IN => SIZE_D_IN,
-      SIZE_B_J_IN => SIZE_k_IN,
+      SIZE_B_J_IN => SIZE_K_IN,
 
       matrix_a_input => matrix_x_input,
       matrix_b_input => matrix_k_input
@@ -2702,7 +2705,7 @@ package body model_transformer_controller_pkg is
       SIZE_A_I_IN => SIZE_N_IN,
       SIZE_A_J_IN => SIZE_D_IN,
       SIZE_B_I_IN => SIZE_D_IN,
-      SIZE_B_J_IN => SIZE_k_IN,
+      SIZE_B_J_IN => SIZE_K_IN,
 
       matrix_a_input => matrix_x_input,
       matrix_b_input => matrix_q_input
@@ -2729,7 +2732,7 @@ package body model_transformer_controller_pkg is
       SIZE_A_I_IN => SIZE_N_IN,
       SIZE_A_J_IN => SIZE_D_IN,
       SIZE_B_I_IN => SIZE_D_IN,
-      SIZE_B_J_IN => SIZE_k_IN,
+      SIZE_B_J_IN => SIZE_V_IN,
 
       matrix_a_input => matrix_x_input,
       matrix_b_input => matrix_v_input
@@ -2746,9 +2749,9 @@ package body model_transformer_controller_pkg is
     SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
     SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
 
-    matrix_z_input : matrix_buffer;
+    matrix_z_input     : matrix_buffer;
     matrix_gamma_input : matrix_buffer;
-    matrix_beta_input : matrix_buffer
+    matrix_beta_input  : matrix_buffer
     ) return matrix_buffer is
 
     variable matrix_n_output : matrix_buffer;
@@ -2763,13 +2766,26 @@ package body model_transformer_controller_pkg is
     SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
     SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
 
-    tensor_x_input : tensor_buffer;
+    tensor_x_input  : tensor_buffer;
     tensor_pe_input : tensor_buffer
     ) return tensor_buffer is
 
     variable tensor_y_output : tensor_buffer;
 
   begin
+
+    -- Data Outputs
+    for l in 0 to to_integer(unsigned(SIZE_L_IN))-1 loop
+      for n in 0 to to_integer(unsigned(SIZE_N_IN))-1 loop
+        for d in 0 to to_integer(unsigned(SIZE_D_IN))-1 loop
+          if (tensor_x_input(l, n, d)(0) = '0') then
+            tensor_y_output(l, n, d) := std_logic_vector(to_float(sin(to_real(to_float(tensor_pe_input(l, n, d), float64'high, -float64'low))/10000.0**(2.0*to_real(to_float(tensor_x_input(l, n, d), float64'high, -float64'low))/to_real(to_float(SIZE_D_IN, float64'high, -float64'low)))), float64'high, -float64'low));
+          else
+            tensor_y_output(l, n, d) := std_logic_vector(to_float(cos(to_real(to_float(tensor_pe_input(l, n, d), float64'high, -float64'low))/10000.0**(2.0*to_real(to_float(tensor_x_input(l, n, d), float64'high, -float64'low))/to_real(to_float(SIZE_D_IN, float64'high, -float64'low)))), float64'high, -float64'low));
+          end if;
+        end loop;
+      end loop;
+    end loop;
 
     return tensor_y_output;
   end function function_model_positional_encoding;
@@ -4772,9 +4788,9 @@ package body model_transformer_controller_pkg is
     matrix_v_i_input : matrix_buffer;
     tensor_d_i_input : tensor_buffer;
 
-    tensor_x_i_input : tensor_buffer;
-    array4_r_i_input : array4_buffer;
-    tensor_xi_i_input : tensor_buffer;
+    tensor_x_i_input   : tensor_buffer;
+    array4_r_i_input   : array4_buffer;
+    tensor_xi_i_input  : tensor_buffer;
     array4_rho_i_input : array4_buffer;
 
     matrix_w_o_input : matrix_buffer;
@@ -4782,17 +4798,115 @@ package body model_transformer_controller_pkg is
     matrix_v_o_input : matrix_buffer;
     tensor_d_o_input : tensor_buffer;
 
-    tensor_x_o_input : tensor_buffer;
-    array4_r_o_input : array4_buffer;
-    tensor_xi_o_input : tensor_buffer;
+    tensor_x_o_input   : tensor_buffer;
+    array4_r_o_input   : array4_buffer;
+    tensor_xi_o_input  : tensor_buffer;
     array4_rho_o_input : array4_buffer;
 
     tensor_pe_input : tensor_buffer
     ) return tensor_buffer is
 
+    variable tensor_x_in_int  : tensor_buffer;
+    variable tensor_x_out_int : tensor_buffer;
+
+    variable tensor_x_int : tensor_buffer;
+    variable tensor_y_int : tensor_buffer;
+    variable tensor_z_int : tensor_buffer;
+
     variable tensor_z_output : tensor_buffer;
 
   begin
+
+    -- Input Embedding
+    tensor_x_in_int := function_model_positional_encoding (
+      SIZE_L_IN => SIZE_L_IN,
+      SIZE_N_IN => SIZE_N_IN,
+      SIZE_D_IN => SIZE_D_IN,
+
+      tensor_x_input  => tensor_x_in_int,
+      tensor_pe_input => tensor_pe_input
+      );
+
+    tensor_x_in_int := function_tensor_float_adder (
+      OPERATION => '0',
+
+      SIZE_I_IN => SIZE_L_IN,
+      SIZE_J_IN => SIZE_N_IN,
+      SIZE_K_IN => SIZE_D_IN,
+
+      tensor_a_input => tensor_x_in_int,
+      tensor_b_input => tensor_y_int
+      );
+
+    -- Output Embedding
+    tensor_x_out_int := function_model_positional_encoding (
+      SIZE_L_IN => SIZE_L_IN,
+      SIZE_N_IN => SIZE_N_IN,
+      SIZE_D_IN => SIZE_D_IN,
+
+      tensor_x_input  => tensor_x_out_int,
+      tensor_pe_input => tensor_pe_input
+      );
+
+    tensor_x_out_int := function_tensor_float_adder (
+      OPERATION => '0',
+
+      SIZE_I_IN => SIZE_L_IN,
+      SIZE_J_IN => SIZE_N_IN,
+      SIZE_K_IN => SIZE_D_IN,
+
+      tensor_a_input => tensor_x_out_int,
+      tensor_b_input => tensor_y_int
+      );
+    
+    -- Encoder
+    tensor_z_output := function_model_encoder (
+      SIZE_L_IN => SIZE_L_IN,
+      SIZE_N_IN => SIZE_N_IN,
+      SIZE_D_IN => SIZE_D_IN,
+      SIZE_M_IN => SIZE_M_IN,
+      SIZE_K_IN => SIZE_K_IN,
+      SIZE_V_IN => SIZE_V_IN,
+      SIZE_H_IN => SIZE_H_IN,
+
+      tensor_k_input => tensor_k_input,
+      tensor_q_input => tensor_q_input,
+      tensor_v_input => tensor_v_input,
+
+      matrix_w_oh_input => matrix_w_oh_input,
+
+      matrix_w1_input => matrix_w1_input,
+      vector_b1_input => vector_b1_input,
+
+      matrix_w2_input => matrix_w2_input,
+      vector_b2_input => vector_b2_input,
+
+      tensor_x_input => tensor_x_int);
+
+    -- Decoder
+    tensor_z_output := function_model_decoder (
+      SIZE_L_IN => SIZE_L_IN,
+      SIZE_N_IN => SIZE_N_IN,
+      SIZE_D_IN => SIZE_D_IN,
+      SIZE_M_IN => SIZE_M_IN,
+      SIZE_K_IN => SIZE_K_IN,
+      SIZE_V_IN => SIZE_V_IN,
+      SIZE_H_IN => SIZE_H_IN,
+
+      tensor_k_input => tensor_k_input,
+      tensor_q_input => tensor_q_input,
+      tensor_v_input => tensor_v_input,
+
+      matrix_w_oh_input => matrix_w_oh_input,
+
+      matrix_w1_input => matrix_w1_input,
+      vector_b1_input => vector_b1_input,
+
+      matrix_w2_input => matrix_w2_input,
+      vector_b2_input => vector_b2_input,
+
+      tensor_x_input => tensor_x_out_int,
+      tensor_z_input => tensor_z_int);
 
     return tensor_z_output;
   end function function_model_controller;
