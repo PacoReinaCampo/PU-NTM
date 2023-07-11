@@ -1952,7 +1952,7 @@ package model_transformer_controller_pkg is
 
     matrix_w_oh_input : matrix_buffer;
 
-    matrix_x_input : matrix_buffer;
+    matrix_x_input : matrix_buffer
     ) return matrix_buffer;
 
   function function_model_masked_scaled_dot_product_attention (
@@ -1967,7 +1967,7 @@ package model_transformer_controller_pkg is
 
     matrix_m_input : matrix_buffer;
 
-    matrix_x_input : matrix_buffer;
+    matrix_x_input : matrix_buffer
     ) return matrix_buffer;
 
   function function_model_multi_head_attention (
@@ -1983,7 +1983,7 @@ package model_transformer_controller_pkg is
 
     matrix_w_oh_input : matrix_buffer;
 
-    matrix_x_input : matrix_buffer;
+    matrix_x_input : matrix_buffer
     ) return matrix_buffer;
 
   function function_model_scaled_dot_product_attention (
@@ -1997,27 +1997,45 @@ package model_transformer_controller_pkg is
     tensor_q_input : tensor_buffer;
     tensor_v_input : tensor_buffer;
 
-    matrix_x_input : matrix_buffer;
+    matrix_x_input : matrix_buffer
     ) return matrix_buffer;
 
   ------------------------------------------------------------------------------
   -- INPUTS
   ------------------------------------------------------------------------------
 
+  function function_model_inputs_vector (
+    SIZE_L_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_Q_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_X_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_W_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_R_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_P_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_S_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    matrix_w_input : matrix_buffer;
+    tensor_k_input : tensor_buffer;
+    matrix_v_input : matrix_buffer;
+    tensor_d_input : tensor_buffer;
+
+    tensor_x_input : tensor_buffer;
+    array4_r_input : array4_buffer;
+    tensor_xi_input : tensor_buffer;
+    array4_rho_input : array4_buffer
+    ) return tensor_buffer;
+
   function function_model_keys_vector (
     SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
     SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
     SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
 
-    matrix_w_input : matrix_buffer;
     matrix_k_input : matrix_buffer;
-    matrix_v_input : matrix_buffer;
-    matrix_d_input : matrix_buffer;
-    matrix_x_input : matrix_buffer;
-    tensor_r_input : tensor_buffer;
-    matrix_xi_input : matrix_buffer;
-    tensor_rho_input : tensor_buffer;
-    ) return tensor_buffer;
+    matrix_x_input : matrix_buffer
+    ) return matrix_buffer;
 
   function function_model_queries_vector (
     SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
@@ -2025,7 +2043,7 @@ package model_transformer_controller_pkg is
     SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
 
     matrix_x_input : matrix_buffer;
-    matrix_q_input : matrix_buffer;
+    matrix_q_input : matrix_buffer
     ) return matrix_buffer;
 
   function function_model_values_vector (
@@ -2034,12 +2052,30 @@ package model_transformer_controller_pkg is
     SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
 
     matrix_x_input : matrix_buffer;
-    matrix_v_input : matrix_buffer;
+    matrix_v_input : matrix_buffer
     ) return matrix_buffer;
 
   ------------------------------------------------------------------------------
   -- FUNCTIONS
   ------------------------------------------------------------------------------
+
+  function function_model_layer_norm (
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    matrix_z_input : matrix_buffer;
+    matrix_gamma_input : matrix_buffer;
+    matrix_beta_input : matrix_buffer
+    ) return matrix_buffer;
+
+  function function_model_positional_encoding (
+    SIZE_L_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    tensor_x_input : tensor_buffer;
+    tensor_pe_input : tensor_buffer
+    ) return tensor_buffer;
 
   ------------------------------------------------------------------------------
   -- FNN
@@ -2385,6 +2421,104 @@ package model_transformer_controller_pkg is
   -- TOP
   ------------------------------------------------------------------------------
 
+  function function_model_decoder (
+    SIZE_L_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_M_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_H_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    tensor_k_input : tensor_buffer;
+    tensor_q_input : tensor_buffer;
+    tensor_v_input : tensor_buffer;
+
+    matrix_w_oh_input : matrix_buffer;
+
+    matrix_w1_input : matrix_buffer;
+    vector_b1_input : vector_buffer;
+
+    matrix_w2_input : matrix_buffer;
+    vector_b2_input : vector_buffer;
+
+    tensor_x_input : tensor_buffer;
+    tensor_z_input : tensor_buffer
+    ) return tensor_buffer;
+
+  function function_model_encoder (
+    SIZE_L_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_M_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_H_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    tensor_k_input : tensor_buffer;
+    tensor_q_input : tensor_buffer;
+    tensor_v_input : tensor_buffer;
+
+    matrix_w_oh_input : matrix_buffer;
+
+    matrix_w1_input : matrix_buffer;
+    vector_b1_input : vector_buffer;
+
+    matrix_w2_input : matrix_buffer;
+    vector_b2_input : vector_buffer;
+
+    tensor_x_input : tensor_buffer
+    ) return tensor_buffer;
+
+  function function_model_controller (
+    SIZE_L_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_M_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_H_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_X_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_W_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_R_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_P_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_S_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    tensor_k_input : tensor_buffer;
+    tensor_q_input : tensor_buffer;
+    tensor_v_input : tensor_buffer;
+
+    matrix_w_OH_input : matrix_buffer;
+
+    matrix_w1_input : matrix_buffer;
+    vector_b1_input : vector_buffer;
+
+    matrix_w2_input : matrix_buffer;
+    vector_b2_input : vector_buffer;
+
+    matrix_w_i_input : matrix_buffer;
+    tensor_k_i_input : tensor_buffer;
+    matrix_v_i_input : matrix_buffer;
+    tensor_d_i_input : tensor_buffer;
+
+    tensor_x_i_input : tensor_buffer;
+    array4_r_i_input : array4_buffer;
+    tensor_xi_i_input : tensor_buffer;
+    array4_rho_i_input : array4_buffer;
+
+    matrix_w_o_input : matrix_buffer;
+    tensor_k_o_input : tensor_buffer;
+    matrix_v_o_input : matrix_buffer;
+    tensor_d_o_input : tensor_buffer;
+
+    tensor_x_o_input : tensor_buffer;
+    array4_r_o_input : array4_buffer;
+    tensor_xi_o_input : tensor_buffer;
+    array4_rho_o_input : array4_buffer;
+
+    tensor_pe_input : tensor_buffer
+    ) return tensor_buffer;
+
 end model_transformer_controller_pkg;
 
 package body model_transformer_controller_pkg is
@@ -2412,8 +2546,8 @@ package body model_transformer_controller_pkg is
 
     matrix_w_oh_input : matrix_buffer;
 
-    matrix_x_input : matrix_buffer;
-    ) return matrix_buffer;
+    matrix_x_input : matrix_buffer
+    ) return matrix_buffer is
 
     variable matrix_y_output : matrix_buffer;
 
@@ -2434,8 +2568,8 @@ package body model_transformer_controller_pkg is
 
     matrix_m_input : matrix_buffer;
 
-    matrix_x_input : matrix_buffer;
-    ) return matrix_buffer;
+    matrix_x_input : matrix_buffer
+    ) return matrix_buffer is
 
     variable matrix_u_output : matrix_buffer;
 
@@ -2457,8 +2591,8 @@ package body model_transformer_controller_pkg is
 
     matrix_w_oh_input : matrix_buffer;
 
-    matrix_x_input : matrix_buffer;
-    ) return matrix_buffer;
+    matrix_x_input : matrix_buffer
+    ) return matrix_buffer is
 
     variable matrix_y_output : matrix_buffer;
 
@@ -2478,8 +2612,8 @@ package body model_transformer_controller_pkg is
     tensor_q_input : tensor_buffer;
     tensor_v_input : tensor_buffer;
 
-    matrix_x_input : matrix_buffer;
-    ) return matrix_buffer;
+    matrix_x_input : matrix_buffer
+    ) return matrix_buffer is
 
     variable matrix_u_output : matrix_buffer;
 
@@ -2492,9 +2626,153 @@ package body model_transformer_controller_pkg is
   -- INPUTS
   ------------------------------------------------------------------------------
 
+  function function_model_inputs_vector (
+    SIZE_L_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_Q_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_X_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_W_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_R_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_P_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_S_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    matrix_w_input : matrix_buffer;
+    tensor_k_input : tensor_buffer;
+    matrix_v_input : matrix_buffer;
+    tensor_d_input : tensor_buffer;
+
+    tensor_x_input : tensor_buffer;
+    array4_r_input : array4_buffer;
+    tensor_xi_input : tensor_buffer;
+    array4_rho_input : array4_buffer
+    ) return tensor_buffer is
+
+    variable tensor_x_output : tensor_buffer;
+
+  begin
+
+    return tensor_x_output;
+  end function function_model_inputs_vector;
+
+  function function_model_keys_vector (
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    matrix_k_input : matrix_buffer;
+    matrix_x_input : matrix_buffer
+    ) return matrix_buffer is
+
+    variable matrix_k_output : matrix_buffer;
+
+  begin
+
+    -- K(n;k) = X(n;d)·K(d;k)
+    matrix_k_output := function_matrix_product (
+      SIZE_A_I_IN => SIZE_N_IN,
+      SIZE_A_J_IN => SIZE_D_IN,
+      SIZE_B_I_IN => SIZE_D_IN,
+      SIZE_B_J_IN => SIZE_k_IN,
+
+      matrix_a_input => matrix_x_input,
+      matrix_b_input => matrix_k_input
+      );
+
+    return matrix_k_output;
+  end function function_model_keys_vector;
+
+  function function_model_queries_vector (
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    matrix_x_input : matrix_buffer;
+    matrix_q_input : matrix_buffer
+    ) return matrix_buffer is
+
+    variable matrix_q_output : matrix_buffer;
+
+  begin
+
+    -- Q(n;k) = X(n;d)·Q(d;k)
+    matrix_q_output := function_matrix_product (
+      SIZE_A_I_IN => SIZE_N_IN,
+      SIZE_A_J_IN => SIZE_D_IN,
+      SIZE_B_I_IN => SIZE_D_IN,
+      SIZE_B_J_IN => SIZE_k_IN,
+
+      matrix_a_input => matrix_x_input,
+      matrix_b_input => matrix_q_input
+      );
+
+    return matrix_q_output;
+  end function function_model_queries_vector;
+
+  function function_model_values_vector (
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    matrix_x_input : matrix_buffer;
+    matrix_v_input : matrix_buffer
+    ) return matrix_buffer is
+
+    variable matrix_v_output : matrix_buffer;
+
+  begin
+
+    -- V(n;v) = X(n;d)·V(d;v)
+    matrix_v_output := function_matrix_product (
+      SIZE_A_I_IN => SIZE_N_IN,
+      SIZE_A_J_IN => SIZE_D_IN,
+      SIZE_B_I_IN => SIZE_D_IN,
+      SIZE_B_J_IN => SIZE_k_IN,
+
+      matrix_a_input => matrix_x_input,
+      matrix_b_input => matrix_v_input
+      );
+
+    return matrix_v_output;
+  end function function_model_values_vector;
+
   ------------------------------------------------------------------------------
   -- FUNCTIONS
   ------------------------------------------------------------------------------
+
+  function function_model_layer_norm (
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    matrix_z_input : matrix_buffer;
+    matrix_gamma_input : matrix_buffer;
+    matrix_beta_input : matrix_buffer
+    ) return matrix_buffer is
+
+    variable matrix_n_output : matrix_buffer;
+
+  begin
+
+    return matrix_n_output;
+  end function function_model_layer_norm;
+
+  function function_model_positional_encoding (
+    SIZE_L_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    tensor_x_input : tensor_buffer;
+    tensor_pe_input : tensor_buffer
+    ) return tensor_buffer is
+
+    variable tensor_y_output : tensor_buffer;
+
+  begin
+
+    return tensor_y_output;
+  end function function_model_positional_encoding;
 
   ------------------------------------------------------------------------------
   -- FNN
@@ -4399,5 +4677,124 @@ package body model_transformer_controller_pkg is
   ------------------------------------------------------------------------------
   -- TOP
   ------------------------------------------------------------------------------
+
+  function function_model_decoder (
+    SIZE_L_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_M_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_H_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    tensor_k_input : tensor_buffer;
+    tensor_q_input : tensor_buffer;
+    tensor_v_input : tensor_buffer;
+
+    matrix_w_oh_input : matrix_buffer;
+
+    matrix_w1_input : matrix_buffer;
+    vector_b1_input : vector_buffer;
+
+    matrix_w2_input : matrix_buffer;
+    vector_b2_input : vector_buffer;
+
+    tensor_x_input : tensor_buffer;
+    tensor_z_input : tensor_buffer
+    ) return tensor_buffer is
+
+    variable tensor_z_output : tensor_buffer;
+
+  begin
+
+    return tensor_z_output;
+  end function function_model_decoder;
+
+  function function_model_encoder (
+    SIZE_L_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_M_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_H_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    tensor_k_input : tensor_buffer;
+    tensor_q_input : tensor_buffer;
+    tensor_v_input : tensor_buffer;
+
+    matrix_w_oh_input : matrix_buffer;
+
+    matrix_w1_input : matrix_buffer;
+    vector_b1_input : vector_buffer;
+
+    matrix_w2_input : matrix_buffer;
+    vector_b2_input : vector_buffer;
+
+    tensor_x_input : tensor_buffer
+    ) return tensor_buffer is
+
+    variable tensor_z_output : tensor_buffer;
+
+  begin
+
+    return tensor_z_output;
+  end function function_model_encoder;
+
+  function function_model_controller (
+    SIZE_L_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_M_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_K_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_V_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_H_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_X_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_W_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_R_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_P_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_S_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    tensor_k_input : tensor_buffer;
+    tensor_q_input : tensor_buffer;
+    tensor_v_input : tensor_buffer;
+
+    matrix_w_OH_input : matrix_buffer;
+
+    matrix_w1_input : matrix_buffer;
+    vector_b1_input : vector_buffer;
+
+    matrix_w2_input : matrix_buffer;
+    vector_b2_input : vector_buffer;
+
+    matrix_w_i_input : matrix_buffer;
+    tensor_k_i_input : tensor_buffer;
+    matrix_v_i_input : matrix_buffer;
+    tensor_d_i_input : tensor_buffer;
+
+    tensor_x_i_input : tensor_buffer;
+    array4_r_i_input : array4_buffer;
+    tensor_xi_i_input : tensor_buffer;
+    array4_rho_i_input : array4_buffer;
+
+    matrix_w_o_input : matrix_buffer;
+    tensor_k_o_input : tensor_buffer;
+    matrix_v_o_input : matrix_buffer;
+    tensor_d_o_input : tensor_buffer;
+
+    tensor_x_o_input : tensor_buffer;
+    array4_r_o_input : array4_buffer;
+    tensor_xi_o_input : tensor_buffer;
+    array4_rho_o_input : array4_buffer;
+
+    tensor_pe_input : tensor_buffer
+    ) return tensor_buffer is
+
+    variable tensor_z_output : tensor_buffer;
+
+  begin
+
+    return tensor_z_output;
+  end function function_model_controller;
 
 end model_transformer_controller_pkg;
