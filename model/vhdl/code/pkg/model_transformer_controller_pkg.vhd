@@ -2109,6 +2109,20 @@ package model_transformer_controller_pkg is
     vector_h_input   : vector_buffer
     ) return vector_buffer;
 
+  function function_model_reduced_fnn_convolutional_controller (
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_M_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    matrix_w1_input : matrix_buffer;
+    vector_b1_input : vector_buffer;
+
+    matrix_w2_input : matrix_buffer;
+    vector_b2_input : vector_buffer;
+
+    vector_x_input : vector_buffer
+    ) return vector_buffer;
+
   ------------------------------------------------------------------------------
   -- STANDARD
   ------------------------------------------------------------------------------
@@ -2133,6 +2147,20 @@ package model_transformer_controller_pkg is
     vector_xi_input  : vector_buffer;
     matrix_rho_input : matrix_buffer;
     vector_h_input   : vector_buffer
+    ) return vector_buffer;
+
+  function function_model_reduced_fnn_standard_controller (
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_M_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    matrix_w1_input : matrix_buffer;
+    vector_b1_input : vector_buffer;
+
+    matrix_w2_input : matrix_buffer;
+    vector_b2_input : vector_buffer;
+
+    vector_x_input : vector_buffer
     ) return vector_buffer;
 
   ------------------------------------------------------------------------------
@@ -2631,7 +2659,7 @@ package body model_transformer_controller_pkg is
 
     for i in 0 to to_integer(unsigned(SIZE_N_IN))-1 loop
       for j in 0 to to_integer(unsigned(SIZE_N_IN))-1 loop
-        matrix_dimension_int(i, j) := std_logic_vector(to_float(to_real(to_float(SIZE_D_IN, float64'high, -float64'low)), float64'high, -float64'low));
+        matrix_dimension_int(i, j) := std_logic_vector(to_float(sqrt(to_real(to_float(SIZE_D_IN, float64'high, -float64'low))), float64'high, -float64'low));
       end loop;
     end loop;
 
@@ -2743,9 +2771,52 @@ package body model_transformer_controller_pkg is
     array4_rho_input : array4_buffer
     ) return tensor_buffer is
 
+    variable matrix_x_int  : matrix_buffer;
+    variable matrix_xi_int : matrix_buffer;
+
+    variable tensor_r_int   : tensor_buffer;
+    variable tensor_rho_int : tensor_buffer;
+
     variable tensor_x_output : tensor_buffer;
 
   begin
+
+    -- X(l;n;d) = W(d;x)·x(l;n;x) + K(i;d;k)·r(l;n;i;k) + D(i;d;p)·rho(l;n;i;p) + V(d;s)·xi(l;n;s)
+
+    for l in 0 to to_integer(unsigned(SIZE_L_IN))-1 loop
+      for n in 0 to to_integer(unsigned(SIZE_N_IN))-1 loop
+        for x in 0 to to_integer(unsigned(SIZE_X_IN))-1 loop
+          matrix_x_int(n, x) := tensor_x_input(l, n, x);
+        end loop;
+
+        for i in 0 to to_integer(unsigned(SIZE_R_IN))-1 loop
+          for k in 0 to to_integer(unsigned(SIZE_W_IN))-1 loop
+            tensor_r_int(n, i, k) := array4_r_input(l, n, i, k);
+          end loop;
+          
+          for p in 0 to to_integer(unsigned(SIZE_P_IN))-1 loop
+            tensor_rho_int(n, i, p) := array4_rho_input(l, n, i, p);
+          end loop;
+        end loop;
+
+        for s in 0 to to_integer(unsigned(SIZE_S_IN))-1 loop
+          matrix_xi_int(n, s) := tensor_xi_input(l, n, s);
+        end loop;
+
+        -- W(d;x)·x(l;n;x)
+
+        -- K(i;d;k)·r(l;n;i;k)
+        for d in 0 to to_integer(unsigned(SIZE_D_IN))-1 loop
+          for i in 0 to to_integer(unsigned(SIZE_R_IN))-1 loop
+
+          end loop;
+        end loop;
+
+        -- D(i;d;p)·rho(l;n;i;p)
+
+        -- V(d;s)·xi(l;n;s)
+      end loop;
+    end loop;
 
     return tensor_x_output;
   end function function_model_inputs_vector;
@@ -3034,6 +3105,78 @@ package body model_transformer_controller_pkg is
     return vector_h_output;
   end function function_model_fnn_convolutional_controller;
 
+  function function_model_reduced_fnn_convolutional_controller (
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_M_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    matrix_w1_input : matrix_buffer;
+    vector_b1_input : vector_buffer;
+
+    matrix_w2_input : matrix_buffer;
+    vector_b2_input : vector_buffer;
+
+    vector_x_input : vector_buffer
+    ) return vector_buffer is
+
+    variable vector_operation_int : vector_buffer;
+
+    variable vector_y_output : vector_buffer;
+
+  begin
+
+    -- y(n;d) = W2(d;m)*(sigmoid(W1(m;d)*x(n;d) + b1(m))) + b2(d)
+
+    -- W1(m;d)*x(n;d)
+    vector_operation_int := function_matrix_vector_convolution (
+      SIZE_A_I_IN => SIZE_M_IN,
+      SIZE_A_J_IN => SIZE_D_IN,
+      SIZE_B_IN   => SIZE_D_IN,
+
+      matrix_a_input => matrix_w1_input,
+      vector_b_input => vector_x_input
+      );
+
+    -- b1(m)
+    vector_operation_int := function_vector_float_adder (
+      OPERATION => '0',
+
+      SIZE_IN => SIZE_M_IN,
+
+      vector_a_input => vector_operation_int,
+      vector_b_input => vector_b1_input
+      );
+
+    -- sigmoid(.)
+    vector_operation_int := function_vector_logistic (
+      SIZE_IN => SIZE_M_IN,
+
+      vector_input => vector_operation_int
+      );
+
+    -- W2(d;m)*sigmoid(.)
+    vector_operation_int := function_matrix_vector_convolution (
+      SIZE_A_I_IN => SIZE_D_IN,
+      SIZE_A_J_IN => SIZE_M_IN,
+      SIZE_B_IN   => SIZE_M_IN,
+
+      matrix_a_input => matrix_w2_input,
+      vector_b_input => vector_operation_int
+      );
+
+    -- b2(d)
+    vector_y_output := function_vector_float_adder (
+      OPERATION => '0',
+
+      SIZE_IN => SIZE_D_IN,
+
+      vector_a_input => vector_operation_int,
+      vector_b_input => vector_b2_input
+      );
+
+    return vector_y_output;
+  end function function_model_reduced_fnn_convolutional_controller;
+
   ------------------------------------------------------------------------------
   -- STANDARD
   ------------------------------------------------------------------------------
@@ -3174,6 +3317,78 @@ package body model_transformer_controller_pkg is
 
     return vector_h_output;
   end function function_model_fnn_standard_controller;
+
+  function function_model_reduced_fnn_standard_controller (
+    SIZE_N_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_D_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+    SIZE_M_IN : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
+    matrix_w1_input : matrix_buffer;
+    vector_b1_input : vector_buffer;
+
+    matrix_w2_input : matrix_buffer;
+    vector_b2_input : vector_buffer;
+
+    vector_x_input : vector_buffer
+    ) return vector_buffer is
+
+    variable vector_operation_int : vector_buffer;
+
+    variable vector_y_output : vector_buffer;
+
+  begin
+
+    -- y(n;d) = W2(d;m)·(sigmoid(W1(m;d)·x(n;d) + b1(m))) + b2(d)
+
+    -- W1(m;d)·x(n;d)
+    vector_operation_int := function_matrix_vector_product (
+      SIZE_A_I_IN => SIZE_M_IN,
+      SIZE_A_J_IN => SIZE_D_IN,
+      SIZE_B_IN   => SIZE_D_IN,
+
+      matrix_a_input => matrix_w1_input,
+      vector_b_input => vector_x_input
+      );
+
+    -- b1(m)
+    vector_operation_int := function_vector_float_adder (
+      OPERATION => '0',
+
+      SIZE_IN => SIZE_M_IN,
+
+      vector_a_input => vector_operation_int,
+      vector_b_input => vector_b1_input
+      );
+
+    -- sigmoid(.)
+    vector_operation_int := function_vector_logistic (
+      SIZE_IN => SIZE_M_IN,
+
+      vector_input => vector_operation_int
+      );
+
+    -- W2(d;m)·sigmoid(.)
+    vector_operation_int := function_matrix_vector_product (
+      SIZE_A_I_IN => SIZE_D_IN,
+      SIZE_A_J_IN => SIZE_M_IN,
+      SIZE_B_IN   => SIZE_M_IN,
+
+      matrix_a_input => matrix_w2_input,
+      vector_b_input => vector_operation_int
+      );
+
+    -- b2(d)
+    vector_y_output := function_vector_float_adder (
+      OPERATION => '0',
+
+      SIZE_IN => SIZE_D_IN,
+
+      vector_a_input => vector_operation_int,
+      vector_b_input => vector_b2_input
+      );
+
+    return vector_y_output;
+  end function function_model_reduced_fnn_standard_controller;
 
   ------------------------------------------------------------------------------
   -- LSTM
@@ -4823,6 +5038,9 @@ package body model_transformer_controller_pkg is
 
     variable matrix_m_input : matrix_buffer;
 
+    variable vector_x_int : vector_buffer;
+    variable vector_y_int : vector_buffer;
+
     variable matrix_x_int : matrix_buffer;
     variable matrix_y_int : matrix_buffer;
     variable matrix_z_int : matrix_buffer;
@@ -4916,27 +5134,19 @@ package body model_transformer_controller_pkg is
         matrix_beta_input  => matrix_beta_input
         );
 
-      --matrix_y_int := function_model_fnn_convolutional_controller (
-      --SIZE_X_IN => SIZE_X_IN,
-      --SIZE_W_IN => SIZE_W_IN,
-      --SIZE_L_IN => SIZE_L_IN,
-      --SIZE_R_IN => SIZE_R_IN,
-      --SIZE_S_IN => SIZE_S_IN,
-      --SIZE_M_IN => SIZE_M_IN,
+      vector_y_int := function_model_reduced_fnn_standard_controller (
+        SIZE_N_IN => SIZE_N_IN,
+        SIZE_D_IN => SIZE_D_IN,
+        SIZE_M_IN => SIZE_M_IN,
 
-      --matrix_w_input => matrix_w_input,
-      --tensor_k_input => tensor_k_input,
-      --matrix_u_input => matrix_u_input,
-      --matrix_v_input => matrix_v_input,
-      --tensor_d_input => tensor_d_input,
-      --vector_b_input => vector_b_input,
+        matrix_w1_input => matrix_w1_input,
+        vector_b1_input => vector_b1_input,
 
-      --vector_x_input   => vector_x_input,
-      --matrix_r_input   => matrix_r_input,
-      --vector_xi_input  => vector_xi_input,
-      --matrix_rho_input => matrix_rho_input,
-      --vector_h_input   => vector_h_input
-      --);
+        matrix_w2_input => matrix_w2_input,
+        vector_b2_input => vector_b2_input,
+
+        vector_x_input => vector_x_int
+        );
 
       matrix_z_int := function_matrix_float_adder (
         OPERATION => '0',
@@ -4988,6 +5198,9 @@ package body model_transformer_controller_pkg is
     variable matrix_gamma_input : matrix_buffer;
     variable matrix_beta_input  : matrix_buffer;
 
+    variable vector_x_int : vector_buffer;
+    variable vector_y_int : vector_buffer;
+
     variable matrix_x_int : matrix_buffer;
     variable matrix_y_int : matrix_buffer;
     variable matrix_z_int : matrix_buffer;
@@ -5038,27 +5251,19 @@ package body model_transformer_controller_pkg is
         matrix_beta_input  => matrix_beta_input
         );
 
-      --matrix_y_int := function_model_fnn_convolutional_controller (
-      --SIZE_X_IN => SIZE_X_IN,
-      --SIZE_W_IN => SIZE_W_IN,
-      --SIZE_L_IN => SIZE_L_IN,
-      --SIZE_R_IN => SIZE_R_IN,
-      --SIZE_S_IN => SIZE_S_IN,
-      --SIZE_M_IN => SIZE_M_IN,
+      vector_y_int := function_model_reduced_fnn_standard_controller (
+        SIZE_N_IN => SIZE_N_IN,
+        SIZE_D_IN => SIZE_D_IN,
+        SIZE_M_IN => SIZE_M_IN,
 
-      --matrix_w_input => matrix_w_input,
-      --tensor_k_input => tensor_k_input,
-      --matrix_u_input => matrix_u_input,
-      --matrix_v_input => matrix_v_input,
-      --tensor_d_input => tensor_d_input,
-      --vector_b_input => vector_b_input,
+        matrix_w1_input => matrix_w1_input,
+        vector_b1_input => vector_b1_input,
 
-      --vector_x_input   => vector_x_input,
-      --matrix_r_input   => matrix_r_input,
-      --vector_xi_input  => vector_xi_input,
-      --matrix_rho_input => matrix_rho_input,
-      --vector_h_input   => vector_h_input
-      --);
+        matrix_w2_input => matrix_w2_input,
+        vector_b2_input => vector_b2_input,
+
+        vector_x_input => vector_x_int
+        );
 
       matrix_z_int := function_matrix_float_adder (
         OPERATION => '0',

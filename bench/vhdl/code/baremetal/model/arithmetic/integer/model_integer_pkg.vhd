@@ -42,6 +42,8 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
+use ieee.math_real.all;
+
 use work.model_arithmetic_pkg.all;
 
 package model_integer_pkg is
@@ -443,5 +445,155 @@ package model_integer_pkg is
   ------------------------------------------------------------------------------
   -- Functions
   ------------------------------------------------------------------------------
+
+  -- SCALAR
+  function scalar_randomness_generation return std_logic_vector;
+
+  -- VECTOR
+  function vector_randomness_generation (
+    DATA_L_IN : integer
+    ) return vector_buffer;
+
+  -- MATRIX
+  function matrix_randomness_generation (
+    DATA_I_IN : integer;
+    DATA_J_IN : integer
+    ) return matrix_buffer;
+
+  -- TENSOR
+  function tensor_randomness_generation (
+    DATA_I_IN : integer;
+    DATA_J_IN : integer;
+    DATA_K_IN : integer
+    ) return tensor_buffer;
+
+end model_integer_pkg;
+
+package body model_integer_pkg is
+
+  ------------------------------------------------------------------------------
+  -- Functions
+  ------------------------------------------------------------------------------
+
+  -- SCALAR
+  function scalar_randomness_generation return std_logic_vector is
+
+    variable seed1 : positive;
+    variable seed2 : positive;
+
+    variable r : real;
+
+    variable random_sample : std_logic_vector(DATA_SIZE-1 downto 0);
+
+  begin
+
+    -- randomness generation
+    for m in 0 to DATA_SIZE-1 loop
+      seed1 := m;
+      seed2 := m**2;
+
+      uniform(seed1, seed2, r);
+
+      random_sample(m) := '1' when r > 0.5 else '0';
+    end loop;
+
+    return random_sample;
+  end function scalar_randomness_generation;
+
+  -- VECTOR
+  function vector_randomness_generation (
+    DATA_L_IN : integer
+    ) return vector_buffer is
+
+    variable seed1 : positive;
+    variable seed2 : positive;
+
+    variable r : real;
+
+    variable random_sample : vector_buffer;
+
+  begin
+
+    -- randomness generation
+    for l in 0 to DATA_L_IN-1 loop
+      for m in 0 to DATA_SIZE-1 loop
+        seed1 := m;
+        seed2 := m**2;
+
+        uniform(seed1, seed2, r);
+
+        random_sample(l)(m) := '1' when r > 0.5 else '0';
+      end loop;
+    end loop;
+
+    return random_sample;
+  end function vector_randomness_generation;
+
+  -- MATRIX
+  function matrix_randomness_generation (
+    DATA_I_IN : integer;
+    DATA_J_IN : integer
+    ) return matrix_buffer is
+
+    variable seed1 : positive;
+    variable seed2 : positive;
+
+    variable r : real;
+
+    variable random_sample : matrix_buffer;
+
+  begin
+
+    -- randomness generation
+    for i in 0 to DATA_I_IN-1 loop
+      for j in 0 to DATA_J_IN-1 loop
+        for m in 0 to DATA_SIZE-1 loop
+          seed1 := i + j + m;
+          seed2 := i + j + m**2;
+
+          uniform(seed1, seed2, r);
+
+          random_sample(i, j)(m) := '1' when r > 0.5 else '0';
+        end loop;
+      end loop;
+    end loop;
+
+    return random_sample;
+  end function matrix_randomness_generation;
+
+  -- TENSOR
+  function tensor_randomness_generation (
+    DATA_I_IN : integer;
+    DATA_J_IN : integer;
+    DATA_K_IN : integer
+    ) return tensor_buffer is
+
+    variable seed1 : positive;
+    variable seed2 : positive;
+
+    variable r : real;
+
+    variable random_sample : tensor_buffer;
+
+  begin
+
+    -- randomness generation
+    for i in 0 to DATA_I_IN-1 loop
+      for j in 0 to DATA_J_IN-1 loop
+        for k in 0 to DATA_K_IN-1 loop
+          for m in 0 to DATA_SIZE-1 loop
+            seed1 := i + j + k + m;
+            seed2 := i + j + k + m**2;
+
+            uniform(seed1, seed2, r);
+
+            random_sample(i, j, k)(m) := '1' when r > 0.5 else '0';
+          end loop;
+        end loop;
+      end loop;
+    end loop;
+
+    return random_sample;
+  end function tensor_randomness_generation;
 
 end model_integer_pkg;
