@@ -489,8 +489,8 @@ package body model_integer_pkg is
 
     -- randomness generation
     for m in 0 to DATA_SIZE-1 loop
-      seed1 := m;
-      seed2 := m**2;
+      seed1 := m + 1;
+      seed2 := m + 2;
 
       uniform(seed1, seed2, r);
 
@@ -517,8 +517,8 @@ package body model_integer_pkg is
     -- randomness generation
     for l in 0 to DATA_L_IN-1 loop
       for m in 0 to DATA_SIZE-1 loop
-        seed1 := m;
-        seed2 := m**2;
+        seed1 := l + m + 1;
+        seed2 := l + m + 2;
 
         uniform(seed1, seed2, r);
 
@@ -548,8 +548,8 @@ package body model_integer_pkg is
     for i in 0 to DATA_I_IN-1 loop
       for j in 0 to DATA_J_IN-1 loop
         for m in 0 to DATA_SIZE-1 loop
-          seed1 := i + j + m;
-          seed2 := i + j + m**2;
+          seed1 := i + j + m + 1;
+          seed2 := i + j + m + 2;
 
           uniform(seed1, seed2, r);
 
@@ -582,8 +582,8 @@ package body model_integer_pkg is
       for j in 0 to DATA_J_IN-1 loop
         for k in 0 to DATA_K_IN-1 loop
           for m in 0 to DATA_SIZE-1 loop
-            seed1 := i + j + k + m;
-            seed2 := i + j + k + m**2;
+            seed1 := i + j + k + m + 1;
+            seed2 := i + j + k + m + 2;
 
             uniform(seed1, seed2, r);
 
