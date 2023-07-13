@@ -447,24 +447,36 @@ package model_integer_pkg is
   ------------------------------------------------------------------------------
 
   -- SCALAR
-  function scalar_randomness_generation return std_logic_vector;
+  function scalar_randomness_generation (
+    seed1_in : integer;
+    seed2_in : integer
+  ) return std_logic_vector;
 
   -- VECTOR
   function vector_randomness_generation (
-    DATA_L_IN : integer
+    DATA_L_IN : integer;
+
+    seed1_in : integer;
+    seed2_in : integer
     ) return vector_buffer;
 
   -- MATRIX
   function matrix_randomness_generation (
     DATA_I_IN : integer;
-    DATA_J_IN : integer
+    DATA_J_IN : integer;
+
+    seed1_in : integer;
+    seed2_in : integer
     ) return matrix_buffer;
 
   -- TENSOR
   function tensor_randomness_generation (
     DATA_I_IN : integer;
     DATA_J_IN : integer;
-    DATA_K_IN : integer
+    DATA_K_IN : integer;
+
+    seed1_in : integer;
+    seed2_in : integer
     ) return tensor_buffer;
 
 end model_integer_pkg;
@@ -476,10 +488,13 @@ package body model_integer_pkg is
   ------------------------------------------------------------------------------
 
   -- SCALAR
-  function scalar_randomness_generation return std_logic_vector is
+  function scalar_randomness_generation (
+    seed1_in : integer;
+    seed2_in : integer
+    ) return std_logic_vector is
 
-    variable seed1 : positive;
-    variable seed2 : positive;
+    variable seed1 : integer;
+    variable seed2 : integer;
 
     variable r : real;
 
@@ -487,11 +502,11 @@ package body model_integer_pkg is
 
   begin
 
+    seed1 := seed1_in;
+    seed2 := seed2_in;
+
     -- randomness generation
     for m in 0 to DATA_SIZE-1 loop
-      seed1 := m + 1;
-      seed2 := m + 2;
-
       uniform(seed1, seed2, r);
 
       random_sample(m) := '1' when r > 0.5 else '0';
@@ -502,11 +517,14 @@ package body model_integer_pkg is
 
   -- VECTOR
   function vector_randomness_generation (
-    DATA_L_IN : integer
+    DATA_L_IN : integer;
+
+    seed1_in : integer;
+    seed2_in : integer
     ) return vector_buffer is
 
-    variable seed1 : positive;
-    variable seed2 : positive;
+    variable seed1 : integer;
+    variable seed2 : integer;
 
     variable r : real;
 
@@ -514,12 +532,12 @@ package body model_integer_pkg is
 
   begin
 
+    seed1 := seed1_in;
+    seed2 := seed2_in;
+
     -- randomness generation
     for l in 0 to DATA_L_IN-1 loop
       for m in 0 to DATA_SIZE-1 loop
-        seed1 := l + m + 1;
-        seed2 := l + m + 2;
-
         uniform(seed1, seed2, r);
 
         random_sample(l)(m) := '1' when r > 0.5 else '0';
@@ -532,11 +550,14 @@ package body model_integer_pkg is
   -- MATRIX
   function matrix_randomness_generation (
     DATA_I_IN : integer;
-    DATA_J_IN : integer
+    DATA_J_IN : integer;
+
+    seed1_in : integer;
+    seed2_in : integer
     ) return matrix_buffer is
 
-    variable seed1 : positive;
-    variable seed2 : positive;
+    variable seed1 : integer;
+    variable seed2 : integer;
 
     variable r : real;
 
@@ -544,13 +565,13 @@ package body model_integer_pkg is
 
   begin
 
+    seed1 := seed1_in;
+    seed2 := seed2_in;
+
     -- randomness generation
     for i in 0 to DATA_I_IN-1 loop
       for j in 0 to DATA_J_IN-1 loop
         for m in 0 to DATA_SIZE-1 loop
-          seed1 := i + j + m + 1;
-          seed2 := i + j + m + 2;
-
           uniform(seed1, seed2, r);
 
           random_sample(i, j)(m) := '1' when r > 0.5 else '0';
@@ -565,11 +586,14 @@ package body model_integer_pkg is
   function tensor_randomness_generation (
     DATA_I_IN : integer;
     DATA_J_IN : integer;
-    DATA_K_IN : integer
+    DATA_K_IN : integer;
+
+    seed1_in : integer;
+    seed2_in : integer
     ) return tensor_buffer is
 
-    variable seed1 : positive;
-    variable seed2 : positive;
+    variable seed1 : integer;
+    variable seed2 : integer;
 
     variable r : real;
 
@@ -577,14 +601,14 @@ package body model_integer_pkg is
 
   begin
 
+    seed1 := seed1_in;
+    seed2 := seed2_in;
+
     -- randomness generation
     for i in 0 to DATA_I_IN-1 loop
       for j in 0 to DATA_J_IN-1 loop
         for k in 0 to DATA_K_IN-1 loop
           for m in 0 to DATA_SIZE-1 loop
-            seed1 := i + j + k + m + 1;
-            seed2 := i + j + k + m + 2;
-
             uniform(seed1, seed2, r);
 
             random_sample(i, j, k)(m) := '1' when r > 0.5 else '0';
