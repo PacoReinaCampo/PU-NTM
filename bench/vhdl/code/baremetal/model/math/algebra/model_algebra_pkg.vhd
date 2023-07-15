@@ -108,7 +108,6 @@ package model_algebra_pkg is
   constant SCALAR_SAMPLE_A : std_logic_vector(DATA_SIZE-1 downto 0) := scalar_randomness_generation(SCALAR_SAMPLE_A_SEED1, SCALAR_SAMPLE_A_SEED2);
   constant SCALAR_SAMPLE_B : std_logic_vector(DATA_SIZE-1 downto 0) := scalar_randomness_generation(SCALAR_SAMPLE_B_SEED1, SCALAR_SAMPLE_B_SEED2);
 
-
   -- VECTOR-FUNCTIONALITY
   signal STIMULUS_NTM_DOT_PRODUCT_TEST              : boolean := false;
   signal STIMULUS_NTM_VECTOR_CONVOLUTION_TEST       : boolean := false;
