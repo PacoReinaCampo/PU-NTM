@@ -564,7 +564,7 @@ begin
   -- Body
   ------------------------------------------------------------------------------
 
-  -- h(t;l) = sigmoid(W(l;x)*x(t;x) + K(i;l;k)*r(t;i;k) + U(l;l)*h(t-1;l) + b(l))
+  -- h(t;l) = sigmoid(W(l;x)*x(t;x) + K(i;l;k)*r(t;i;k) + D(i;l;m)*rho(t;i;m) + V(l;s)*xi(t;s) + U(l;l)*h(t-1;l) + b(l))
 
   -- INPUT CONTROL
   w_in_fsm : process(CLK, RST)
@@ -610,11 +610,7 @@ begin
             matrix_w_in_int(to_integer(unsigned(index_l_w_in_loop)), to_integer(unsigned(index_x_w_in_loop))) <= W_IN;
 
             -- FSM Control
-            if (unsigned(index_x_w_in_loop) = unsigned(SIZE_X_IN)-unsigned(ONE_CONTROL)) then
-              controller_w_in_fsm_int <= CLEAN_W_IN_L_STATE;
-            else
-              controller_w_in_fsm_int <= CLEAN_W_IN_X_STATE;
-            end if;
+            controller_w_in_fsm_int <= CLEAN_W_IN_X_STATE;
           end if;
 
           -- Control Outputs
@@ -734,13 +730,7 @@ begin
             tensor_k_in_int(to_integer(unsigned(index_i_k_in_loop)), to_integer(unsigned(index_l_k_in_loop)), to_integer(unsigned(index_k_k_in_loop))) <= K_IN;
 
             -- FSM Control
-            if ((unsigned(index_l_k_in_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_k_in_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL))) then
-              controller_k_in_fsm_int <= CLEAN_K_IN_I_STATE;
-            elsif (unsigned(index_k_k_in_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL)) then
-              controller_k_in_fsm_int <= CLEAN_K_IN_L_STATE;
-            else
-              controller_k_in_fsm_int <= CLEAN_K_IN_K_STATE;
-            end if;
+            controller_k_in_fsm_int <= CLEAN_K_IN_K_STATE;
           end if;
 
           -- Control Outputs
@@ -755,9 +745,7 @@ begin
             tensor_k_in_int(to_integer(unsigned(index_i_k_in_loop)), to_integer(unsigned(index_l_k_in_loop)), to_integer(unsigned(index_k_k_in_loop))) <= K_IN;
 
             -- FSM Control
-            if ((unsigned(index_l_k_in_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_k_in_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL))) then
-              controller_k_in_fsm_int <= CLEAN_K_IN_I_STATE;
-            elsif (unsigned(index_k_k_in_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL)) then
+            if (unsigned(index_k_k_in_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL)) then
               controller_k_in_fsm_int <= CLEAN_K_IN_L_STATE;
             else
               controller_k_in_fsm_int <= CLEAN_K_IN_K_STATE;
@@ -897,11 +885,7 @@ begin
             matrix_u_in_int(to_integer(unsigned(index_l_u_in_loop)), to_integer(unsigned(index_p_u_in_loop))) <= U_IN;
 
             -- FSM Control
-            if (unsigned(index_p_u_in_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
-              controller_u_in_fsm_int <= CLEAN_U_IN_L_STATE;
-            else
-              controller_u_in_fsm_int <= CLEAN_U_IN_P_STATE;
-            end if;
+            controller_u_in_fsm_int <= CLEAN_U_IN_P_STATE;
           end if;
 
           -- Control Outputs
@@ -1016,11 +1000,7 @@ begin
             matrix_v_in_int(to_integer(unsigned(index_l_v_in_loop)), to_integer(unsigned(index_s_v_in_loop))) <= V_IN;
 
             -- FSM Control
-            if (unsigned(index_s_v_in_loop) = unsigned(SIZE_S_IN)-unsigned(ONE_CONTROL)) then
-              controller_v_in_fsm_int <= CLEAN_V_IN_L_STATE;
-            else
-              controller_v_in_fsm_int <= CLEAN_V_IN_S_STATE;
-            end if;
+            controller_v_in_fsm_int <= CLEAN_V_IN_S_STATE;
           end if;
 
           -- Control Outputs
@@ -1140,13 +1120,7 @@ begin
             tensor_d_in_int(to_integer(unsigned(index_i_d_in_loop)), to_integer(unsigned(index_l_d_in_loop)), to_integer(unsigned(index_m_d_in_loop))) <= D_IN;
 
             -- FSM Control
-            if ((unsigned(index_l_d_in_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_m_d_in_loop) = unsigned(SIZE_M_IN)-unsigned(ONE_CONTROL))) then
-              controller_d_in_fsm_int <= CLEAN_D_IN_I_STATE;
-            elsif (unsigned(index_m_d_in_loop) = unsigned(SIZE_M_IN)-unsigned(ONE_CONTROL)) then
-              controller_d_in_fsm_int <= CLEAN_D_IN_L_STATE;
-            else
-              controller_d_in_fsm_int <= CLEAN_D_IN_M_STATE;
-            end if;
+            controller_d_in_fsm_int <= CLEAN_D_IN_M_STATE;
           end if;
 
           -- Control Outputs
@@ -1161,9 +1135,7 @@ begin
             tensor_d_in_int(to_integer(unsigned(index_i_d_in_loop)), to_integer(unsigned(index_l_d_in_loop)), to_integer(unsigned(index_m_d_in_loop))) <= D_IN;
 
             -- FSM Control
-            if ((unsigned(index_l_d_in_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_m_d_in_loop) = unsigned(SIZE_M_IN)-unsigned(ONE_CONTROL))) then
-              controller_d_in_fsm_int <= CLEAN_D_IN_I_STATE;
-            elsif (unsigned(index_m_d_in_loop) = unsigned(SIZE_M_IN)-unsigned(ONE_CONTROL)) then
+            if (unsigned(index_m_d_in_loop) = unsigned(SIZE_M_IN)-unsigned(ONE_CONTROL)) then
               controller_d_in_fsm_int <= CLEAN_D_IN_L_STATE;
             else
               controller_d_in_fsm_int <= CLEAN_D_IN_M_STATE;
@@ -1453,11 +1425,7 @@ begin
             matrix_r_in_int(to_integer(unsigned(index_i_r_in_loop)), to_integer(unsigned(index_k_r_in_loop))) <= R_IN;
 
             -- FSM Control
-            if (unsigned(index_k_r_in_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL)) then
-              controller_r_in_fsm_int <= CLEAN_R_IN_I_STATE;
-            else
-              controller_r_in_fsm_int <= CLEAN_R_IN_K_STATE;
-            end if;
+            controller_r_in_fsm_int <= CLEAN_R_IN_K_STATE;
           end if;
 
           -- Control Outputs
@@ -1572,11 +1540,7 @@ begin
             matrix_rho_in_int(to_integer(unsigned(index_i_rho_in_loop)), to_integer(unsigned(index_m_rho_in_loop))) <= RHO_IN;
 
             -- FSM Control
-            if (unsigned(index_m_rho_in_loop) = unsigned(SIZE_M_IN)-unsigned(ONE_CONTROL)) then
-              controller_rho_in_fsm_int <= CLEAN_RHO_IN_I_STATE;
-            else
-              controller_rho_in_fsm_int <= CLEAN_RHO_IN_M_STATE;
-            end if;
+            controller_rho_in_fsm_int <= CLEAN_RHO_IN_M_STATE;
           end if;
 
           -- Control Outputs
@@ -1853,11 +1817,7 @@ begin
           data_b_in_enable_matrix_vector_convolution   <= '1';
 
           -- FSM Control
-          if (unsigned(index_j_matrix_vector_convolution_loop) = unsigned(SIZE_X_IN)-unsigned(ONE_CONTROL)) then
-            controller_first_matrix_vector_convolution_fsm_int <= CLEAN_I_FIRST_MATRIX_VECTOR_CONVOLUTION_STATE;
-          else
-            controller_first_matrix_vector_convolution_fsm_int <= CLEAN_J_FIRST_MATRIX_VECTOR_CONVOLUTION_STATE;
-          end if;
+          controller_first_matrix_vector_convolution_fsm_int <= CLEAN_J_FIRST_MATRIX_VECTOR_CONVOLUTION_STATE;
 
         when INPUT_J_FIRST_MATRIX_VECTOR_CONVOLUTION_STATE =>  -- STEP 6
 
@@ -2000,13 +1960,7 @@ begin
           data_b_in_j_enable_tensor_matrix_convolution <= '1';
 
           -- FSM Control
-          if ((unsigned(index_j_tensor_matrix_convolution_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_tensor_matrix_convolution_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL))) then
-            controller_tensor_matrix_convolution_fsm_int <= CLEAN_I_TENSOR_MATRIX_CONVOLUTION_STATE;
-          elsif (unsigned(index_k_tensor_matrix_convolution_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL)) then
-            controller_tensor_matrix_convolution_fsm_int <= CLEAN_J_TENSOR_MATRIX_CONVOLUTION_STATE;
-          else
-            controller_tensor_matrix_convolution_fsm_int <= CLEAN_K_TENSOR_MATRIX_CONVOLUTION_STATE;
-          end if;
+          controller_tensor_matrix_convolution_fsm_int <= CLEAN_K_TENSOR_MATRIX_CONVOLUTION_STATE;
 
         when INPUT_J_TENSOR_MATRIX_CONVOLUTION_STATE =>  -- STEP 5
 
@@ -2019,9 +1973,7 @@ begin
           data_b_in_j_enable_tensor_matrix_convolution <= '1';
 
           -- FSM Control
-          if ((unsigned(index_j_tensor_matrix_convolution_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_tensor_matrix_convolution_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL))) then
-            controller_tensor_matrix_convolution_fsm_int <= CLEAN_I_TENSOR_MATRIX_CONVOLUTION_STATE;
-          elsif (unsigned(index_k_tensor_matrix_convolution_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL)) then
+          if (unsigned(index_k_tensor_matrix_convolution_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL)) then
             controller_tensor_matrix_convolution_fsm_int <= CLEAN_J_TENSOR_MATRIX_CONVOLUTION_STATE;
           else
             controller_tensor_matrix_convolution_fsm_int <= CLEAN_K_TENSOR_MATRIX_CONVOLUTION_STATE;
@@ -2189,11 +2141,7 @@ begin
           data_in_enable_vector_summation        <= '1';
 
           -- FSM Control
-          if (unsigned(index_vector_summation_loop) = unsigned(SIZE_R_IN)-unsigned(ONE_CONTROL)) then
-            controller_vector_summation_fsm_int <= CLEAN_LENGTH_VECTOR_SUMMATION_STATE;
-          else
-            controller_vector_summation_fsm_int <= CLEAN_VECTOR_SUMMATION_STATE;
-          end if;
+          controller_vector_summation_fsm_int <= CLEAN_VECTOR_SUMMATION_STATE;
 
         when INPUT_VECTOR_SUMMATION_STATE =>  -- STEP 6
 
@@ -2413,11 +2361,7 @@ begin
           data_b_in_enable_matrix_vector_convolution   <= '1';
 
           -- FSM Control
-          if (unsigned(index_j_matrix_vector_convolution_loop) = unsigned(SIZE_X_IN)-unsigned(ONE_CONTROL)) then
-            controller_second_matrix_vector_convolution_fsm_int <= CLEAN_I_SECOND_MATRIX_VECTOR_CONVOLUTION_STATE;
-          else
-            controller_second_matrix_vector_convolution_fsm_int <= CLEAN_J_SECOND_MATRIX_VECTOR_CONVOLUTION_STATE;
-          end if;
+          controller_second_matrix_vector_convolution_fsm_int <= CLEAN_J_SECOND_MATRIX_VECTOR_CONVOLUTION_STATE;
 
         when INPUT_J_SECOND_MATRIX_VECTOR_CONVOLUTION_STATE =>  -- STEP 2
 
@@ -2688,18 +2632,18 @@ begin
 
       case controller_h_out_fsm_int is
         when STARTER_H_OUT_STATE =>     -- STEP 0
-          if (data_w_in_enable_int = '1' and data_k_in_enable_int = '1' and data_u_in_enable_int = '1' and data_v_in_enable_int = '1' and data_d_in_enable_int = '1' and data_b_in_enable_int = '1' and data_x_in_enable_int = '1' and data_r_in_enable_int = '1' and data_xi_in_enable_int = '1' and data_rho_in_enable_int = '1' and data_h_in_enable_int = '1') then
-            -- Control Outputs
-            READY <= '0';
-
-            H_ENABLE <= '0';
-
+          if (data_vector_logistic_enable_int = '1') then
             -- Control Internal
             index_l_h_out_loop <= ZERO_CONTROL;
 
             -- FSM Control
             controller_h_out_fsm_int <= CLEAN_H_OUT_L_STATE;
           end if;
+
+          -- Control Outputs
+          READY <= '0';
+
+          H_ENABLE <= '0';
 
         when CLEAN_H_OUT_L_STATE =>     -- STEP 1
           -- Control Outputs
