@@ -421,9 +421,11 @@ architecture accelerator_controller_architecture of accelerator_controller is
   signal vector_h_in_int   : vector_buffer;
 
   -- Ops
-  signal tensor_operation_int : tensor_buffer;
   signal matrix_operation_int : matrix_buffer;
-  signal vector_operation_int : vector_buffer;
+
+  signal vector_one_operation_int   : vector_buffer;
+  signal vector_two_operation_int   : vector_buffer;
+  signal vector_three_operation_int : vector_buffer;
 
   -- Control Internal - Index
   -- Input
@@ -1864,7 +1866,7 @@ begin
             size_a_j_in_tensor_matrix_convolution <= SIZE_L_IN;
             size_a_k_in_tensor_matrix_convolution <= SIZE_W_IN;
             size_b_i_in_tensor_matrix_convolution <= SIZE_R_IN;
-            size_b_j_in_tensor_matrix_convolution <= SIZE_L_IN;
+            size_b_j_in_tensor_matrix_convolution <= SIZE_W_IN;
 
             -- Control Internal
             index_i_first_tensor_matrix_convolution_loop <= ZERO_CONTROL;
@@ -1879,7 +1881,7 @@ begin
 
           -- Data Inputs
           data_a_in_tensor_matrix_convolution <= tensor_d_in_int(to_integer(unsigned(index_i_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_first_tensor_matrix_convolution_loop)));
-          data_b_in_tensor_matrix_convolution <= tensor_k_in_int(to_integer(unsigned(index_i_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_first_tensor_matrix_convolution_loop)));
+          data_b_in_tensor_matrix_convolution <= matrix_r_in_int(to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_first_tensor_matrix_convolution_loop)));
 
           -- Control Internal
           if (unsigned(index_i_first_tensor_matrix_convolution_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_first_tensor_matrix_convolution_loop) = unsigned(ZERO_CONTROL) and unsigned(index_k_first_tensor_matrix_convolution_loop) = unsigned(ZERO_CONTROL)) then
@@ -1899,7 +1901,7 @@ begin
 
           -- Data Inputs
           data_a_in_tensor_matrix_convolution <= tensor_d_in_int(to_integer(unsigned(index_i_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_first_tensor_matrix_convolution_loop)));
-          data_b_in_tensor_matrix_convolution <= tensor_k_in_int(to_integer(unsigned(index_i_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_first_tensor_matrix_convolution_loop)));
+          data_b_in_tensor_matrix_convolution <= matrix_r_in_int(to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_first_tensor_matrix_convolution_loop)));
 
           data_a_in_j_enable_tensor_matrix_convolution <= '1';
           data_a_in_k_enable_tensor_matrix_convolution <= '1';
@@ -1916,7 +1918,7 @@ begin
 
           -- Data Inputs
           data_a_in_tensor_matrix_convolution <= tensor_d_in_int(to_integer(unsigned(index_i_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_first_tensor_matrix_convolution_loop)));
-          data_b_in_tensor_matrix_convolution <= tensor_k_in_int(to_integer(unsigned(index_i_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_first_tensor_matrix_convolution_loop)));
+          data_b_in_tensor_matrix_convolution <= matrix_r_in_int(to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_first_tensor_matrix_convolution_loop)));
 
           -- Control Internal
           data_a_in_k_enable_tensor_matrix_convolution <= '1';
@@ -1935,7 +1937,7 @@ begin
           if (data_i_enable_tensor_matrix_convolution = '1' and data_j_enable_tensor_matrix_convolution = '1' and data_k_enable_tensor_matrix_convolution = '1') then
             if ((unsigned(index_j_first_tensor_matrix_convolution_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_first_tensor_matrix_convolution_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              tensor_operation_int(to_integer(unsigned(index_i_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_first_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
+              matrix_operation_int(to_integer(unsigned(index_i_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
 
               -- Control Internal
               data_first_tensor_matrix_convolution_enable_int <= '1';
@@ -1948,7 +1950,7 @@ begin
               controller_first_tensor_matrix_convolution_fsm_int <= STARTER_FIRST_TENSOR_MATRIX_CONVOLUTION_STATE;
             elsif ((unsigned(index_j_first_tensor_matrix_convolution_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_first_tensor_matrix_convolution_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              tensor_operation_int(to_integer(unsigned(index_i_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_first_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
+              matrix_operation_int(to_integer(unsigned(index_i_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
 
               -- Control Internal
               index_i_first_tensor_matrix_convolution_loop <= std_logic_vector(unsigned(index_i_first_tensor_matrix_convolution_loop) + unsigned(ONE_CONTROL));
@@ -1974,7 +1976,7 @@ begin
           if (data_j_enable_tensor_matrix_convolution = '1' and data_k_enable_tensor_matrix_convolution = '1') then
             if ((unsigned(index_j_first_tensor_matrix_convolution_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_first_tensor_matrix_convolution_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              tensor_operation_int(to_integer(unsigned(index_i_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_first_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
+              matrix_operation_int(to_integer(unsigned(index_i_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
 
               -- Control Internal
               index_j_first_tensor_matrix_convolution_loop <= std_logic_vector(unsigned(index_j_first_tensor_matrix_convolution_loop) + unsigned(ONE_CONTROL));
@@ -1998,9 +2000,6 @@ begin
 
           if (data_k_enable_tensor_matrix_convolution = '1') then
             if (unsigned(index_k_first_tensor_matrix_convolution_loop) < unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL)) then
-              -- Data Internal
-              tensor_operation_int(to_integer(unsigned(index_i_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_first_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_first_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
-
               -- Control Internal
               index_k_first_tensor_matrix_convolution_loop <= std_logic_vector(unsigned(index_k_first_tensor_matrix_convolution_loop) + unsigned(ONE_CONTROL));
 
@@ -2096,7 +2095,7 @@ begin
           if (data_enable_length_vector_summation = '1' and data_enable_vector_summation = '1') then
             if ((unsigned(index_first_length_vector_summation_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_first_vector_summation_loop) = unsigned(SIZE_R_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_first_length_vector_summation_loop))) <= data_out_vector_summation;
+              vector_one_operation_int(to_integer(unsigned(index_first_length_vector_summation_loop))) <= data_out_vector_summation;
 
               -- Control Internal
               data_first_vector_summation_enable_int <= '1';
@@ -2108,7 +2107,7 @@ begin
               controller_first_vector_summation_fsm_int <= STARTER_FIRST_VECTOR_SUMMATION_STATE;
             elsif ((unsigned(index_first_length_vector_summation_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_first_vector_summation_loop) = unsigned(SIZE_R_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_first_length_vector_summation_loop))) <= data_out_vector_summation;
+              vector_one_operation_int(to_integer(unsigned(index_first_length_vector_summation_loop))) <= data_out_vector_summation;
 
               -- Control Internal
               index_first_length_vector_summation_loop <= std_logic_vector(unsigned(index_first_length_vector_summation_loop) + unsigned(ONE_CONTROL));
@@ -2179,7 +2178,7 @@ begin
             -- Data Inputs
             size_a_i_in_matrix_vector_convolution <= SIZE_L_IN;
             size_a_j_in_matrix_vector_convolution <= SIZE_X_IN;
-            size_b_in_matrix_vector_convolution   <= SIZE_L_IN;
+            size_b_in_matrix_vector_convolution   <= SIZE_X_IN;
 
             -- Control Internal
             index_i_first_matrix_vector_convolution_loop <= ZERO_CONTROL;
@@ -2192,8 +2191,8 @@ begin
         when INPUT_I_FIRST_MATRIX_VECTOR_CONVOLUTION_STATE =>  -- STEP 5
 
           -- Data Inputs
-          data_a_in_matrix_vector_convolution <= matrix_operation_int(to_integer(unsigned(index_i_first_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_first_matrix_vector_convolution_loop)));
-          data_b_in_matrix_vector_convolution <= vector_operation_int(to_integer(unsigned(index_j_first_matrix_vector_convolution_loop)));
+          data_a_in_matrix_vector_convolution <= matrix_w_in_int(to_integer(unsigned(index_i_first_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_first_matrix_vector_convolution_loop)));
+          data_b_in_matrix_vector_convolution <= vector_x_in_int(to_integer(unsigned(index_j_first_matrix_vector_convolution_loop)));
 
           -- Control Internal
           if (unsigned(index_i_first_matrix_vector_convolution_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_first_matrix_vector_convolution_loop) = unsigned(ZERO_CONTROL)) then
@@ -2210,8 +2209,8 @@ begin
         when INPUT_J_FIRST_MATRIX_VECTOR_CONVOLUTION_STATE =>  -- STEP 6
 
           -- Data Inputs
-          data_a_in_matrix_vector_convolution <= matrix_operation_int(to_integer(unsigned(index_i_first_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_first_matrix_vector_convolution_loop)));
-          data_b_in_matrix_vector_convolution <= vector_operation_int(to_integer(unsigned(index_j_first_matrix_vector_convolution_loop)));
+          data_a_in_matrix_vector_convolution <= matrix_w_in_int(to_integer(unsigned(index_i_first_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_first_matrix_vector_convolution_loop)));
+          data_b_in_matrix_vector_convolution <= vector_x_in_int(to_integer(unsigned(index_j_first_matrix_vector_convolution_loop)));
 
           -- Control Internal
           data_a_in_j_enable_matrix_vector_convolution <= '1';
@@ -2228,7 +2227,7 @@ begin
           if (data_i_enable_matrix_vector_convolution = '1' and data_j_enable_matrix_vector_convolution = '1') then
             if ((unsigned(index_i_first_matrix_vector_convolution_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_first_matrix_vector_convolution_loop) = unsigned(SIZE_X_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_i_first_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
+              vector_two_operation_int(to_integer(unsigned(index_i_first_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
 
               -- Control Internal
               data_first_matrix_vector_convolution_enable_int <= '1';
@@ -2240,7 +2239,7 @@ begin
               controller_first_matrix_vector_convolution_fsm_int <= STARTER_FIRST_MATRIX_VECTOR_CONVOLUTION_STATE;
             elsif ((unsigned(index_i_first_matrix_vector_convolution_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_first_matrix_vector_convolution_loop) = unsigned(SIZE_X_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_i_first_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
+              vector_two_operation_int(to_integer(unsigned(index_i_first_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
 
               -- Control Internal
               index_i_first_matrix_vector_convolution_loop <= std_logic_vector(unsigned(index_i_first_matrix_vector_convolution_loop) + unsigned(ONE_CONTROL));
@@ -2321,8 +2320,8 @@ begin
         when INPUT_FIRST_VECTOR_FLOAT_ADDER_STATE =>  -- STEP 5
 
           -- Data Inputs
-          data_a_in_vector_float_adder <= vector_operation_int(to_integer(unsigned(index_first_vector_float_adder_loop)));
-          data_b_in_vector_float_adder <= vector_operation_int(to_integer(unsigned(index_first_vector_float_adder_loop)));
+          data_a_in_vector_float_adder <= vector_one_operation_int(to_integer(unsigned(index_first_vector_float_adder_loop)));
+          data_b_in_vector_float_adder <= vector_two_operation_int(to_integer(unsigned(index_first_vector_float_adder_loop)));
 
           -- Control Internal
           if (unsigned(index_first_vector_float_adder_loop) = unsigned(ZERO_CONTROL) and unsigned(index_first_vector_float_adder_loop) = unsigned(ZERO_CONTROL)) then
@@ -2340,7 +2339,7 @@ begin
           if (data_out_enable_vector_float_adder = '1' and data_out_enable_vector_float_adder = '1') then
             if (unsigned(index_first_vector_float_adder_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_first_vector_float_adder_loop))) <= data_out_vector_float_adder;
+              vector_three_operation_int(to_integer(unsigned(index_first_vector_float_adder_loop))) <= data_out_vector_float_adder;
 
               -- Control Internal
               data_first_vector_float_adder_enable_int <= '1';
@@ -2351,7 +2350,7 @@ begin
               controller_first_vector_float_adder_fsm_int <= STARTER_FIRST_VECTOR_FLOAT_ADDER_STATE;
             elsif (unsigned(index_first_vector_float_adder_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_first_vector_float_adder_loop))) <= data_out_vector_float_adder;
+              vector_three_operation_int(to_integer(unsigned(index_first_vector_float_adder_loop))) <= data_out_vector_float_adder;
 
               -- Control Internal
               index_first_vector_float_adder_loop <= std_logic_vector(unsigned(index_first_vector_float_adder_loop) + unsigned(ONE_CONTROL));
@@ -2402,8 +2401,8 @@ begin
           if (data_d_in_enable_int = '1' and data_k_in_enable_int = '1') then
             -- Data Inputs
             size_a_i_in_matrix_vector_convolution <= SIZE_L_IN;
-            size_a_j_in_matrix_vector_convolution <= SIZE_X_IN;
-            size_b_in_matrix_vector_convolution   <= SIZE_L_IN;
+            size_a_j_in_matrix_vector_convolution <= SIZE_S_IN;
+            size_b_in_matrix_vector_convolution   <= SIZE_S_IN;
 
             -- Control Internal
             index_i_second_matrix_vector_convolution_loop <= ZERO_CONTROL;
@@ -2416,8 +2415,8 @@ begin
         when INPUT_I_SECOND_MATRIX_VECTOR_CONVOLUTION_STATE =>  -- STEP 1
 
           -- Data Inputs
-          data_a_in_matrix_vector_convolution <= matrix_operation_int(to_integer(unsigned(index_i_second_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_second_matrix_vector_convolution_loop)));
-          data_b_in_matrix_vector_convolution <= vector_operation_int(to_integer(unsigned(index_j_second_matrix_vector_convolution_loop)));
+          data_a_in_matrix_vector_convolution <= matrix_v_in_int(to_integer(unsigned(index_i_second_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_second_matrix_vector_convolution_loop)));
+          data_b_in_matrix_vector_convolution <= vector_xi_in_int(to_integer(unsigned(index_j_second_matrix_vector_convolution_loop)));
 
           -- Control Internal
           if (unsigned(index_i_second_matrix_vector_convolution_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_second_matrix_vector_convolution_loop) = unsigned(ZERO_CONTROL)) then
@@ -2434,8 +2433,8 @@ begin
         when INPUT_J_SECOND_MATRIX_VECTOR_CONVOLUTION_STATE =>  -- STEP 2
 
           -- Data Inputs
-          data_a_in_matrix_vector_convolution <= matrix_operation_int(to_integer(unsigned(index_i_second_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_second_matrix_vector_convolution_loop)));
-          data_b_in_matrix_vector_convolution <= vector_operation_int(to_integer(unsigned(index_j_second_matrix_vector_convolution_loop)));
+          data_a_in_matrix_vector_convolution <= matrix_v_in_int(to_integer(unsigned(index_i_second_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_second_matrix_vector_convolution_loop)));
+          data_b_in_matrix_vector_convolution <= vector_xi_in_int(to_integer(unsigned(index_j_second_matrix_vector_convolution_loop)));
 
           -- Control Internal
           data_a_in_j_enable_matrix_vector_convolution <= '1';
@@ -2452,7 +2451,7 @@ begin
           if (data_i_enable_matrix_vector_convolution = '1' and data_j_enable_matrix_vector_convolution = '1') then
             if ((unsigned(index_i_second_matrix_vector_convolution_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_second_matrix_vector_convolution_loop) = unsigned(SIZE_X_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_i_second_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
+              vector_two_operation_int(to_integer(unsigned(index_i_second_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
 
               -- Control Internal
               data_second_matrix_vector_convolution_enable_int <= '1';
@@ -2464,7 +2463,7 @@ begin
               controller_second_matrix_vector_convolution_fsm_int <= STARTER_SECOND_MATRIX_VECTOR_CONVOLUTION_STATE;
             elsif ((unsigned(index_i_second_matrix_vector_convolution_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_second_matrix_vector_convolution_loop) = unsigned(SIZE_X_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_i_second_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
+              vector_two_operation_int(to_integer(unsigned(index_i_second_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
 
               -- Control Internal
               index_i_second_matrix_vector_convolution_loop <= std_logic_vector(unsigned(index_i_second_matrix_vector_convolution_loop) + unsigned(ONE_CONTROL));
@@ -2545,8 +2544,8 @@ begin
         when INPUT_SECOND_VECTOR_FLOAT_ADDER_STATE =>  -- STEP 5
 
           -- Data Inputs
-          data_a_in_vector_float_adder <= vector_operation_int(to_integer(unsigned(index_first_vector_float_adder_loop)));
-          data_b_in_vector_float_adder <= vector_operation_int(to_integer(unsigned(index_second_vector_float_adder_loop)));
+          data_a_in_vector_float_adder <= vector_one_operation_int(to_integer(unsigned(index_second_vector_float_adder_loop)));
+          data_b_in_vector_float_adder <= vector_two_operation_int(to_integer(unsigned(index_second_vector_float_adder_loop)));
 
           -- Control Internal
           if (unsigned(index_second_vector_float_adder_loop) = unsigned(ZERO_CONTROL) and unsigned(index_second_vector_float_adder_loop) = unsigned(ZERO_CONTROL)) then
@@ -2564,7 +2563,7 @@ begin
           if (data_out_enable_vector_float_adder = '1' and data_out_enable_vector_float_adder = '1') then
             if (unsigned(index_second_vector_float_adder_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_second_vector_float_adder_loop))) <= data_out_vector_float_adder;
+              vector_three_operation_int(to_integer(unsigned(index_second_vector_float_adder_loop))) <= data_out_vector_float_adder;
 
               -- Control Internal
               data_second_vector_float_adder_enable_int <= '1';
@@ -2575,7 +2574,7 @@ begin
               controller_second_vector_float_adder_fsm_int <= STARTER_SECOND_VECTOR_FLOAT_ADDER_STATE;
             elsif (unsigned(index_second_vector_float_adder_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_second_vector_float_adder_loop))) <= data_out_vector_float_adder;
+              vector_three_operation_int(to_integer(unsigned(index_second_vector_float_adder_loop))) <= data_out_vector_float_adder;
 
               -- Control Internal
               index_second_vector_float_adder_loop <= std_logic_vector(unsigned(index_second_vector_float_adder_loop) + unsigned(ONE_CONTROL));
@@ -2632,9 +2631,9 @@ begin
             -- Data Inputs
             size_a_i_in_tensor_matrix_convolution <= SIZE_R_IN;
             size_a_j_in_tensor_matrix_convolution <= SIZE_L_IN;
-            size_a_k_in_tensor_matrix_convolution <= SIZE_W_IN;
+            size_a_k_in_tensor_matrix_convolution <= SIZE_M_IN;
             size_b_i_in_tensor_matrix_convolution <= SIZE_R_IN;
-            size_b_j_in_tensor_matrix_convolution <= SIZE_L_IN;
+            size_b_j_in_tensor_matrix_convolution <= SIZE_M_IN;
 
             -- Control Internal
             index_i_second_tensor_matrix_convolution_loop <= ZERO_CONTROL;
@@ -2649,7 +2648,7 @@ begin
 
           -- Data Inputs
           data_a_in_tensor_matrix_convolution <= tensor_d_in_int(to_integer(unsigned(index_i_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_second_tensor_matrix_convolution_loop)));
-          data_b_in_tensor_matrix_convolution <= tensor_k_in_int(to_integer(unsigned(index_i_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_second_tensor_matrix_convolution_loop)));
+          data_b_in_tensor_matrix_convolution <= matrix_rho_in_int(to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_second_tensor_matrix_convolution_loop)));
 
           -- Control Internal
           if (unsigned(index_i_second_tensor_matrix_convolution_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_second_tensor_matrix_convolution_loop) = unsigned(ZERO_CONTROL) and unsigned(index_k_second_tensor_matrix_convolution_loop) = unsigned(ZERO_CONTROL)) then
@@ -2669,7 +2668,7 @@ begin
 
           -- Data Inputs
           data_a_in_tensor_matrix_convolution <= tensor_d_in_int(to_integer(unsigned(index_i_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_second_tensor_matrix_convolution_loop)));
-          data_b_in_tensor_matrix_convolution <= tensor_k_in_int(to_integer(unsigned(index_i_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_second_tensor_matrix_convolution_loop)));
+          data_b_in_tensor_matrix_convolution <= matrix_rho_in_int(to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_second_tensor_matrix_convolution_loop)));
 
           data_a_in_j_enable_tensor_matrix_convolution <= '1';
           data_a_in_k_enable_tensor_matrix_convolution <= '1';
@@ -2686,7 +2685,7 @@ begin
 
           -- Data Inputs
           data_a_in_tensor_matrix_convolution <= tensor_d_in_int(to_integer(unsigned(index_i_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_second_tensor_matrix_convolution_loop)));
-          data_b_in_tensor_matrix_convolution <= tensor_k_in_int(to_integer(unsigned(index_i_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_second_tensor_matrix_convolution_loop)));
+          data_b_in_tensor_matrix_convolution <= matrix_rho_in_int(to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_second_tensor_matrix_convolution_loop)));
 
           -- Control Internal
           data_a_in_k_enable_tensor_matrix_convolution <= '1';
@@ -2705,7 +2704,7 @@ begin
           if (data_i_enable_tensor_matrix_convolution = '1' and data_j_enable_tensor_matrix_convolution = '1' and data_k_enable_tensor_matrix_convolution = '1') then
             if ((unsigned(index_j_second_tensor_matrix_convolution_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_second_tensor_matrix_convolution_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              tensor_operation_int(to_integer(unsigned(index_i_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_second_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
+              matrix_operation_int(to_integer(unsigned(index_i_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
 
               -- Control Internal
               data_second_tensor_matrix_convolution_enable_int <= '1';
@@ -2718,7 +2717,7 @@ begin
               controller_second_tensor_matrix_convolution_fsm_int <= STARTER_SECOND_TENSOR_MATRIX_CONVOLUTION_STATE;
             elsif ((unsigned(index_j_second_tensor_matrix_convolution_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_second_tensor_matrix_convolution_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              tensor_operation_int(to_integer(unsigned(index_i_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_second_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
+              matrix_operation_int(to_integer(unsigned(index_i_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
 
               -- Control Internal
               index_i_second_tensor_matrix_convolution_loop <= std_logic_vector(unsigned(index_i_second_tensor_matrix_convolution_loop) + unsigned(ONE_CONTROL));
@@ -2744,7 +2743,7 @@ begin
           if (data_j_enable_tensor_matrix_convolution = '1' and data_k_enable_tensor_matrix_convolution = '1') then
             if ((unsigned(index_j_second_tensor_matrix_convolution_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_k_second_tensor_matrix_convolution_loop) = unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              tensor_operation_int(to_integer(unsigned(index_i_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_second_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
+              matrix_operation_int(to_integer(unsigned(index_i_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
 
               -- Control Internal
               index_j_second_tensor_matrix_convolution_loop <= std_logic_vector(unsigned(index_j_second_tensor_matrix_convolution_loop) + unsigned(ONE_CONTROL));
@@ -2768,9 +2767,6 @@ begin
 
           if (data_k_enable_tensor_matrix_convolution = '1') then
             if (unsigned(index_k_second_tensor_matrix_convolution_loop) < unsigned(SIZE_W_IN)-unsigned(ONE_CONTROL)) then
-              -- Data Internal
-              tensor_operation_int(to_integer(unsigned(index_i_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_j_second_tensor_matrix_convolution_loop)), to_integer(unsigned(index_k_second_tensor_matrix_convolution_loop))) <= data_out_tensor_matrix_convolution;
-
               -- Control Internal
               index_k_second_tensor_matrix_convolution_loop <= std_logic_vector(unsigned(index_k_second_tensor_matrix_convolution_loop) + unsigned(ONE_CONTROL));
 
@@ -2866,7 +2862,7 @@ begin
           if (data_enable_length_vector_summation = '1' and data_enable_vector_summation = '1') then
             if ((unsigned(index_second_length_vector_summation_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_second_vector_summation_loop) = unsigned(SIZE_R_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_second_length_vector_summation_loop))) <= data_out_vector_summation;
+              vector_one_operation_int(to_integer(unsigned(index_second_length_vector_summation_loop))) <= data_out_vector_summation;
 
               -- Control Internal
               data_second_vector_summation_enable_int <= '1';
@@ -2878,7 +2874,7 @@ begin
               controller_second_vector_summation_fsm_int <= STARTER_SECOND_VECTOR_SUMMATION_STATE;
             elsif ((unsigned(index_second_length_vector_summation_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_second_vector_summation_loop) = unsigned(SIZE_R_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_second_length_vector_summation_loop))) <= data_out_vector_summation;
+              vector_one_operation_int(to_integer(unsigned(index_second_length_vector_summation_loop))) <= data_out_vector_summation;
 
               -- Control Internal
               index_second_length_vector_summation_loop <= std_logic_vector(unsigned(index_second_length_vector_summation_loop) + unsigned(ONE_CONTROL));
@@ -2948,7 +2944,7 @@ begin
           if (data_d_in_enable_int = '1' and data_k_in_enable_int = '1') then
             -- Data Inputs
             size_a_i_in_matrix_vector_convolution <= SIZE_L_IN;
-            size_a_j_in_matrix_vector_convolution <= SIZE_X_IN;
+            size_a_j_in_matrix_vector_convolution <= SIZE_L_IN;
             size_b_in_matrix_vector_convolution   <= SIZE_L_IN;
 
             -- Control Internal
@@ -2962,8 +2958,8 @@ begin
         when INPUT_I_THIRD_MATRIX_VECTOR_CONVOLUTION_STATE =>  -- STEP 1
 
           -- Data Inputs
-          data_a_in_matrix_vector_convolution <= matrix_operation_int(to_integer(unsigned(index_i_third_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_third_matrix_vector_convolution_loop)));
-          data_b_in_matrix_vector_convolution <= vector_operation_int(to_integer(unsigned(index_j_third_matrix_vector_convolution_loop)));
+          data_a_in_matrix_vector_convolution <= matrix_u_in_int(to_integer(unsigned(index_i_third_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_third_matrix_vector_convolution_loop)));
+          data_b_in_matrix_vector_convolution <= vector_h_in_int(to_integer(unsigned(index_j_third_matrix_vector_convolution_loop)));
 
           -- Control Internal
           if (unsigned(index_i_third_matrix_vector_convolution_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_third_matrix_vector_convolution_loop) = unsigned(ZERO_CONTROL)) then
@@ -2980,8 +2976,8 @@ begin
         when INPUT_J_THIRD_MATRIX_VECTOR_CONVOLUTION_STATE =>  -- STEP 2
 
           -- Data Inputs
-          data_a_in_matrix_vector_convolution <= matrix_operation_int(to_integer(unsigned(index_i_third_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_third_matrix_vector_convolution_loop)));
-          data_b_in_matrix_vector_convolution <= vector_operation_int(to_integer(unsigned(index_j_third_matrix_vector_convolution_loop)));
+          data_a_in_matrix_vector_convolution <= matrix_u_in_int(to_integer(unsigned(index_i_third_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_third_matrix_vector_convolution_loop)));
+          data_b_in_matrix_vector_convolution <= vector_h_in_int(to_integer(unsigned(index_j_third_matrix_vector_convolution_loop)));
 
           -- Control Internal
           data_a_in_j_enable_matrix_vector_convolution <= '1';
@@ -2998,7 +2994,7 @@ begin
           if (data_i_enable_matrix_vector_convolution = '1' and data_j_enable_matrix_vector_convolution = '1') then
             if ((unsigned(index_i_third_matrix_vector_convolution_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_third_matrix_vector_convolution_loop) = unsigned(SIZE_X_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_i_third_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
+              vector_two_operation_int(to_integer(unsigned(index_i_third_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
 
               -- Control Internal
               data_third_matrix_vector_convolution_enable_int <= '1';
@@ -3010,7 +3006,7 @@ begin
               controller_third_matrix_vector_convolution_fsm_int <= STARTER_THIRD_MATRIX_VECTOR_CONVOLUTION_STATE;
             elsif ((unsigned(index_i_third_matrix_vector_convolution_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_third_matrix_vector_convolution_loop) = unsigned(SIZE_X_IN)-unsigned(ONE_CONTROL))) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_i_third_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
+              vector_two_operation_int(to_integer(unsigned(index_i_third_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
 
               -- Control Internal
               index_i_third_matrix_vector_convolution_loop <= std_logic_vector(unsigned(index_i_third_matrix_vector_convolution_loop) + unsigned(ONE_CONTROL));
@@ -3091,8 +3087,8 @@ begin
         when INPUT_THIRD_VECTOR_FLOAT_ADDER_STATE =>  -- STEP 5
 
           -- Data Inputs
-          data_a_in_vector_float_adder <= vector_operation_int(to_integer(unsigned(index_third_vector_float_adder_loop)));
-          data_b_in_vector_float_adder <= vector_operation_int(to_integer(unsigned(index_third_vector_float_adder_loop)));
+          data_a_in_vector_float_adder <= vector_one_operation_int(to_integer(unsigned(index_third_vector_float_adder_loop)));
+          data_b_in_vector_float_adder <= vector_two_operation_int(to_integer(unsigned(index_third_vector_float_adder_loop)));
 
           -- Control Internal
           if (unsigned(index_third_vector_float_adder_loop) = unsigned(ZERO_CONTROL) and unsigned(index_third_vector_float_adder_loop) = unsigned(ZERO_CONTROL)) then
@@ -3110,7 +3106,7 @@ begin
           if (data_out_enable_vector_float_adder = '1' and data_out_enable_vector_float_adder = '1') then
             if (unsigned(index_third_vector_float_adder_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_third_vector_float_adder_loop))) <= data_out_vector_float_adder;
+              vector_three_operation_int(to_integer(unsigned(index_third_vector_float_adder_loop))) <= data_out_vector_float_adder;
 
               -- Control Internal
               data_third_vector_float_adder_enable_int <= '1';
@@ -3121,7 +3117,7 @@ begin
               controller_third_vector_float_adder_fsm_int <= STARTER_THIRD_VECTOR_FLOAT_ADDER_STATE;
             elsif (unsigned(index_third_vector_float_adder_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_third_vector_float_adder_loop))) <= data_out_vector_float_adder;
+              vector_three_operation_int(to_integer(unsigned(index_third_vector_float_adder_loop))) <= data_out_vector_float_adder;
 
               -- Control Internal
               index_third_vector_float_adder_loop <= std_logic_vector(unsigned(index_third_vector_float_adder_loop) + unsigned(ONE_CONTROL));
@@ -3178,7 +3174,7 @@ begin
         when INPUT_VECTOR_LOGISTIC_STATE =>  -- STEP 5
 
           -- Data Inputs
-          data_in_vector_logistic <= vector_operation_int(to_integer(unsigned(index_vector_logistic_loop)));
+          data_in_vector_logistic <= vector_three_operation_int(to_integer(unsigned(index_vector_logistic_loop)));
 
           -- Control Internal
           if (unsigned(index_vector_logistic_loop) = unsigned(ZERO_CONTROL) and unsigned(index_vector_logistic_loop) = unsigned(ZERO_CONTROL)) then
@@ -3195,7 +3191,7 @@ begin
           if (data_out_enable_vector_logistic = '1' and data_out_enable_vector_logistic = '1') then
             if (unsigned(index_vector_logistic_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_vector_logistic_loop))) <= data_out_vector_logistic;
+              vector_one_operation_int(to_integer(unsigned(index_vector_logistic_loop))) <= data_out_vector_logistic;
 
               -- Control Internal
               data_vector_logistic_enable_int <= '1';
@@ -3206,7 +3202,7 @@ begin
               controller_vector_logistic_fsm_int <= STARTER_VECTOR_LOGISTIC_STATE;
             elsif (unsigned(index_vector_logistic_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
               -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_vector_logistic_loop))) <= data_out_vector_logistic;
+              vector_one_operation_int(to_integer(unsigned(index_vector_logistic_loop))) <= data_out_vector_logistic;
 
               -- Control Internal
               index_vector_logistic_loop <= std_logic_vector(unsigned(index_vector_logistic_loop) + unsigned(ONE_CONTROL));
@@ -3271,7 +3267,7 @@ begin
 
           if (unsigned(index_l_h_out_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
             -- Data Outputs
-            H_OUT <= vector_operation_int(to_integer(unsigned(index_l_h_out_loop)));
+            H_OUT <= vector_one_operation_int(to_integer(unsigned(index_l_h_out_loop)));
 
             -- Control Outputs
             READY <= '1';
@@ -3285,7 +3281,7 @@ begin
             controller_h_out_fsm_int <= STARTER_H_OUT_STATE;
           elsif (unsigned(index_l_h_out_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
             -- Data Outputs
-            H_OUT <= vector_operation_int(to_integer(unsigned(index_l_h_out_loop)));
+            H_OUT <= vector_one_operation_int(to_integer(unsigned(index_l_h_out_loop)));
 
             -- Control Outputs
             H_ENABLE <= '1';
