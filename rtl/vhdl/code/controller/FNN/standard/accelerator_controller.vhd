@@ -662,7 +662,7 @@ begin
   --   vector_one_operation_int = third_vector_float_adder_fsm(b, vector_two_operation_int) [data_b_in_enable_int, data_second_vector_summation_enable_int, data_second_vector_float_adder_enable_int]
 
   -- U(l;l)·h(t-1;l)
-  --   vector_one_operation_int = third_matrix_vector_product_fsm(U, h) [data_u_in_enable_int, data_h_in_enable_int, data_second_matrix_vector_product_enable_int]
+  --   vector_two_operation_int = third_matrix_vector_product_fsm(U, h) [data_u_in_enable_int, data_h_in_enable_int, data_second_matrix_vector_product_enable_int]
   --   vector_one_operation_int = fourth_vector_float_adder_fsm(vector_one_operation_int, vector_two_operation_int) [data_third_matrix_vector_product_enable_int, data_third_vector_float_adder_enable_int]
 
   -- logistic(h(t;l))

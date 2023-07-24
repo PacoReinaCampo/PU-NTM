@@ -1579,6 +1579,21 @@ begin
 
       case controller_h_out_fsm_int is
         when STARTER_H_OUT_STATE =>     -- STEP 0
+          if (START = '1') then
+            -- Control Internal
+            index_l_h_out_loop <= ZERO_CONTROL;
+
+            -- FSM Control
+            controller_h_out_fsm_int <= CLEAN_H_OUT_L_STATE;
+          end if;
+
+          -- Control Outputs
+          READY <= '0';
+
+          H_ENABLE <= '0';
+
+        when CLEAN_H_OUT_L_STATE =>     -- STEP 1
+
           if (data_w_in_enable_int = '1' and data_k_in_enable_int = '1' and data_u_in_enable_int = '1' and data_v_in_enable_int = '1' and data_d_in_enable_int = '1' and data_b_in_enable_int = '1' and data_x_in_enable_int = '1' and data_r_in_enable_int = '1' and data_xi_in_enable_int = '1' and data_rho_in_enable_int = '1' and data_h_in_enable_int = '1') then
             -- Data Internal
             vector_h_out_int <= function_model_fnn_convolutional_controller (
@@ -1603,54 +1618,37 @@ begin
               vector_h_input   => vector_h_in_int
               );
 
-            -- Control Internal
-            index_l_h_out_loop <= ZERO_CONTROL;
-
             -- FSM Control
-            controller_h_out_fsm_int <= CLEAN_H_OUT_L_STATE;
+            controller_h_out_fsm_int <= OUTPUT_H_OUT_L_STATE;
           end if;
 
           -- Control Outputs
-          READY <= '0';
-
           H_ENABLE <= '0';
-
-        when CLEAN_H_OUT_L_STATE =>     -- STEP 1
-          -- Control Outputs
-          H_ENABLE <= '0';
-
-          -- FSM Control
-          controller_h_out_fsm_int <= OUTPUT_H_OUT_L_STATE;
 
         when OUTPUT_H_OUT_L_STATE =>    -- STEP 2
 
           if (unsigned(index_l_h_out_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
-            -- Data Outputs
-            H_OUT <= vector_h_out_int(to_integer(unsigned(index_l_h_out_loop)));
-
             -- Control Outputs
             READY <= '1';
-
-            H_ENABLE <= '1';
 
             -- Control Internal
             index_l_h_out_loop <= ZERO_CONTROL;
 
             -- FSM Control
             controller_h_out_fsm_int <= STARTER_H_OUT_STATE;
-          elsif (unsigned(index_l_h_out_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
-            -- Data Outputs
-            H_OUT <= vector_h_out_int(to_integer(unsigned(index_l_h_out_loop)));
-
-            -- Control Outputs
-            H_ENABLE <= '1';
-
+          else
             -- Control Internal
             index_l_h_out_loop <= std_logic_vector(unsigned(index_l_h_out_loop) + unsigned(ONE_CONTROL));
 
             -- FSM Control
             controller_h_out_fsm_int <= CLEAN_H_OUT_L_STATE;
           end if;
+
+          -- Data Outputs
+          H_OUT <= vector_h_out_int(to_integer(unsigned(index_l_h_out_loop)));
+
+          -- Control Outputs
+          H_ENABLE <= '1';
 
         when others =>
           -- FSM Control
