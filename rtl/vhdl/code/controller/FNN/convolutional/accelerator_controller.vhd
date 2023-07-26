@@ -402,13 +402,13 @@ architecture accelerator_controller_architecture of accelerator_controller is
   signal controller_first_matrix_vector_convolution_fsm_int  : controller_first_matrix_vector_convolution_fsm;
   signal controller_second_matrix_vector_convolution_fsm_int : controller_second_matrix_vector_convolution_fsm;
   signal controller_third_matrix_vector_convolution_fsm_int  : controller_third_matrix_vector_convolution_fsm;
-  signal controller_first_vector_summation_fsm_int       : controller_first_vector_summation_fsm;
-  signal controller_second_vector_summation_fsm_int      : controller_second_vector_summation_fsm;
-  signal controller_first_vector_float_adder_fsm_int     : controller_first_vector_float_adder_fsm;
-  signal controller_second_vector_float_adder_fsm_int    : controller_second_vector_float_adder_fsm;
-  signal controller_third_vector_float_adder_fsm_int     : controller_third_vector_float_adder_fsm;
-  signal controller_fourth_vector_float_adder_fsm_int    : controller_fourth_vector_float_adder_fsm;
-  signal controller_vector_logistic_fsm_int              : controller_vector_logistic_fsm;
+  signal controller_first_vector_summation_fsm_int           : controller_first_vector_summation_fsm;
+  signal controller_second_vector_summation_fsm_int          : controller_second_vector_summation_fsm;
+  signal controller_first_vector_float_adder_fsm_int         : controller_first_vector_float_adder_fsm;
+  signal controller_second_vector_float_adder_fsm_int        : controller_second_vector_float_adder_fsm;
+  signal controller_third_vector_float_adder_fsm_int         : controller_third_vector_float_adder_fsm;
+  signal controller_fourth_vector_float_adder_fsm_int        : controller_fourth_vector_float_adder_fsm;
+  signal controller_vector_logistic_fsm_int                  : controller_vector_logistic_fsm;
 
   -- Output
   signal controller_h_out_fsm_int : controller_h_out_fsm;
@@ -525,13 +525,13 @@ architecture accelerator_controller_architecture of accelerator_controller is
   signal data_first_matrix_vector_convolution_enable_int  : std_logic;
   signal data_second_matrix_vector_convolution_enable_int : std_logic;
   signal data_third_matrix_vector_convolution_enable_int  : std_logic;
-  signal data_first_vector_summation_enable_int       : std_logic;
-  signal data_second_vector_summation_enable_int      : std_logic;
-  signal data_first_vector_float_adder_enable_int     : std_logic;
-  signal data_second_vector_float_adder_enable_int    : std_logic;
-  signal data_third_vector_float_adder_enable_int     : std_logic;
-  signal data_fourth_vector_float_adder_enable_int    : std_logic;
-  signal data_vector_logistic_enable_int              : std_logic;
+  signal data_first_vector_summation_enable_int           : std_logic;
+  signal data_second_vector_summation_enable_int          : std_logic;
+  signal data_first_vector_float_adder_enable_int         : std_logic;
+  signal data_second_vector_float_adder_enable_int        : std_logic;
+  signal data_third_vector_float_adder_enable_int         : std_logic;
+  signal data_fourth_vector_float_adder_enable_int        : std_logic;
+  signal data_vector_logistic_enable_int                  : std_logic;
 
   -- VECTOR ADDER
   -- CONTROL
@@ -2222,7 +2222,7 @@ begin
     if (RST = '0') then
       -- Control Internal
       start_matrix_vector_convolution <= '0';
-          
+
       data_a_in_i_enable_matrix_vector_convolution <= '0';
       data_a_in_j_enable_matrix_vector_convolution <= '0';
       data_b_in_enable_matrix_vector_convolution   <= '0';
@@ -3080,7 +3080,7 @@ begin
     if (RST = '0') then
       -- Control Internal
       start_vector_float_adder <= '0';
-            
+
       data_a_in_enable_vector_float_adder <= '0';
       data_b_in_enable_vector_float_adder <= '0';
 
@@ -3187,7 +3187,7 @@ begin
     if (RST = '0') then
       -- Control Internal
       start_matrix_vector_convolution <= '0';
-            
+
       data_a_in_i_enable_matrix_vector_convolution <= '0';
       data_a_in_j_enable_matrix_vector_convolution <= '0';
       data_b_in_enable_matrix_vector_convolution   <= '0';
@@ -3336,7 +3336,7 @@ begin
     if (RST = '0') then
       -- Control Internal
       start_vector_float_adder <= '0';
-            
+
       data_a_in_enable_vector_float_adder <= '0';
       data_b_in_enable_vector_float_adder <= '0';
 
@@ -3443,7 +3443,7 @@ begin
     if (RST = '0') then
       -- Control Internal
       start_vector_logistic <= '0';
-            
+
       data_in_enable_vector_logistic <= '0';
 
       data_vector_logistic_enable_int <= '0';

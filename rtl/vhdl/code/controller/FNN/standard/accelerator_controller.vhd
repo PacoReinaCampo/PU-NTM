@@ -2222,7 +2222,7 @@ begin
     if (RST = '0') then
       -- Control Internal
       start_matrix_vector_product <= '0';
-          
+
       data_a_in_i_enable_matrix_vector_product <= '0';
       data_a_in_j_enable_matrix_vector_product <= '0';
       data_b_in_enable_matrix_vector_product   <= '0';
@@ -3080,7 +3080,7 @@ begin
     if (RST = '0') then
       -- Control Internal
       start_vector_float_adder <= '0';
-            
+
       data_a_in_enable_vector_float_adder <= '0';
       data_b_in_enable_vector_float_adder <= '0';
 
@@ -3187,7 +3187,7 @@ begin
     if (RST = '0') then
       -- Control Internal
       start_matrix_vector_product <= '0';
-            
+
       data_a_in_i_enable_matrix_vector_product <= '0';
       data_a_in_j_enable_matrix_vector_product <= '0';
       data_b_in_enable_matrix_vector_product   <= '0';
@@ -3336,7 +3336,7 @@ begin
     if (RST = '0') then
       -- Control Internal
       start_vector_float_adder <= '0';
-            
+
       data_a_in_enable_vector_float_adder <= '0';
       data_b_in_enable_vector_float_adder <= '0';
 
@@ -3443,7 +3443,7 @@ begin
     if (RST = '0') then
       -- Control Internal
       start_vector_logistic <= '0';
-            
+
       data_in_enable_vector_logistic <= '0';
 
       data_vector_logistic_enable_int <= '0';
