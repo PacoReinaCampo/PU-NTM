@@ -104,7 +104,6 @@ architecture accelerator_controller_architecture of accelerator_controller is
 
   -- States:
   -- INPUT_L_STATE, CLEAN_IN_L_STATE
-  -- INPUT_W_STATE, CLEAN_IN_W_STATE
   -- INPUT_X_STATE, CLEAN_IN_X_STATE
 
   -- OUTPUT_L_STATE, CLEAN_OUT_L_STATE
@@ -615,11 +614,6 @@ begin
           data_b_in_matrix_vector_product <= ZERO_DATA;
 
           if (data_w_in_enable_int = '1' and data_x_in_enable_int = '1') then
-            -- Data Inputs
-            size_a_i_in_matrix_vector_product <= SIZE_L_IN;
-            size_a_j_in_matrix_vector_product <= SIZE_X_IN;
-            size_b_in_matrix_vector_product   <= SIZE_X_IN;
-
             -- Control Internal
             index_i_matrix_vector_product_loop <= ZERO_CONTROL;
             index_j_matrix_vector_product_loop <= ZERO_CONTROL;
@@ -634,9 +628,14 @@ begin
           data_a_in_matrix_vector_product <= matrix_w_in_int(to_integer(unsigned(index_i_matrix_vector_product_loop)), to_integer(unsigned(index_j_matrix_vector_product_loop)));
           data_b_in_matrix_vector_product <= vector_x_in_int(to_integer(unsigned(index_j_matrix_vector_product_loop)));
 
-          -- Control Internal
           if (unsigned(index_i_matrix_vector_product_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_matrix_vector_product_loop) = unsigned(ZERO_CONTROL)) then
+            -- Control Internal
             start_matrix_vector_product <= '1';
+
+            -- Data Inputs
+            size_a_i_in_matrix_vector_product <= SIZE_L_IN;
+            size_a_j_in_matrix_vector_product <= SIZE_X_IN;
+            size_b_in_matrix_vector_product   <= SIZE_X_IN;
           end if;
 
           data_a_in_i_enable_matrix_vector_product <= '1';
@@ -762,11 +761,6 @@ begin
           data_b_in_vector_float_adder <= ZERO_DATA;
 
           if (data_matrix_vector_product_enable_int = '1' and data_b_in_enable_int = '1') then
-            -- Data Inputs
-            operation_vector_float_adder <= '0';
-
-            size_in_vector_float_adder <= SIZE_L_IN;
-
             -- Control Internal
             index_vector_float_adder_loop <= ZERO_CONTROL;
 
@@ -780,9 +774,14 @@ begin
           data_a_in_vector_float_adder <= vector_operation_int(to_integer(unsigned(index_vector_float_adder_loop)));
           data_b_in_vector_float_adder <= vector_b_in_int(to_integer(unsigned(index_vector_float_adder_loop)));
 
-          -- Control Internal
           if (unsigned(index_vector_float_adder_loop) = unsigned(ZERO_CONTROL) and unsigned(index_vector_float_adder_loop) = unsigned(ZERO_CONTROL)) then
+            -- Control Internal
             start_vector_float_adder <= '1';
+
+            -- Data Inputs
+            operation_vector_float_adder <= '0';
+
+            size_in_vector_float_adder <= SIZE_L_IN;
           end if;
 
           data_a_in_enable_vector_float_adder <= '1';
@@ -863,9 +862,6 @@ begin
           data_in_vector_logistic <= ZERO_DATA;
 
           if (data_vector_float_adder_enable_int = '1') then
-            -- Data Inputs
-            size_in_vector_logistic <= SIZE_L_IN;
-
             -- Control Internal
             index_vector_logistic_loop <= ZERO_CONTROL;
 
@@ -878,9 +874,12 @@ begin
           -- Data Inputs
           data_in_vector_logistic <= vector_operation_int(to_integer(unsigned(index_vector_logistic_loop)));
 
-          -- Control Internal
           if (unsigned(index_vector_logistic_loop) = unsigned(ZERO_CONTROL) and unsigned(index_vector_logistic_loop) = unsigned(ZERO_CONTROL)) then
+            -- Control Internal
             start_vector_logistic <= '1';
+
+            -- Data Inputs
+            size_in_vector_logistic <= SIZE_L_IN;
           end if;
 
           data_in_enable_vector_logistic <= '1';
