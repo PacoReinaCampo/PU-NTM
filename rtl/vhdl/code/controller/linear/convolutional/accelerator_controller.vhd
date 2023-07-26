@@ -147,7 +147,8 @@ architecture accelerator_controller_architecture of accelerator_controller is
     INPUT_I_MATRIX_VECTOR_CONVOLUTION_STATE,  -- STEP 2
     INPUT_J_MATRIX_VECTOR_CONVOLUTION_STATE,  -- STEP 3
     CLEAN_I_MATRIX_VECTOR_CONVOLUTION_STATE,  -- STEP 4
-    CLEAN_J_MATRIX_VECTOR_CONVOLUTION_STATE   -- STEP 5
+    CLEAN_J_MATRIX_VECTOR_CONVOLUTION_STATE,  -- STEP 5
+    OUTPUT_I_MATRIX_VECTOR_CONVOLUTION_STATE  -- STEP 6
     );
 
   -- b(l)
@@ -187,8 +188,8 @@ architecture accelerator_controller_architecture of accelerator_controller is
 
   -- Ops
   signal controller_matrix_vector_convolution_fsm_int : controller_matrix_vector_convolution_fsm;
-  signal controller_vector_float_adder_fsm_int        : controller_vector_float_adder_fsm;
-  signal controller_vector_logistic_fsm_int           : controller_vector_logistic_fsm;
+  signal controller_vector_float_adder_fsm_int    : controller_vector_float_adder_fsm;
+  signal controller_vector_logistic_fsm_int       : controller_vector_logistic_fsm;
 
   -- Output
   signal controller_h_out_fsm_int : controller_h_out_fsm;
@@ -626,8 +627,18 @@ begin
 
         when ENABLER_MATRIX_VECTOR_CONVOLUTION_STATE =>  -- STEP 1
 
-          -- FSM Control
           if (data_w_in_enable_int = '1' and data_x_in_enable_int = '1') then
+            if (unsigned(index_i_matrix_vector_convolution_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_matrix_vector_convolution_loop) = unsigned(ZERO_CONTROL)) then
+              -- Control Internal
+              start_matrix_vector_convolution <= '1';
+
+              -- Data Inputs
+              size_a_i_in_matrix_vector_convolution <= SIZE_L_IN;
+              size_a_j_in_matrix_vector_convolution <= SIZE_X_IN;
+              size_b_in_matrix_vector_convolution   <= SIZE_X_IN;
+            end if;
+
+            -- FSM Control
             controller_matrix_vector_convolution_fsm_int <= INPUT_I_MATRIX_VECTOR_CONVOLUTION_STATE;
           end if;
 
@@ -637,15 +648,8 @@ begin
           data_a_in_matrix_vector_convolution <= matrix_w_in_int(to_integer(unsigned(index_i_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_matrix_vector_convolution_loop)));
           data_b_in_matrix_vector_convolution <= vector_x_in_int(to_integer(unsigned(index_i_matrix_vector_convolution_loop)));
 
-          if (unsigned(index_i_matrix_vector_convolution_loop) = unsigned(ZERO_CONTROL) and unsigned(index_j_matrix_vector_convolution_loop) = unsigned(ZERO_CONTROL)) then
-            -- Control Internal
-            start_matrix_vector_convolution <= '1';
-
-            -- Data Inputs
-            size_a_i_in_matrix_vector_convolution <= SIZE_L_IN;
-            size_a_j_in_matrix_vector_convolution <= SIZE_X_IN;
-            size_b_in_matrix_vector_convolution   <= SIZE_X_IN;
-          end if;
+          -- Control Internal
+          start_matrix_vector_convolution <= '0';
 
           data_a_in_i_enable_matrix_vector_convolution <= '1';
           data_a_in_j_enable_matrix_vector_convolution <= '1';
@@ -658,7 +662,6 @@ begin
 
           -- Data Inputs
           data_a_in_matrix_vector_convolution <= matrix_w_in_int(to_integer(unsigned(index_i_matrix_vector_convolution_loop)), to_integer(unsigned(index_j_matrix_vector_convolution_loop)));
-          data_b_in_matrix_vector_convolution <= vector_x_in_int(to_integer(unsigned(index_i_matrix_vector_convolution_loop)));
 
           -- Control Internal
           data_a_in_j_enable_matrix_vector_convolution <= '1';
@@ -674,21 +677,13 @@ begin
 
           if (data_i_enable_matrix_vector_convolution = '1' and data_j_enable_matrix_vector_convolution = '1') then
             if ((unsigned(index_i_matrix_vector_convolution_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_matrix_vector_convolution_loop) = unsigned(SIZE_X_IN)-unsigned(ONE_CONTROL))) then
-              -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_i_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
-
               -- Control Internal
-              data_matrix_vector_convolution_enable_int <= '1';
-
               index_i_matrix_vector_convolution_loop <= ZERO_CONTROL;
               index_j_matrix_vector_convolution_loop <= ZERO_CONTROL;
 
               -- FSM Control
-              controller_matrix_vector_convolution_fsm_int <= STARTER_MATRIX_VECTOR_CONVOLUTION_STATE;
+              controller_matrix_vector_convolution_fsm_int <= OUTPUT_I_MATRIX_VECTOR_CONVOLUTION_STATE;
             elsif ((unsigned(index_i_matrix_vector_convolution_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_j_matrix_vector_convolution_loop) = unsigned(SIZE_X_IN)-unsigned(ONE_CONTROL))) then
-              -- Data Internal
-              vector_operation_int(to_integer(unsigned(index_i_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
-
               -- Control Internal
               index_i_matrix_vector_convolution_loop <= std_logic_vector(unsigned(index_i_matrix_vector_convolution_loop) + unsigned(ONE_CONTROL));
               index_j_matrix_vector_convolution_loop <= ZERO_CONTROL;
@@ -696,14 +691,12 @@ begin
               -- FSM Control
               controller_matrix_vector_convolution_fsm_int <= INPUT_I_MATRIX_VECTOR_CONVOLUTION_STATE;
             end if;
-          else
-            -- Control Internal
-            start_matrix_vector_convolution <= '0';
-
-            data_a_in_i_enable_matrix_vector_convolution <= '0';
-            data_a_in_j_enable_matrix_vector_convolution <= '0';
-            data_b_in_enable_matrix_vector_convolution   <= '0';
           end if;
+
+          -- Control Internal
+          data_a_in_i_enable_matrix_vector_convolution <= '0';
+          data_a_in_j_enable_matrix_vector_convolution <= '0';
+          data_b_in_enable_matrix_vector_convolution   <= '0';
 
         when CLEAN_J_MATRIX_VECTOR_CONVOLUTION_STATE =>  -- STEP 4
 
@@ -715,13 +708,31 @@ begin
               -- FSM Control
               controller_matrix_vector_convolution_fsm_int <= INPUT_J_MATRIX_VECTOR_CONVOLUTION_STATE;
             end if;
-          else
-            -- Control Internal
-            start_matrix_vector_convolution <= '0';
+          end if;
 
-            data_a_in_i_enable_matrix_vector_convolution <= '0';
-            data_a_in_j_enable_matrix_vector_convolution <= '0';
-            data_b_in_enable_matrix_vector_convolution   <= '0';
+          -- Control Internal
+          data_a_in_i_enable_matrix_vector_convolution <= '0';
+          data_a_in_j_enable_matrix_vector_convolution <= '0';
+          data_b_in_enable_matrix_vector_convolution   <= '0';
+
+        when OUTPUT_I_MATRIX_VECTOR_CONVOLUTION_STATE =>  -- STEP 5
+
+          if (data_out_enable_matrix_vector_convolution = '1') then
+            if (unsigned(index_i_matrix_vector_convolution_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
+              -- Control Internal
+              data_matrix_vector_convolution_enable_int <= '1';
+
+              index_i_matrix_vector_convolution_loop <= ZERO_CONTROL;
+
+              -- FSM Control
+              controller_matrix_vector_convolution_fsm_int <= STARTER_MATRIX_VECTOR_CONVOLUTION_STATE;
+            else
+              -- Control Internal
+              index_i_matrix_vector_convolution_loop <= std_logic_vector(unsigned(index_i_matrix_vector_convolution_loop) + unsigned(ONE_CONTROL));
+            end if;
+
+            -- Data Internal
+            vector_operation_int(to_integer(unsigned(index_i_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
           end if;
 
         when others =>
@@ -779,8 +790,18 @@ begin
 
         when ENABLER_VECTOR_FLOAT_ADDER_STATE =>  -- STEP 1
 
-          -- FSM Control
-          if (data_matrix_vector_convolution_enable_int = '1' and data_b_in_enable_int = '1') then
+          if (data_b_in_enable_int = '1') then
+            if (unsigned(index_vector_float_adder_loop) = unsigned(ZERO_CONTROL)) then
+              -- Control Internal
+              start_vector_float_adder <= '1';
+
+              -- Data Inputs
+              operation_vector_float_adder <= '0';
+
+              size_in_vector_float_adder <= SIZE_L_IN;
+            end if;
+
+            -- FSM Control
             controller_vector_float_adder_fsm_int <= INPUT_VECTOR_FLOAT_ADDER_STATE;
           end if;
 
@@ -790,15 +811,8 @@ begin
           data_a_in_vector_float_adder <= vector_operation_int(to_integer(unsigned(index_vector_float_adder_loop)));
           data_b_in_vector_float_adder <= vector_b_in_int(to_integer(unsigned(index_vector_float_adder_loop)));
 
-          if (unsigned(index_vector_float_adder_loop) = unsigned(ZERO_CONTROL) and unsigned(index_vector_float_adder_loop) = unsigned(ZERO_CONTROL)) then
-            -- Control Internal
-            start_vector_float_adder <= '1';
-
-            -- Data Inputs
-            operation_vector_float_adder <= '0';
-
-            size_in_vector_float_adder <= SIZE_L_IN;
-          end if;
+          -- Control Internal
+          start_vector_float_adder <= '0';
 
           data_a_in_enable_vector_float_adder <= '1';
           data_b_in_enable_vector_float_adder <= '1';
@@ -830,13 +844,11 @@ begin
               -- FSM Control
               controller_vector_float_adder_fsm_int <= INPUT_VECTOR_FLOAT_ADDER_STATE;
             end if;
-          else
-            -- Control Internal
-            start_vector_float_adder <= '0';
-
-            data_a_in_enable_vector_float_adder <= '0';
-            data_b_in_enable_vector_float_adder <= '0';
           end if;
+
+          -- Control Internal
+          data_a_in_enable_vector_float_adder <= '0';
+          data_b_in_enable_vector_float_adder <= '0';
 
         when others =>
           -- FSM Control
@@ -887,8 +899,16 @@ begin
 
         when ENABLER_VECTOR_LOGISTIC_STATE =>  -- STEP 1
 
-          -- FSM Control
           if (data_vector_float_adder_enable_int = '1') then
+            if (unsigned(index_vector_logistic_loop) = unsigned(ZERO_CONTROL) and unsigned(index_vector_logistic_loop) = unsigned(ZERO_CONTROL)) then
+              -- Control Internal
+              start_vector_logistic <= '1';
+
+              -- Data Inputs
+              size_in_vector_logistic <= SIZE_L_IN;
+            end if;
+
+            -- FSM Control
             controller_vector_logistic_fsm_int <= INPUT_VECTOR_LOGISTIC_STATE;
           end if;
 
@@ -897,13 +917,8 @@ begin
           -- Data Inputs
           data_in_vector_logistic <= vector_operation_int(to_integer(unsigned(index_vector_logistic_loop)));
 
-          if (unsigned(index_vector_logistic_loop) = unsigned(ZERO_CONTROL) and unsigned(index_vector_logistic_loop) = unsigned(ZERO_CONTROL)) then
-            -- Control Internal
-            start_vector_logistic <= '1';
-
-            -- Data Inputs
-            size_in_vector_logistic <= SIZE_L_IN;
-          end if;
+          -- Control Internal
+          start_vector_logistic <= '0';
 
           data_in_enable_vector_logistic <= '1';
 
@@ -934,12 +949,10 @@ begin
               -- FSM Control
               controller_vector_logistic_fsm_int <= INPUT_VECTOR_LOGISTIC_STATE;
             end if;
-          else
-            -- Control Internal
-            start_vector_logistic <= '0';
-
-            data_in_enable_vector_logistic <= '0';
           end if;
+          
+          -- Control Internal
+          data_in_enable_vector_logistic <= '0';
 
         when others =>
           -- FSM Control
