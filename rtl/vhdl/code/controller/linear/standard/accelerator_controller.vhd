@@ -202,8 +202,9 @@ architecture accelerator_controller_architecture of accelerator_controller is
   signal vector_x_in_int : vector_buffer;
 
   -- Ops
-  signal vector_one_operation_int : vector_buffer;
-  signal vector_two_operation_int : vector_buffer;
+  signal vector_one_operation_int   : vector_buffer;
+  signal vector_two_operation_int   : vector_buffer;
+  signal vector_three_operation_int : vector_buffer;
 
   -- Control Internal - Index
   -- Input
@@ -306,7 +307,7 @@ begin
   --   vector_two_operation_int = vector_float_adder_fsm(vector_one_operation_int, b) [data_matrix_vector_product_enable_int, data_b_in_enable_int]
 
   -- logistic(h(t;l))
-  --   vector_one_operation_int = vector_logistic_fsm(vector_two_operation_int) [data_vector_float_adder_enable_int]
+  --   vector_three_operation_int = vector_logistic_fsm(vector_two_operation_int) [data_vector_float_adder_enable_int]
 
   -- INPUT CONTROL
   w_in_fsm : process(CLK, RST)
@@ -651,8 +652,6 @@ begin
             data_b_in_matrix_vector_product <= vector_x_in_int(to_integer(unsigned(index_i_matrix_vector_product_loop)));
 
             -- Control Internal
-            start_matrix_vector_product <= '0';
-
             data_a_in_i_enable_matrix_vector_product <= '1';
             data_a_in_j_enable_matrix_vector_product <= '1';
             data_b_in_enable_matrix_vector_product   <= '1';
@@ -660,6 +659,9 @@ begin
             -- FSM Control
             controller_matrix_vector_product_fsm_int <= CLEAN_J_MATRIX_VECTOR_PRODUCT_STATE;
           end if;
+
+          -- Control Internal
+          start_matrix_vector_product <= '0';
 
         when INPUT_J_MATRIX_VECTOR_PRODUCT_STATE =>  -- STEP 6
 
@@ -723,16 +725,13 @@ begin
               -- Control Internal
               index_i_matrix_vector_product_loop <= ZERO_CONTROL;
 
+              data_matrix_vector_product_enable_int <= '1';
+
               -- FSM Control
               controller_matrix_vector_product_fsm_int <= STARTER_MATRIX_VECTOR_PRODUCT_STATE;
             else
               -- Control Internal
               index_i_matrix_vector_product_loop <= std_logic_vector(unsigned(index_i_matrix_vector_product_loop) + unsigned(ONE_CONTROL));
-            end if;
-
-            -- Control Internal
-            if (ready_matrix_vector_product = '1') then
-              data_matrix_vector_product_enable_int <= '1';
             end if;
 
             -- Data Internal
@@ -811,44 +810,40 @@ begin
 
         when INPUT_VECTOR_FLOAT_ADDER_STATE =>  -- STEP 2
 
-          if (data_out_enable_vector_float_adder = '1') then
-            -- Data Inputs
-            data_a_in_vector_float_adder <= vector_one_operation_int(to_integer(unsigned(index_vector_float_adder_loop)));
-            data_b_in_vector_float_adder <= vector_b_in_int(to_integer(unsigned(index_vector_float_adder_loop)));
-
-            -- Control Internal
-            data_a_in_enable_vector_float_adder <= '1';
-            data_b_in_enable_vector_float_adder <= '1';
-
-            -- FSM Control
-            controller_vector_float_adder_fsm_int <= CLEAN_VECTOR_FLOAT_ADDER_STATE;
-          end if;
+          -- Data Inputs
+          data_a_in_vector_float_adder <= vector_one_operation_int(to_integer(unsigned(index_vector_float_adder_loop)));
+          data_b_in_vector_float_adder <= vector_b_in_int(to_integer(unsigned(index_vector_float_adder_loop)));
 
           -- Control Internal
           start_vector_float_adder <= '0';
 
+          data_a_in_enable_vector_float_adder <= '1';
+          data_b_in_enable_vector_float_adder <= '1';
+
+          -- FSM Control
+          controller_vector_float_adder_fsm_int <= CLEAN_VECTOR_FLOAT_ADDER_STATE;
+
         when CLEAN_VECTOR_FLOAT_ADDER_STATE =>  -- STEP 3
 
-          if (unsigned(index_vector_float_adder_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
+          if (data_out_enable_vector_float_adder = '1') then
+            if (unsigned(index_vector_float_adder_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
+              -- Control Internal
+              data_vector_float_adder_enable_int <= '1';
+
+              index_vector_float_adder_loop <= ZERO_CONTROL;
+
+              -- FSM Control
+              controller_vector_float_adder_fsm_int <= STARTER_VECTOR_FLOAT_ADDER_STATE;
+            elsif (unsigned(index_vector_float_adder_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
+              -- Control Internal
+              index_vector_float_adder_loop <= std_logic_vector(unsigned(index_vector_float_adder_loop) + unsigned(ONE_CONTROL));
+
+              -- FSM Control
+              controller_vector_float_adder_fsm_int <= INPUT_VECTOR_FLOAT_ADDER_STATE;
+            end if;
+
             -- Data Internal
             vector_two_operation_int(to_integer(unsigned(index_vector_float_adder_loop))) <= data_out_vector_float_adder;
-
-            -- Control Internal
-            index_vector_float_adder_loop <= ZERO_CONTROL;
-
-            data_vector_float_adder_enable_int <= '1';
-
-            -- FSM Control
-            controller_vector_float_adder_fsm_int <= STARTER_VECTOR_FLOAT_ADDER_STATE;
-          elsif (unsigned(index_vector_float_adder_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
-            -- Data Internal
-            vector_two_operation_int(to_integer(unsigned(index_vector_float_adder_loop))) <= data_out_vector_float_adder;
-
-            -- Control Internal
-            index_vector_float_adder_loop <= std_logic_vector(unsigned(index_vector_float_adder_loop) + unsigned(ONE_CONTROL));
-
-            -- FSM Control
-            controller_vector_float_adder_fsm_int <= INPUT_VECTOR_FLOAT_ADDER_STATE;
           end if;
 
           -- Control Internal
@@ -919,44 +914,40 @@ begin
 
         when INPUT_VECTOR_LOGISTIC_STATE =>  -- STEP 2
 
-          if (data_out_enable_vector_logistic = '1') then
-            -- Data Inputs
-            data_in_vector_logistic <= vector_two_operation_int(to_integer(unsigned(index_vector_logistic_loop)));
-
-            -- Control Internal
-            data_in_enable_vector_logistic <= '1';
-
-            -- FSM Control
-            controller_vector_logistic_fsm_int <= CLEAN_VECTOR_LOGISTIC_STATE;
-          end if;
+          -- Data Inputs
+          data_in_vector_logistic <= vector_two_operation_int(to_integer(unsigned(index_vector_logistic_loop)));
 
           -- Control Internal
           start_vector_logistic <= '0';
 
+          data_in_enable_vector_logistic <= '1';
+
+          -- FSM Control
+          controller_vector_logistic_fsm_int <= CLEAN_VECTOR_LOGISTIC_STATE;
+
         when CLEAN_VECTOR_LOGISTIC_STATE =>  -- STEP 3
 
-          if (unsigned(index_vector_logistic_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
+          if (data_out_enable_vector_logistic = '1') then
+            if (unsigned(index_vector_logistic_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
+              -- Control Internal
+              data_vector_logistic_enable_int <= '1';
+
+              index_vector_logistic_loop <= ZERO_CONTROL;
+
+              -- FSM Control
+              controller_vector_logistic_fsm_int <= STARTER_VECTOR_LOGISTIC_STATE;
+            elsif (unsigned(index_vector_logistic_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
+              -- Control Internal
+              index_vector_logistic_loop <= std_logic_vector(unsigned(index_vector_logistic_loop) + unsigned(ONE_CONTROL));
+
+              -- FSM Control
+              controller_vector_logistic_fsm_int <= INPUT_VECTOR_LOGISTIC_STATE;
+            end if;
+
             -- Data Internal
-            vector_one_operation_int(to_integer(unsigned(index_vector_logistic_loop))) <= data_out_vector_logistic;
-
-            -- Control Internal
-            index_vector_logistic_loop <= ZERO_CONTROL;
-
-            data_vector_logistic_enable_int <= '1';
-
-            -- FSM Control
-            controller_vector_logistic_fsm_int <= STARTER_VECTOR_LOGISTIC_STATE;
-          elsif (unsigned(index_vector_logistic_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
-            -- Data Internal
-            vector_one_operation_int(to_integer(unsigned(index_vector_logistic_loop))) <= data_out_vector_logistic;
-
-            -- Control Internal
-            index_vector_logistic_loop <= std_logic_vector(unsigned(index_vector_logistic_loop) + unsigned(ONE_CONTROL));
-
-            -- FSM Control
-            controller_vector_logistic_fsm_int <= INPUT_VECTOR_LOGISTIC_STATE;
+            vector_three_operation_int(to_integer(unsigned(index_vector_logistic_loop))) <= data_out_vector_logistic;
           end if;
-
+          
           -- Control Internal
           data_in_enable_vector_logistic <= '0';
 
@@ -1011,13 +1002,8 @@ begin
         when OUTPUT_H_OUT_L_STATE =>    -- STEP 2
 
           if (unsigned(index_l_h_out_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
-            -- Data Outputs
-            H_OUT <= vector_one_operation_int(to_integer(unsigned(index_l_h_out_loop)));
-
             -- Control Outputs
             READY <= '1';
-
-            H_OUT_ENABLE <= '1';
 
             -- Control Internal
             index_l_h_out_loop <= ZERO_CONTROL;
@@ -1025,18 +1011,18 @@ begin
             -- FSM Control
             controller_h_out_fsm_int <= STARTER_H_OUT_STATE;
           elsif (unsigned(index_l_h_out_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
-            -- Data Outputs
-            H_OUT <= vector_one_operation_int(to_integer(unsigned(index_l_h_out_loop)));
-
-            -- Control Outputs
-            H_OUT_ENABLE <= '1';
-
             -- Control Internal
             index_l_h_out_loop <= std_logic_vector(unsigned(index_l_h_out_loop) + unsigned(ONE_CONTROL));
 
             -- FSM Control
             controller_h_out_fsm_int <= CLEAN_H_OUT_L_STATE;
           end if;
+
+          -- Data Outputs
+          H_OUT <= vector_three_operation_int(to_integer(unsigned(index_l_h_out_loop)));
+
+          -- Control Outputs
+          H_OUT_ENABLE <= '1';
 
         when others =>
           -- FSM Control
