@@ -130,6 +130,15 @@ code
 │       │   │       ├── model_standard_fnn_pkg.vhd
 │       │   │       ├── model_standard_fnn_stimulus.vhd
 │       │   │       └── model_standard_fnn_testbench.vhd
+│       │   ├── linear
+│       │   │   ├── convolutional
+│       │   │   │   ├── model_convolutional_linear_pkg.vhd
+│       │   │   │   ├── model_convolutional_linear_stimulus.vhd
+│       │   │   │   └── model_convolutional_linear_testbench.vhd
+│       │   │   └── standard
+│       │   │       ├── model_standard_linear_pkg.vhd
+│       │   │       ├── model_standard_linear_stimulus.vhd
+│       │   │       └── model_standard_linear_testbench.vhd
 │       │   └── LSTM
 │       │       ├── convolutional
 │       │       │   ├── model_convolutional_lstm_pkg.vhd
@@ -334,6 +343,15 @@ code
         │   │       ├── model_standard_fnn_pkg.vhd
         │   │       ├── model_standard_fnn_stimulus.vhd
         │   │       └── model_standard_fnn_testbench.vhd
+        │   ├── linear
+        │   │   ├── convolutional
+        │   │   │   ├── model_convolutional_linear_pkg.vhd
+        │   │   │   ├── model_convolutional_linear_stimulus.vhd
+        │   │   │   └── model_convolutional_linear_testbench.vhd
+        │   │   └── standard
+        │   │       ├── model_standard_linear_pkg.vhd
+        │   │       ├── model_standard_linear_stimulus.vhd
+        │   │       └── model_standard_linear_testbench.vhd
         │   └── LSTM
         │       ├── convolutional
         │       │   ├── model_convolutional_lstm_pkg.vhd
@@ -408,4 +426,4 @@ code
             ├── model_transformer_stimulus.vhd
             └── model_transformer_testbench.vhd
 
-132 directories, 276 files
+138 directories, 288 files
