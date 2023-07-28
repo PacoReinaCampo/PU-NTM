@@ -166,6 +166,7 @@ code
 ├── pkg
 │   ├── model_arithmetic_pkg.vhd
 │   ├── model_fnn_controller_pkg.vhd
+│   ├── model_linear_controller_pkg.vhd
 │   ├── model_lstm_controller_pkg.vhd
 │   ├── model_math_pkg.vhd
 │   ├── model_ntm_core_pkg.vhd
@@ -222,4 +223,4 @@ code
         ├── model_decoder.vhd
         └── model_encoder.vhd
 
-69 directories, 153 files
+69 directories, 154 files
