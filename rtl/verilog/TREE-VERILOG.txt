@@ -234,6 +234,11 @@ code
     │   ├── accelerator_keys_vector.sv
     │   ├── accelerator_queries_vector.sv
     │   └── accelerator_values_vector.sv
+    ├── linear
+    │   ├── convolutional
+    │   │   └── accelerator_linear.sv
+    │   └── standard
+    │       └── accelerator_linear.sv
     ├── lstm
     │   ├── convolutional
     │   │   └── accelerator_lstm.sv
@@ -244,4 +249,4 @@ code
         ├── accelerator_decoder.sv
         └── accelerator_encoder.sv
 
-78 directories, 166 files
+81 directories, 168 files

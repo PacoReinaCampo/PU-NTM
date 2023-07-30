@@ -237,6 +237,11 @@ code
     │   ├── accelerator_keys_vector.vhd
     │   ├── accelerator_queries_vector.vhd
     │   └── accelerator_values_vector.vhd
+    ├── linear
+    │   ├── convolutional
+    │   │   └── accelerator_linear.vhd
+    │   └── standard
+    │       └── accelerator_linear.vhd
     ├── lstm
     │   ├── convolutional
     │   │   └── accelerator_lstm.vhd
@@ -247,4 +252,4 @@ code
         ├── accelerator_decoder.vhd
         └── accelerator_encoder.vhd
 
-78 directories, 169 files
+81 directories, 171 files
