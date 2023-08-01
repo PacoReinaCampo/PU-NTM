@@ -6,7 +6,7 @@ add wave -noupdate /accelerator_convolutional_linear_pkg/MONITOR_TEST
 add wave -noupdate /accelerator_convolutional_linear_pkg/MONITOR_CASE
 
 add wave -noupdate -divider {=========================================}
-add wave -noupdate -divider {NTM STANDARD LINEAR TEST}
+add wave -noupdate -divider {NTM CONVOLUTIONAL LINEAR TEST}
 add wave -noupdate -divider {=========================================}
 
 add wave -noupdate /accelerator_convolutional_linear_testbench/accelerator_convolutional_linear_test/controller/CLK
