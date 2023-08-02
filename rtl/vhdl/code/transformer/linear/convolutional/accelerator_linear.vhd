@@ -188,8 +188,8 @@ architecture accelerator_linear_architecture of accelerator_linear is
 
   -- Ops
   signal controller_matrix_vector_convolution_fsm_int : controller_matrix_vector_convolution_fsm;
-  signal controller_vector_float_adder_fsm_int    : controller_vector_float_adder_fsm;
-  signal controller_vector_logistic_fsm_int       : controller_vector_logistic_fsm;
+  signal controller_vector_float_adder_fsm_int        : controller_vector_float_adder_fsm;
+  signal controller_vector_logistic_fsm_int           : controller_vector_logistic_fsm;
 
   -- Output
   signal controller_h_out_fsm_int : controller_h_out_fsm;
@@ -235,8 +235,8 @@ architecture accelerator_linear_architecture of accelerator_linear is
 
   -- Ops
   signal data_matrix_vector_convolution_enable_int : std_logic;
-  signal data_vector_float_adder_enable_int    : std_logic;
-  signal data_vector_logistic_enable_int       : std_logic;
+  signal data_vector_float_adder_enable_int        : std_logic;
+  signal data_vector_logistic_enable_int           : std_logic;
 
   -- VECTOR ADDER
   -- CONTROL
@@ -947,7 +947,7 @@ begin
             -- Data Internal
             vector_three_operation_int(to_integer(unsigned(index_vector_logistic_loop))) <= data_out_vector_logistic;
           end if;
-          
+
           -- Control Internal
           data_in_enable_vector_logistic <= '0';
 

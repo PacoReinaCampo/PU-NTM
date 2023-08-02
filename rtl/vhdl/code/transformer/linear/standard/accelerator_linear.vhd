@@ -947,7 +947,7 @@ begin
             -- Data Internal
             vector_three_operation_int(to_integer(unsigned(index_vector_logistic_loop))) <= data_out_vector_logistic;
           end if;
-          
+
           -- Control Internal
           data_in_enable_vector_logistic <= '0';
 
