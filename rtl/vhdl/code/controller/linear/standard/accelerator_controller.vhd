@@ -805,10 +805,10 @@ begin
 
               index_vector_float_adder_loop <= std_logic_vector(unsigned(index_vector_float_adder_loop) + unsigned(ONE_CONTROL));
             end if;
-          else
+
             -- Data Internal
             vector_two_operation_int(to_integer(unsigned(index_vector_float_adder_loop))) <= data_out_vector_float_adder;
-
+          else
             -- Control Internal
             start_vector_float_adder <= '0';
 
@@ -905,10 +905,10 @@ begin
 
               index_vector_logistic_loop <= std_logic_vector(unsigned(index_vector_logistic_loop) + unsigned(ONE_CONTROL));
             end if;
-          else
+
             -- Data Internal
             vector_three_operation_int(to_integer(unsigned(index_vector_logistic_loop))) <= data_out_vector_logistic;
-
+          else
             -- Control Internal
             start_vector_logistic <= '0';
 

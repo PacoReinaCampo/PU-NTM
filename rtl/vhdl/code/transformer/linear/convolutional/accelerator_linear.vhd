@@ -213,6 +213,8 @@ architecture accelerator_linear_architecture of accelerator_linear is
   signal index_i_matrix_vector_convolution_loop : std_logic_vector(CONTROL_SIZE-1 downto 0);
   signal index_j_matrix_vector_convolution_loop : std_logic_vector(CONTROL_SIZE-1 downto 0);
 
+  signal index_matrix_vector_convolution_loop : std_logic_vector(CONTROL_SIZE-1 downto 0);
+
   signal index_vector_float_adder_loop : std_logic_vector(CONTROL_SIZE-1 downto 0);
 
   signal index_vector_logistic_loop : std_logic_vector(CONTROL_SIZE-1 downto 0);
@@ -587,6 +589,8 @@ begin
       index_i_matrix_vector_convolution_loop <= ZERO_CONTROL;
       index_j_matrix_vector_convolution_loop <= ZERO_CONTROL;
 
+      index_matrix_vector_convolution_loop <= ZERO_CONTROL;
+
       -- Data Internal
       size_a_i_in_matrix_vector_convolution <= ZERO_CONTROL;
       size_a_j_in_matrix_vector_convolution <= ZERO_CONTROL;
@@ -627,6 +631,8 @@ begin
 
               index_i_matrix_vector_convolution_loop <= ZERO_CONTROL;
               index_j_matrix_vector_convolution_loop <= ZERO_CONTROL;
+
+              index_matrix_vector_convolution_loop <= ZERO_CONTROL;
 
               -- Data Inputs
               size_a_i_in_matrix_vector_convolution <= SIZE_L_IN;
@@ -677,13 +683,13 @@ begin
 
           if (data_out_enable_matrix_vector_convolution = '1') then
             -- Data Internal
-            vector_one_operation_int(to_integer(unsigned(index_i_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
+            vector_one_operation_int(to_integer(unsigned(index_matrix_vector_convolution_loop))) <= data_out_matrix_vector_convolution;
 
             -- Control Internal
-            if (unsigned(index_i_matrix_vector_convolution_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
-              index_i_matrix_vector_convolution_loop <= ZERO_CONTROL;
+            if (unsigned(index_matrix_vector_convolution_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
+              index_matrix_vector_convolution_loop <= ZERO_CONTROL;
             else
-              index_i_matrix_vector_convolution_loop <= std_logic_vector(unsigned(index_i_matrix_vector_convolution_loop) + unsigned(ONE_CONTROL));
+              index_matrix_vector_convolution_loop <= std_logic_vector(unsigned(index_matrix_vector_convolution_loop) + unsigned(ONE_CONTROL));
             end if;
           end if;
 
@@ -799,10 +805,10 @@ begin
 
               index_vector_float_adder_loop <= std_logic_vector(unsigned(index_vector_float_adder_loop) + unsigned(ONE_CONTROL));
             end if;
-          else
+
             -- Data Internal
             vector_two_operation_int(to_integer(unsigned(index_vector_float_adder_loop))) <= data_out_vector_float_adder;
-
+          else
             -- Control Internal
             start_vector_float_adder <= '0';
 
@@ -899,10 +905,10 @@ begin
 
               index_vector_logistic_loop <= std_logic_vector(unsigned(index_vector_logistic_loop) + unsigned(ONE_CONTROL));
             end if;
-          else
+
             -- Data Internal
             vector_three_operation_int(to_integer(unsigned(index_vector_logistic_loop))) <= data_out_vector_logistic;
-
+          else
             -- Control Internal
             start_vector_logistic <= '0';
 
