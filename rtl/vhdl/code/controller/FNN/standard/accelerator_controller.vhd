@@ -360,9 +360,9 @@ architecture accelerator_controller_architecture of accelerator_controller is
 
   -- Output
   type controller_h_out_fsm is (
-    STARTER_H_OUT_STATE,                -- STEP 0
-    CLEAN_H_OUT_L_STATE,                -- STEP 1
-    OUTPUT_H_OUT_L_STATE                -- STEP 2
+    STARTER_H_OUT_STATE,  -- STEP 0
+    CLEAN_H_OUT_L_STATE,  -- STEP 1
+    OUTPUT_H_OUT_L_STATE  -- STEP 2
     );
 
   ------------------------------------------------------------------------------
@@ -3595,7 +3595,7 @@ begin
 
       case controller_h_out_fsm_int is
         when STARTER_H_OUT_STATE =>     -- STEP 0
-          if (data_d_in_enable_int = '1') then
+          if (data_vector_logistic_enable_int = '1') then
             -- Control Internal
             index_l_h_out_loop <= ZERO_CONTROL;
 
@@ -3619,7 +3619,7 @@ begin
 
           if (unsigned(index_l_h_out_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
             -- Data Outputs
-            H_OUT <= vector_two_operation_int(to_integer(unsigned(index_l_h_out_loop)));
+            H_OUT <= vector_eleven_operation_int(to_integer(unsigned(index_l_h_out_loop)));
 
             -- Control Outputs
             READY <= '1';
@@ -3633,7 +3633,7 @@ begin
             controller_h_out_fsm_int <= STARTER_H_OUT_STATE;
           elsif (unsigned(index_l_h_out_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
             -- Data Outputs
-            H_OUT <= vector_two_operation_int(to_integer(unsigned(index_l_h_out_loop)));
+            H_OUT <= vector_eleven_operation_int(to_integer(unsigned(index_l_h_out_loop)));
 
             -- Control Outputs
             H_ENABLE <= '1';
