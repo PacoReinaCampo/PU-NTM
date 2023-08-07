@@ -353,9 +353,9 @@ architecture accelerator_activation_gate_vector_architecture of accelerator_acti
 
   -- tanh(a(t;l))
   type controller_vector_tanh_fsm is (
-    STARTER_VECTOR_TANH_STATE,      -- STEP 0
-    ENABLER_VECTOR_TANH_STATE,      -- STEP 1
-    OPERATION_VECTOR_TANH_STATE     -- STEP 2
+    STARTER_VECTOR_TANH_STATE,          -- STEP 0
+    ENABLER_VECTOR_TANH_STATE,          -- STEP 1
+    OPERATION_VECTOR_TANH_STATE         -- STEP 2
     );
 
   -- Output
@@ -397,7 +397,7 @@ architecture accelerator_activation_gate_vector_architecture of accelerator_acti
   signal controller_third_vector_float_adder_fsm_int     : controller_third_vector_float_adder_fsm;
   signal controller_fourth_vector_float_adder_fsm_int    : controller_fourth_vector_float_adder_fsm;
   signal controller_fiveth_vector_float_adder_fsm_int    : controller_fiveth_vector_float_adder_fsm;
-  signal controller_vector_tanh_fsm_int              : controller_vector_tanh_fsm;
+  signal controller_vector_tanh_fsm_int                  : controller_vector_tanh_fsm;
 
   -- Output
   signal controller_h_out_fsm_int : controller_h_out_fsm;
@@ -549,7 +549,7 @@ architecture accelerator_activation_gate_vector_architecture of accelerator_acti
   signal data_third_vector_float_adder_enable_int     : std_logic;
   signal data_fourth_vector_float_adder_enable_int    : std_logic;
   signal data_fiveth_vector_float_adder_enable_int    : std_logic;
-  signal data_vector_tanh_enable_int              : std_logic;
+  signal data_vector_tanh_enable_int                  : std_logic;
 
   -- VECTOR ADDER
   -- CONTROL
