@@ -127,7 +127,7 @@ architecture accelerator_tensor_matrix_convolution_architecture of accelerator_t
 
   -- Buffer
   signal tensor_a_int : tensor_buffer;
-  signal tensor_b_int : tensor_buffer;
+  signal matrix_b_int : matrix_buffer;
 
   -- Control Internal
   signal index_i_loop : std_logic_vector(CONTROL_SIZE-1 downto 0);
@@ -272,7 +272,7 @@ begin
 
           if ((DATA_B_IN_I_ENABLE = '1') and (DATA_B_IN_J_ENABLE = '1')) then
             -- Data Inputs
-            tensor_b_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop))) <= DATA_B_IN;
+            matrix_b_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop))) <= DATA_B_IN;
 
             -- Control Internal
             data_b_in_i_convolution_int <= '1';
@@ -309,7 +309,7 @@ begin
 
           if (DATA_B_IN_J_ENABLE = '1') then
             -- Data Inputs
-            tensor_b_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop))) <= DATA_B_IN;
+            matrix_b_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop))) <= DATA_B_IN;
 
             -- Control Internal
             data_b_in_j_convolution_int <= '1';
@@ -405,7 +405,7 @@ begin
 
           -- Data Inputs
           data_a_in_scalar_float_multiplier <= tensor_a_int(to_integer(unsigned(index_m_loop)), to_integer(unsigned(index_n_loop)), to_integer(unsigned(index_p_loop)));
-          data_b_in_scalar_float_multiplier <= tensor_b_int(to_integer(unsigned(index_i_loop)-unsigned(index_m_loop)), to_integer(unsigned(index_j_loop)-unsigned(index_n_loop)), to_integer(unsigned(index_k_loop)-unsigned(index_p_loop)));
+          data_b_in_scalar_float_multiplier <= matrix_b_int(to_integer(unsigned(index_i_loop)-unsigned(index_m_loop)), to_integer(unsigned(index_j_loop)-unsigned(index_n_loop)));
 
           -- Control Outputs
           DATA_I_ENABLE <= '0';
@@ -431,7 +431,7 @@ begin
 
           -- Data Inputs
           data_a_in_scalar_float_multiplier <= tensor_a_int(to_integer(unsigned(index_m_loop)), to_integer(unsigned(index_n_loop)), to_integer(unsigned(index_p_loop)));
-          data_b_in_scalar_float_multiplier <= tensor_b_int(to_integer(unsigned(index_i_loop)-unsigned(index_m_loop)), to_integer(unsigned(index_j_loop)-unsigned(index_n_loop)), to_integer(unsigned(index_k_loop)-unsigned(index_p_loop)));
+          data_b_in_scalar_float_multiplier <= matrix_b_int(to_integer(unsigned(index_i_loop)-unsigned(index_m_loop)), to_integer(unsigned(index_j_loop)-unsigned(index_n_loop)));
 
           -- Control Outputs
           DATA_J_ENABLE <= '0';
@@ -455,7 +455,7 @@ begin
 
           -- Data Inputs
           data_a_in_scalar_float_multiplier <= tensor_a_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
-          data_b_in_scalar_float_multiplier <= tensor_b_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)), to_integer(unsigned(index_k_loop)));
+          data_b_in_scalar_float_multiplier <= matrix_b_int(to_integer(unsigned(index_i_loop)), to_integer(unsigned(index_j_loop)));
 
           -- Control Outputs
           DATA_K_ENABLE <= '0';
