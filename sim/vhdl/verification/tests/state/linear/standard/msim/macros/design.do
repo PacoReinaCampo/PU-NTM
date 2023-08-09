@@ -91,7 +91,7 @@ alias accelerator_standard_linear_design_compilation {
 
   vcom -2008 -reportprogress 300 -work work $design_path/trainer/linear/accelerator_trainer.vhd
 
-  vcom -2008 -reportprogress 300 -work work $design_path/controller/linear/standard/accelerator_controller.vhd
+  vcom -2008 -reportprogress 300 -work work $design_path/state/linear/standard/accelerator_controller.vhd
 }
 
 ##################################################################################################

@@ -15,9 +15,9 @@ do ./variables.do
 alias accelerator_convolutional_linear_verification_compilation {
   echo "TEST: ACCELERATOR_CONVOLUTIONAL_LINEAR_TEST"
 
-  vcom -2008 -reportprogress 300 -work work $verification_path/controller/linear/convolutional/accelerator_convolutional_linear_pkg.vhd
-  vcom -2008 -reportprogress 300 -work work $verification_path/controller/linear/convolutional/accelerator_convolutional_linear_stimulus.vhd
-  vcom -2008 -reportprogress 300 -work work $verification_path/controller/linear/convolutional/accelerator_convolutional_linear_testbench.vhd
+  vcom -2008 -reportprogress 300 -work work $verification_path/state/linear/convolutional/accelerator_convolutional_linear_pkg.vhd
+  vcom -2008 -reportprogress 300 -work work $verification_path/state/linear/convolutional/accelerator_convolutional_linear_stimulus.vhd
+  vcom -2008 -reportprogress 300 -work work $verification_path/state/linear/convolutional/accelerator_convolutional_linear_testbench.vhd
 
   vsim -g /accelerator_convolutional_linear_testbench/ENABLE_ACCELERATOR_CONVOLUTIONAL_LINEAR_TEST=true -t ps +notimingchecks -L unisim work.accelerator_convolutional_linear_testbench
 
@@ -26,7 +26,7 @@ alias accelerator_convolutional_linear_verification_compilation {
 
   #WAVES
   view -title accelerator_convolutional_linear wave
-  do $simulation_path/controller/linear/convolutional/msim/waves/accelerator_convolutional_linear.do
+  do $simulation_path/state/linear/convolutional/msim/waves/accelerator_convolutional_linear.do
 
   force -freeze sim:/accelerator_convolutional_linear_pkg/STIMULUS_ACCELERATOR_CONVOLUTIONAL_LINEAR_TEST true 0
   force -freeze sim:/accelerator_convolutional_linear_pkg/STIMULUS_ACCELERATOR_CONVOLUTIONAL_LINEAR_CASE_0 true 0

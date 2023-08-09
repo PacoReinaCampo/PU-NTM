@@ -7,13 +7,13 @@ do ./variables.do
 vlib work
 
 ##################################################################################################
-# accelerator_standard_linear_design_compilation #################################################
+# accelerator_convolutional_lstm_design_compilation ##############################################
 ##################################################################################################
 
-alias accelerator_standard_linear_design_compilation {
+alias accelerator_convolutional_lstm_design_compilation {
   vcom -2008 -reportprogress 300 -work work $design_path/pkg/accelerator_arithmetic_pkg.vhd
   vcom -2008 -reportprogress 300 -work work $design_path/pkg/accelerator_math_pkg.vhd
-  vcom -2008 -reportprogress 300 -work work $design_path/pkg/accelerator_linear_controller_pkg.vhd
+  vcom -2008 -reportprogress 300 -work work $design_path/pkg/accelerator_lstm_controller_pkg.vhd
 
   vcom -2008 -reportprogress 300 -work work $design_path/arithmetic/float/scalar/accelerator_scalar_float_adder.vhd
   vcom -2008 -reportprogress 300 -work work $design_path/arithmetic/float/scalar/accelerator_scalar_float_multiplier.vhd
@@ -89,17 +89,23 @@ alias accelerator_standard_linear_design_compilation {
   vcom -2008 -reportprogress 300 -work work $design_path/math/series/matrix/accelerator_matrix_sinh_function.vhd
   vcom -2008 -reportprogress 300 -work work $design_path/math/series/matrix/accelerator_matrix_tanh_function.vhd
 
-  vcom -2008 -reportprogress 300 -work work $design_path/trainer/linear/accelerator_trainer.vhd
+  vcom -2008 -reportprogress 300 -work work $design_path/trainer/LSTM/accelerator_trainer.vhd
 
-  vcom -2008 -reportprogress 300 -work work $design_path/state/linear/standard/accelerator_controller.vhd
+  vcom -2008 -reportprogress 300 -work work $design_path/controller/LSTM/convolutional/accelerator_controller.vhd
+  vcom -2008 -reportprogress 300 -work work $design_path/controller/LSTM/convolutional/accelerator_activation_gate_vector.vhd
+  vcom -2008 -reportprogress 300 -work work $design_path/controller/LSTM/convolutional/accelerator_forget_gate_vector.vhd
+  vcom -2008 -reportprogress 300 -work work $design_path/controller/LSTM/convolutional/accelerator_hidden_gate_vector.vhd
+  vcom -2008 -reportprogress 300 -work work $design_path/controller/LSTM/convolutional/accelerator_input_gate_vector.vhd
+  vcom -2008 -reportprogress 300 -work work $design_path/controller/LSTM/convolutional/accelerator_output_gate_vector.vhd
+  vcom -2008 -reportprogress 300 -work work $design_path/controller/LSTM/convolutional/accelerator_state_gate_vector.vhd
 }
 
 ##################################################################################################
 
 alias d01 {
-  accelerator_standard_linear_design_compilation 
+  accelerator_convolutional_lstm_design_compilation 
 }
 
 echo "****************************************"
-echo "d01 . ACCELERATOR-STANDARD-LINEAR-TEST"
+echo "d01 . ACCELERATOR-CONVOLUTIONAL-LSTM-TEST"
 echo "****************************************"

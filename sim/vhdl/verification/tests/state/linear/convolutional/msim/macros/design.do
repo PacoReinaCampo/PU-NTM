@@ -7,7 +7,7 @@ do ./variables.do
 vlib work
 
 ##################################################################################################
-# accelerator_convolutional_linear_design_compilation ####################################################
+# accelerator_convolutional_linear_design_compilation ############################################
 ##################################################################################################
 
 alias accelerator_convolutional_linear_design_compilation {
@@ -91,7 +91,7 @@ alias accelerator_convolutional_linear_design_compilation {
 
   vcom -2008 -reportprogress 300 -work work $design_path/trainer/linear/accelerator_trainer.vhd
 
-  vcom -2008 -reportprogress 300 -work work $design_path/controller/linear/convolutional/accelerator_controller.vhd
+  vcom -2008 -reportprogress 300 -work work $design_path/state/linear/convolutional/accelerator_controller.vhd
 }
 
 ##################################################################################################
