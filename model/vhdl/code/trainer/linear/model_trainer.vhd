@@ -127,15 +127,14 @@ architecture model_trainer_architecture of model_trainer is
 
   type controller_b_out_fsm is (
     STARTER_B_OUT_STATE,                -- STEP 0
-    CLEAN_B_OUT_T_STATE,                -- STEP 1
-    CLEAN_B_OUT_L_STATE,                -- STEP 2
-    OUTPUT_B_OUT_T_STATE,               -- STEP 3
-    OUTPUT_B_OUT_L_STATE                -- STEP 4
+    CLEAN_B_OUT_L_STATE,                -- STEP 1
+    OUTPUT_B_OUT_L_STATE                -- STEP 2
     );
 
   type controller_out_fsm is (
     STARTER_OUT_STATE,                  -- STEP 0
-    CLEAN_OUT_STATE                     -- STEP 1
+    CLEAN_OUT_STATE,                    -- STEP 1
+    OUTPUT_OUT_STATE                    -- STEP 2
     );
 
   ------------------------------------------------------------------------------
@@ -434,20 +433,8 @@ begin
 
       case controller_w_out_fsm_int is
         when STARTER_W_OUT_STATE =>     -- STEP 0
-          if (data_x_in_enable_int = '1' and data_h_in_enable_int = '1') then
-            -- Data Internal
-            matrix_w_out_int <= function_model_linear_w_trainer (
-              SIZE_T_IN => SIZE_T_IN,
-              SIZE_X_IN => SIZE_X_IN,
-              SIZE_L_IN => SIZE_L_IN,
-
-              vector_x_input => matrix_x_in_int,
-              vector_h_input => matrix_h_in_int
-              );
-
+          if (START = '1') then
             -- Control Internal
-            data_w_out_enable_int <= '0';
-
             index_l_w_out_loop <= ZERO_CONTROL;
             index_x_w_out_loop <= ZERO_CONTROL;
 
@@ -455,13 +442,40 @@ begin
             controller_w_out_fsm_int <= CLEAN_W_OUT_L_STATE;
           end if;
 
-        when CLEAN_W_OUT_L_STATE =>     -- STEP 1
           -- Control Outputs
           W_OUT_L_ENABLE <= '0';
           W_OUT_X_ENABLE <= '0';
 
-          -- FSM Control
-          controller_w_out_fsm_int <= OUTPUT_W_OUT_X_STATE;
+        when CLEAN_W_OUT_L_STATE =>     -- STEP 1
+          if (index_l_w_out_loop = ZERO_CONTROL and index_x_w_out_loop = ZERO_CONTROL) then
+            if (data_x_in_enable_int = '1' and data_h_in_enable_int = '1') then
+              -- Data Internal
+              matrix_w_out_int <= function_model_linear_w_trainer (
+                SIZE_T_IN => SIZE_T_IN,
+                SIZE_X_IN => SIZE_X_IN,
+                SIZE_L_IN => SIZE_L_IN,
+
+                vector_x_input => matrix_x_in_int,
+                vector_h_input => matrix_h_in_int
+                );
+
+              -- Control Internal
+              data_w_out_enable_int <= '0';
+
+              index_l_w_out_loop <= ZERO_CONTROL;
+              index_x_w_out_loop <= ZERO_CONTROL;
+
+              -- FSM Control
+              controller_w_out_fsm_int <= OUTPUT_W_OUT_X_STATE;
+            end if;
+          else
+            -- FSM Control
+            controller_w_out_fsm_int <= OUTPUT_W_OUT_X_STATE;
+          end if;
+
+          -- Control Outputs
+          W_OUT_L_ENABLE <= '0';
+          W_OUT_X_ENABLE <= '0';
 
         when CLEAN_W_OUT_X_STATE =>     -- STEP 2
 
@@ -548,28 +562,40 @@ begin
 
       case controller_b_out_fsm_int is
         when STARTER_B_OUT_STATE =>     -- STEP 0
-          if (data_h_in_enable_int = '1') then
+          if (START = '1') then
             -- Control Internal
-            vector_b_out_int <= function_model_linear_b_trainer (
-              SIZE_T_IN => SIZE_T_IN,
-              SIZE_L_IN => SIZE_L_IN,
-
-              vector_h_input => matrix_h_in_int
-              );
-
-            -- Control Internal
-            data_b_out_enable_int <= '0';
-
             index_l_b_out_loop <= ZERO_CONTROL;
 
             -- FSM Control
             controller_b_out_fsm_int <= CLEAN_B_OUT_L_STATE;
           end if;
 
-        when CLEAN_B_OUT_L_STATE =>     -- STEP 1
+          -- Control Outputs
+          B_OUT_L_ENABLE <= '0';
 
-          -- FSM Control
-          controller_b_out_fsm_int <= OUTPUT_B_OUT_L_STATE;
+        when CLEAN_B_OUT_L_STATE =>     -- STEP 1
+          if (index_l_b_out_loop = ZERO_CONTROL) then
+            if (data_h_in_enable_int = '1') then
+              -- Control Internal
+              vector_b_out_int <= function_model_linear_b_trainer (
+                SIZE_T_IN => SIZE_T_IN,
+                SIZE_L_IN => SIZE_L_IN,
+
+                vector_h_input => matrix_h_in_int
+                );
+
+              -- Control Internal
+              data_b_out_enable_int <= '0';
+
+              index_l_b_out_loop <= ZERO_CONTROL;
+
+              -- FSM Control
+              controller_b_out_fsm_int <= OUTPUT_B_OUT_L_STATE;
+            end if;
+          else
+            -- FSM Control
+            controller_b_out_fsm_int <= OUTPUT_B_OUT_L_STATE;
+          end if;
 
           -- Control Outputs
           B_OUT_L_ENABLE <= '0';
@@ -577,12 +603,6 @@ begin
         when OUTPUT_B_OUT_L_STATE =>    -- STEP 2
 
           if (unsigned(index_l_b_out_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
-            -- Data Outputs
-            B_OUT <= vector_b_out_int(to_integer(unsigned(index_l_b_out_loop)));
-
-            -- Control Outputs
-            B_OUT_L_ENABLE <= '1';
-
             -- Control Internal
             data_b_out_enable_int <= '1';
 
@@ -591,18 +611,18 @@ begin
             -- FSM Control
             controller_b_out_fsm_int <= STARTER_B_OUT_STATE;
           elsif (unsigned(index_l_b_out_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
-            -- Data Outputs
-            B_OUT <= vector_b_out_int(to_integer(unsigned(index_l_b_out_loop)));
-
-            -- Control Outputs
-            B_OUT_L_ENABLE <= '1';
-
             -- Control Internal
             index_l_b_out_loop <= std_logic_vector(unsigned(index_l_b_out_loop) + unsigned(ONE_CONTROL));
 
             -- FSM Control
             controller_b_out_fsm_int <= CLEAN_B_OUT_L_STATE;
           end if;
+
+          -- Data Outputs
+          B_OUT <= vector_b_out_int(to_integer(unsigned(index_l_b_out_loop)));
+
+          -- Control Outputs
+          B_OUT_L_ENABLE <= '1';
 
         when others =>
           -- FSM Control
@@ -620,16 +640,22 @@ begin
 
       case controller_out_fsm_int is
         when STARTER_OUT_STATE =>     -- STEP 0
-
-          -- Control Outputs
-          READY <= '0';
-
-          if (data_w_out_enable_int = '1' and data_b_out_enable_int = '1') then
+          if (START = '1') then
             -- FSM Control
             controller_out_fsm_int <= CLEAN_OUT_STATE;
           end if;
 
+          -- Control Outputs
+          READY <= '0';
+
         when CLEAN_OUT_STATE =>       -- STEP 1
+
+          if (data_w_out_enable_int = '1' and data_b_out_enable_int = '1') then
+            -- FSM Control
+            controller_out_fsm_int <= OUTPUT_OUT_STATE;
+          end if;
+
+        when OUTPUT_OUT_STATE =>      -- STEP 2
 
           -- Control Outputs
           READY <= '1';
