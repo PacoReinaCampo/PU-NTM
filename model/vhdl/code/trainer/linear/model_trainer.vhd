@@ -133,6 +133,11 @@ architecture model_trainer_architecture of model_trainer is
     OUTPUT_B_OUT_L_STATE                -- STEP 4
     );
 
+  type controller_out_fsm is (
+    STARTER_OUT_STATE,                  -- STEP 0
+    CLEAN_OUT_STATE                     -- STEP 1
+    );
+
   ------------------------------------------------------------------------------
   -- Signals
   ------------------------------------------------------------------------------
@@ -143,6 +148,8 @@ architecture model_trainer_architecture of model_trainer is
 
   signal controller_w_out_fsm_int : controller_w_out_fsm;
   signal controller_b_out_fsm_int : controller_b_out_fsm;
+
+  signal controller_out_fsm_int : controller_out_fsm;
 
   -- Buffer
   signal matrix_x_in_int : matrix_buffer;
@@ -165,6 +172,9 @@ architecture model_trainer_architecture of model_trainer is
 
   signal data_x_in_enable_int : std_logic;
   signal data_h_in_enable_int : std_logic;
+
+  signal data_w_out_enable_int : std_logic;
+  signal data_b_out_enable_int : std_logic;
 
 begin
 
@@ -411,12 +421,12 @@ begin
       W_OUT <= ZERO_DATA;
 
       -- Control Outputs
-      READY <= '0';
-
       W_OUT_L_ENABLE <= '0';
       W_OUT_X_ENABLE <= '0';
 
       -- Control Internal
+      data_w_out_enable_int <= '0';
+
       index_l_w_out_loop <= ZERO_CONTROL;
       index_x_w_out_loop <= ZERO_CONTROL;
 
@@ -436,6 +446,8 @@ begin
               );
 
             -- Control Internal
+            data_w_out_enable_int <= '0';
+
             index_l_w_out_loop <= ZERO_CONTROL;
             index_x_w_out_loop <= ZERO_CONTROL;
 
@@ -470,12 +482,12 @@ begin
             W_OUT <= matrix_w_out_int(to_integer(unsigned(index_l_w_out_loop)), to_integer(unsigned(index_x_w_out_loop)));
 
             -- Control Outputs
-            READY <= '1';
-
             W_OUT_L_ENABLE <= '1';
             W_OUT_X_ENABLE <= '1';
 
             -- Control Internal
+            data_w_out_enable_int <= '1';
+
             index_l_w_out_loop <= ZERO_CONTROL;
             index_x_w_out_loop <= ZERO_CONTROL;
 
@@ -525,11 +537,11 @@ begin
       B_OUT <= ZERO_DATA;
 
       -- Control Outputs
-      READY <= '0';
-
       B_OUT_L_ENABLE <= '0';
 
       -- Control Internal
+      data_b_out_enable_int <= '0';
+
       index_l_b_out_loop <= ZERO_CONTROL;
 
     elsif (rising_edge(CLK)) then
@@ -546,6 +558,8 @@ begin
               );
 
             -- Control Internal
+            data_b_out_enable_int <= '0';
+
             index_l_b_out_loop <= ZERO_CONTROL;
 
             -- FSM Control
@@ -553,11 +567,12 @@ begin
           end if;
 
         when CLEAN_B_OUT_L_STATE =>     -- STEP 1
-          -- Control Outputs
-          B_OUT_L_ENABLE <= '0';
 
           -- FSM Control
           controller_b_out_fsm_int <= OUTPUT_B_OUT_L_STATE;
+
+          -- Control Outputs
+          B_OUT_L_ENABLE <= '0';
 
         when OUTPUT_B_OUT_L_STATE =>    -- STEP 2
 
@@ -566,11 +581,11 @@ begin
             B_OUT <= vector_b_out_int(to_integer(unsigned(index_l_b_out_loop)));
 
             -- Control Outputs
-            READY <= '1';
-
             B_OUT_L_ENABLE <= '1';
 
             -- Control Internal
+            data_b_out_enable_int <= '1';
+
             index_l_b_out_loop <= ZERO_CONTROL;
 
             -- FSM Control
@@ -596,4 +611,36 @@ begin
     end if;
   end process;
 
+  out_fsm : process(CLK, RST)
+  begin
+    if (RST = '0') then
+      -- Control Outputs
+      READY <= '0';
+    elsif (rising_edge(CLK)) then
+
+      case controller_out_fsm_int is
+        when STARTER_OUT_STATE =>     -- STEP 0
+
+          -- Control Outputs
+          READY <= '0';
+
+          if (data_w_out_enable_int = '1' and data_b_out_enable_int = '1') then
+            -- FSM Control
+            controller_out_fsm_int <= CLEAN_OUT_STATE;
+          end if;
+
+        when CLEAN_OUT_STATE =>       -- STEP 1
+
+          -- Control Outputs
+          READY <= '1';
+
+          -- FSM Control
+          controller_out_fsm_int <= STARTER_OUT_STATE;
+
+        when others =>
+          -- FSM Control
+          controller_out_fsm_int <= STARTER_OUT_STATE;
+      end case;
+    end if;
+  end process;
 end architecture;
