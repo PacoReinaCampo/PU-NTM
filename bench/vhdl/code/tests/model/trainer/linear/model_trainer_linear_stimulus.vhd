@@ -66,36 +66,36 @@ entity model_trainer_linear_stimulus is
     RST : out std_logic;
 
     -- CONTROL
-    STANDARD_TRAINER_LINEAR_START : out std_logic;
-    STANDARD_TRAINER_LINEAR_READY : in  std_logic;
+    TRAINER_LINEAR_START : out std_logic;
+    TRAINER_LINEAR_READY : in  std_logic;
 
-    STANDARD_TRAINER_LINEAR_X_IN_T_ENABLE : out std_logic;  -- for t out 0 to T-1
-    STANDARD_TRAINER_LINEAR_X_IN_X_ENABLE : out std_logic;  -- for x out 0 to X-1
+    TRAINER_LINEAR_X_IN_T_ENABLE : out std_logic;  -- for t out 0 to T-1
+    TRAINER_LINEAR_X_IN_X_ENABLE : out std_logic;  -- for x out 0 to X-1
 
-    STANDARD_TRAINER_LINEAR_X_OUT_T_ENABLE : in std_logic;  -- for t out 0 to T-1
-    STANDARD_TRAINER_LINEAR_X_OUT_X_ENABLE : in std_logic;  -- for x out 0 to X-1
+    TRAINER_LINEAR_X_OUT_T_ENABLE : in std_logic;  -- for t out 0 to T-1
+    TRAINER_LINEAR_X_OUT_X_ENABLE : in std_logic;  -- for x out 0 to X-1
 
-    STANDARD_TRAINER_LINEAR_H_IN_T_ENABLE : out std_logic;  -- for t out 0 to T-1
-    STANDARD_TRAINER_LINEAR_H_IN_L_ENABLE : out std_logic;  -- for l out 0 to L-1
+    TRAINER_LINEAR_H_IN_T_ENABLE : out std_logic;  -- for t out 0 to T-1
+    TRAINER_LINEAR_H_IN_L_ENABLE : out std_logic;  -- for l out 0 to L-1
 
-    STANDARD_TRAINER_LINEAR_H_OUT_T_ENABLE : in std_logic;  -- for t out 0 to T-1
-    STANDARD_TRAINER_LINEAR_H_OUT_L_ENABLE : in std_logic;  -- for l out 0 to L-1
+    TRAINER_LINEAR_H_OUT_T_ENABLE : in std_logic;  -- for t out 0 to T-1
+    TRAINER_LINEAR_H_OUT_L_ENABLE : in std_logic;  -- for l out 0 to L-1
 
-    STANDARD_TRAINER_LINEAR_W_OUT_L_ENABLE : in std_logic;  -- for l out 0 to L-1
-    STANDARD_TRAINER_LINEAR_W_OUT_X_ENABLE : in std_logic;  -- for x out 0 to X-1
+    TRAINER_LINEAR_W_OUT_L_ENABLE : in std_logic;  -- for l out 0 to L-1
+    TRAINER_LINEAR_W_OUT_X_ENABLE : in std_logic;  -- for x out 0 to X-1
 
-    STANDARD_TRAINER_LINEAR_B_OUT_ENABLE : in std_logic;  -- for l out 0 to L-1
+    TRAINER_LINEAR_B_OUT_ENABLE : in std_logic;  -- for l out 0 to L-1
 
     -- DATA
-    STANDARD_TRAINER_LINEAR_SIZE_T_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
-    STANDARD_TRAINER_LINEAR_SIZE_X_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
-    STANDARD_TRAINER_LINEAR_SIZE_L_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
+    TRAINER_LINEAR_SIZE_T_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
+    TRAINER_LINEAR_SIZE_X_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
+    TRAINER_LINEAR_SIZE_L_IN : out std_logic_vector(CONTROL_SIZE-1 downto 0);
 
-    STANDARD_TRAINER_LINEAR_X_IN : out std_logic_vector(DATA_SIZE-1 downto 0);
-    STANDARD_TRAINER_LINEAR_H_IN : out std_logic_vector(DATA_SIZE-1 downto 0);
+    TRAINER_LINEAR_X_IN : out std_logic_vector(DATA_SIZE-1 downto 0);
+    TRAINER_LINEAR_H_IN : out std_logic_vector(DATA_SIZE-1 downto 0);
 
-    STANDARD_TRAINER_LINEAR_W_OUT : in std_logic_vector(DATA_SIZE-1 downto 0);
-    STANDARD_TRAINER_LINEAR_B_OUT : in std_logic_vector(DATA_SIZE-1 downto 0)
+    TRAINER_LINEAR_W_OUT : in std_logic_vector(DATA_SIZE-1 downto 0);
+    TRAINER_LINEAR_B_OUT : in std_logic_vector(DATA_SIZE-1 downto 0)
     );
 end entity;
 
@@ -176,7 +176,7 @@ begin
   end process;
 
   -- VECTOR-FUNCTIONALITY
-  STANDARD_TRAINER_LINEAR_START <= start_int;
+  TRAINER_LINEAR_START <= start_int;
 
   ------------------------------------------------------------------------------
   -- STIMULUS
@@ -185,27 +185,27 @@ begin
   main_test : process
   begin
 
-    if (STIMULUS_MODEL_STANDARD_TRAINER_LINEAR_TEST) then
+    if (STIMULUS_MODEL_TRAINER_LINEAR_TEST) then
 
       -------------------------------------------------------------------
-      MONITOR_TEST <= "STIMULUS_MODEL_STANDARD_TRAINER_LINEAR_TEST                           ";
+      MONITOR_TEST <= "STIMULUS_MODEL_TRAINER_LINEAR_TEST                                    ";
       -------------------------------------------------------------------
 
       -- DATA
-      STANDARD_TRAINER_LINEAR_SIZE_T_IN <= FOUR_CONTROL;
-      STANDARD_TRAINER_LINEAR_SIZE_X_IN <= FOUR_CONTROL;
-      STANDARD_TRAINER_LINEAR_SIZE_L_IN <= FOUR_CONTROL;
+      TRAINER_LINEAR_SIZE_T_IN <= FOUR_CONTROL;
+      TRAINER_LINEAR_SIZE_X_IN <= FOUR_CONTROL;
+      TRAINER_LINEAR_SIZE_L_IN <= FOUR_CONTROL;
 
-      if (STIMULUS_MODEL_STANDARD_TRAINER_LINEAR_CASE_0) then
+      if (STIMULUS_MODEL_TRAINER_LINEAR_CASE_0) then
 
         -------------------------------------------------------------------
-        MONITOR_CASE <= "STIMULUS_MODEL_STANDARD_TRAINER_LINEAR_CASE 0                         ";
+        MONITOR_CASE <= "STIMULUS_MODEL_TRAINER_LINEAR_CASE 0                                  ";
         -------------------------------------------------------------------
 
         -- INITIAL CONDITIONS
         -- DATA
-        STANDARD_TRAINER_LINEAR_H_IN <= ZERO_DATA;
-        STANDARD_TRAINER_LINEAR_X_IN <= ZERO_DATA;
+        TRAINER_LINEAR_H_IN <= ZERO_DATA;
+        TRAINER_LINEAR_X_IN <= ZERO_DATA;
 
         -- LOOP
         index_h_t_loop <= ZERO_CONTROL;
@@ -214,77 +214,77 @@ begin
         index_x_t_loop <= ZERO_CONTROL;
         index_x_x_loop <= ZERO_CONTROL;
 
-        STANDARD_TRAINER_LINEAR_FIRST_RUN : loop
-          if (STANDARD_TRAINER_LINEAR_H_OUT_T_ENABLE = '1' and STANDARD_TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and unsigned(index_h_t_loop) = unsigned(ZERO_CONTROL) and unsigned(index_h_l_loop) = unsigned(ZERO_CONTROL)) then
+        TRAINER_LINEAR_FIRST_RUN : loop
+          if (TRAINER_LINEAR_H_OUT_T_ENABLE = '1' and TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and unsigned(index_h_t_loop) = unsigned(ZERO_CONTROL) and unsigned(index_h_l_loop) = unsigned(ZERO_CONTROL)) then
             -- DATA
-            STANDARD_TRAINER_LINEAR_H_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_h_t_loop)), to_integer(unsigned(index_h_l_loop)));
+            TRAINER_LINEAR_H_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_h_t_loop)), to_integer(unsigned(index_h_l_loop)));
 
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_H_IN_T_ENABLE <= '1';
-            STANDARD_TRAINER_LINEAR_H_IN_L_ENABLE <= '1';
-          elsif (STANDARD_TRAINER_LINEAR_H_OUT_T_ENABLE = '1' and STANDARD_TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and unsigned(index_h_l_loop) = unsigned(ZERO_CONTROL)) then
+            TRAINER_LINEAR_H_IN_T_ENABLE <= '1';
+            TRAINER_LINEAR_H_IN_L_ENABLE <= '1';
+          elsif (TRAINER_LINEAR_H_OUT_T_ENABLE = '1' and TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and unsigned(index_h_l_loop) = unsigned(ZERO_CONTROL)) then
             -- DATA
-            STANDARD_TRAINER_LINEAR_H_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_h_t_loop)), to_integer(unsigned(index_h_l_loop)));
+            TRAINER_LINEAR_H_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_h_t_loop)), to_integer(unsigned(index_h_l_loop)));
 
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_H_IN_T_ENABLE <= '1';
-            STANDARD_TRAINER_LINEAR_H_IN_L_ENABLE <= '1';
-          elsif (STANDARD_TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and unsigned(index_h_l_loop) > unsigned(ZERO_CONTROL)) then
+            TRAINER_LINEAR_H_IN_T_ENABLE <= '1';
+            TRAINER_LINEAR_H_IN_L_ENABLE <= '1';
+          elsif (TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and unsigned(index_h_l_loop) > unsigned(ZERO_CONTROL)) then
             -- DATA
-            STANDARD_TRAINER_LINEAR_H_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_h_t_loop)), to_integer(unsigned(index_h_l_loop)));
+            TRAINER_LINEAR_H_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_h_t_loop)), to_integer(unsigned(index_h_l_loop)));
 
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_H_IN_L_ENABLE <= '1';
+            TRAINER_LINEAR_H_IN_L_ENABLE <= '1';
           else
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_H_IN_T_ENABLE <= '0';
-            STANDARD_TRAINER_LINEAR_H_IN_L_ENABLE <= '0';
+            TRAINER_LINEAR_H_IN_T_ENABLE <= '0';
+            TRAINER_LINEAR_H_IN_L_ENABLE <= '0';
           end if;
 
-          if (STANDARD_TRAINER_LINEAR_X_OUT_T_ENABLE = '1' and STANDARD_TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and unsigned(index_x_t_loop) = unsigned(ZERO_CONTROL) and unsigned(index_x_x_loop) = unsigned(ZERO_CONTROL)) then
+          if (TRAINER_LINEAR_X_OUT_T_ENABLE = '1' and TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and unsigned(index_x_t_loop) = unsigned(ZERO_CONTROL) and unsigned(index_x_x_loop) = unsigned(ZERO_CONTROL)) then
             -- DATA
-            STANDARD_TRAINER_LINEAR_X_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_x_t_loop)), to_integer(unsigned(index_x_x_loop)));
+            TRAINER_LINEAR_X_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_x_t_loop)), to_integer(unsigned(index_x_x_loop)));
 
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_X_IN_T_ENABLE <= '1';
-            STANDARD_TRAINER_LINEAR_X_IN_X_ENABLE <= '1';
-          elsif (STANDARD_TRAINER_LINEAR_X_OUT_T_ENABLE = '1' and STANDARD_TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and unsigned(index_x_x_loop) = unsigned(ZERO_CONTROL)) then
+            TRAINER_LINEAR_X_IN_T_ENABLE <= '1';
+            TRAINER_LINEAR_X_IN_X_ENABLE <= '1';
+          elsif (TRAINER_LINEAR_X_OUT_T_ENABLE = '1' and TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and unsigned(index_x_x_loop) = unsigned(ZERO_CONTROL)) then
             -- DATA
-            STANDARD_TRAINER_LINEAR_X_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_x_t_loop)), to_integer(unsigned(index_x_x_loop)));
+            TRAINER_LINEAR_X_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_x_t_loop)), to_integer(unsigned(index_x_x_loop)));
 
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_X_IN_T_ENABLE <= '1';
-            STANDARD_TRAINER_LINEAR_X_IN_X_ENABLE <= '1';
-          elsif (STANDARD_TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and unsigned(index_x_x_loop) > unsigned(ZERO_CONTROL)) then
+            TRAINER_LINEAR_X_IN_T_ENABLE <= '1';
+            TRAINER_LINEAR_X_IN_X_ENABLE <= '1';
+          elsif (TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and unsigned(index_x_x_loop) > unsigned(ZERO_CONTROL)) then
             -- DATA
-            STANDARD_TRAINER_LINEAR_X_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_x_t_loop)), to_integer(unsigned(index_x_x_loop)));
+            TRAINER_LINEAR_X_IN <= MATRIX_SAMPLE_A(to_integer(unsigned(index_x_t_loop)), to_integer(unsigned(index_x_x_loop)));
 
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_X_IN_X_ENABLE <= '1';
+            TRAINER_LINEAR_X_IN_X_ENABLE <= '1';
           else
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_X_IN_T_ENABLE <= '0';
-            STANDARD_TRAINER_LINEAR_X_IN_X_ENABLE <= '0';
+            TRAINER_LINEAR_X_IN_T_ENABLE <= '0';
+            TRAINER_LINEAR_X_IN_X_ENABLE <= '0';
           end if;
 
           -- LOOP
-          if (STANDARD_TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and (unsigned(index_h_t_loop) = unsigned(STANDARD_TRAINER_LINEAR_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_h_l_loop) = unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
+          if (TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and (unsigned(index_h_t_loop) = unsigned(TRAINER_LINEAR_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_h_l_loop) = unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_h_t_loop <= ZERO_CONTROL;
             index_h_l_loop <= ZERO_CONTROL;
-          elsif (STANDARD_TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and (unsigned(index_h_t_loop) < unsigned(STANDARD_TRAINER_LINEAR_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_h_l_loop) = unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
+          elsif (TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and (unsigned(index_h_t_loop) < unsigned(TRAINER_LINEAR_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_h_l_loop) = unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_h_t_loop <= std_logic_vector(unsigned(index_h_t_loop) + unsigned(ONE_CONTROL));
             index_h_l_loop <= ZERO_CONTROL;
-          elsif ((STANDARD_TRAINER_LINEAR_H_OUT_L_ENABLE = '1' or STANDARD_TRAINER_LINEAR_START = '1') and (unsigned(index_h_l_loop) < unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
+          elsif ((TRAINER_LINEAR_H_OUT_L_ENABLE = '1' or TRAINER_LINEAR_START = '1') and (unsigned(index_h_l_loop) < unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_h_l_loop <= std_logic_vector(unsigned(index_h_l_loop) + unsigned(ONE_CONTROL));
           end if;
 
-          if (STANDARD_TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and (unsigned(index_x_t_loop) = unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_x_x_loop) = unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
+          if (TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and (unsigned(index_x_t_loop) = unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_x_x_loop) = unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_x_t_loop <= ZERO_CONTROL;
             index_x_x_loop <= ZERO_CONTROL;
-          elsif (STANDARD_TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and (unsigned(index_x_t_loop) < unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_x_x_loop) = unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
+          elsif (TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and (unsigned(index_x_t_loop) < unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_x_x_loop) = unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_x_t_loop <= std_logic_vector(unsigned(index_x_t_loop) + unsigned(ONE_CONTROL));
             index_x_x_loop <= ZERO_CONTROL;
-          elsif ((STANDARD_TRAINER_LINEAR_X_OUT_X_ENABLE = '1' or STANDARD_TRAINER_LINEAR_START = '1') and (unsigned(index_x_x_loop) < unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
+          elsif ((TRAINER_LINEAR_X_OUT_X_ENABLE = '1' or TRAINER_LINEAR_START = '1') and (unsigned(index_x_x_loop) < unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_x_x_loop <= std_logic_vector(unsigned(index_x_x_loop) + unsigned(ONE_CONTROL));
           end if;
 
@@ -292,20 +292,20 @@ begin
           wait until rising_edge(clk_int);
 
           -- CONTROL
-          exit STANDARD_TRAINER_LINEAR_FIRST_RUN when STANDARD_TRAINER_LINEAR_READY = '1';
-        end loop STANDARD_TRAINER_LINEAR_FIRST_RUN;
+          exit TRAINER_LINEAR_FIRST_RUN when TRAINER_LINEAR_READY = '1';
+        end loop TRAINER_LINEAR_FIRST_RUN;
       end if;
 
-      if (STIMULUS_MODEL_STANDARD_TRAINER_LINEAR_CASE_1) then
+      if (STIMULUS_MODEL_TRAINER_LINEAR_CASE_1) then
 
         -------------------------------------------------------------------
-        MONITOR_CASE <= "STIMULUS_MODEL_STANDARD_TRAINER_LINEAR_CASE 1                         ";
+        MONITOR_CASE <= "STIMULUS_MODEL_TRAINER_LINEAR_CASE 1                                  ";
         -------------------------------------------------------------------
 
         -- INITIAL CONDITIONS
         -- DATA
-        STANDARD_TRAINER_LINEAR_H_IN <= ZERO_DATA;
-        STANDARD_TRAINER_LINEAR_X_IN <= ZERO_DATA;
+        TRAINER_LINEAR_H_IN <= ZERO_DATA;
+        TRAINER_LINEAR_X_IN <= ZERO_DATA;
 
         -- LOOP
         index_h_t_loop <= ZERO_CONTROL;
@@ -314,77 +314,77 @@ begin
         index_x_t_loop <= ZERO_CONTROL;
         index_x_x_loop <= ZERO_CONTROL;
 
-        STANDARD_TRAINER_LINEAR_SECOND_RUN : loop
-          if (STANDARD_TRAINER_LINEAR_H_OUT_T_ENABLE = '1' and STANDARD_TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and unsigned(index_h_t_loop) = unsigned(ZERO_CONTROL) and unsigned(index_h_l_loop) = unsigned(ZERO_CONTROL)) then
+        TRAINER_LINEAR_SECOND_RUN : loop
+          if (TRAINER_LINEAR_H_OUT_T_ENABLE = '1' and TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and unsigned(index_h_t_loop) = unsigned(ZERO_CONTROL) and unsigned(index_h_l_loop) = unsigned(ZERO_CONTROL)) then
             -- DATA
-            STANDARD_TRAINER_LINEAR_H_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_h_t_loop)), to_integer(unsigned(index_h_l_loop)));
+            TRAINER_LINEAR_H_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_h_t_loop)), to_integer(unsigned(index_h_l_loop)));
 
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_H_IN_T_ENABLE <= '1';
-            STANDARD_TRAINER_LINEAR_H_IN_L_ENABLE <= '1';
-          elsif (STANDARD_TRAINER_LINEAR_H_OUT_T_ENABLE = '1' and STANDARD_TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and unsigned(index_h_l_loop) = unsigned(ZERO_CONTROL)) then
+            TRAINER_LINEAR_H_IN_T_ENABLE <= '1';
+            TRAINER_LINEAR_H_IN_L_ENABLE <= '1';
+          elsif (TRAINER_LINEAR_H_OUT_T_ENABLE = '1' and TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and unsigned(index_h_l_loop) = unsigned(ZERO_CONTROL)) then
             -- DATA
-            STANDARD_TRAINER_LINEAR_H_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_h_t_loop)), to_integer(unsigned(index_h_l_loop)));
+            TRAINER_LINEAR_H_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_h_t_loop)), to_integer(unsigned(index_h_l_loop)));
 
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_H_IN_T_ENABLE <= '1';
-            STANDARD_TRAINER_LINEAR_H_IN_L_ENABLE <= '1';
-          elsif (STANDARD_TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and unsigned(index_h_l_loop) > unsigned(ZERO_CONTROL)) then
+            TRAINER_LINEAR_H_IN_T_ENABLE <= '1';
+            TRAINER_LINEAR_H_IN_L_ENABLE <= '1';
+          elsif (TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and unsigned(index_h_l_loop) > unsigned(ZERO_CONTROL)) then
             -- DATA
-            STANDARD_TRAINER_LINEAR_H_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_h_t_loop)), to_integer(unsigned(index_h_l_loop)));
+            TRAINER_LINEAR_H_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_h_t_loop)), to_integer(unsigned(index_h_l_loop)));
 
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_H_IN_L_ENABLE <= '1';
+            TRAINER_LINEAR_H_IN_L_ENABLE <= '1';
           else
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_H_IN_T_ENABLE <= '0';
-            STANDARD_TRAINER_LINEAR_H_IN_L_ENABLE <= '0';
+            TRAINER_LINEAR_H_IN_T_ENABLE <= '0';
+            TRAINER_LINEAR_H_IN_L_ENABLE <= '0';
           end if;
 
-          if (STANDARD_TRAINER_LINEAR_X_OUT_T_ENABLE = '1' and STANDARD_TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and unsigned(index_x_t_loop) = unsigned(ZERO_CONTROL) and unsigned(index_x_x_loop) = unsigned(ZERO_CONTROL)) then
+          if (TRAINER_LINEAR_X_OUT_T_ENABLE = '1' and TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and unsigned(index_x_t_loop) = unsigned(ZERO_CONTROL) and unsigned(index_x_x_loop) = unsigned(ZERO_CONTROL)) then
             -- DATA
-            STANDARD_TRAINER_LINEAR_X_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_x_t_loop)), to_integer(unsigned(index_x_x_loop)));
+            TRAINER_LINEAR_X_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_x_t_loop)), to_integer(unsigned(index_x_x_loop)));
 
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_X_IN_T_ENABLE <= '1';
-            STANDARD_TRAINER_LINEAR_X_IN_X_ENABLE <= '1';
-          elsif (STANDARD_TRAINER_LINEAR_X_OUT_T_ENABLE = '1' and STANDARD_TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and unsigned(index_x_x_loop) = unsigned(ZERO_CONTROL)) then
+            TRAINER_LINEAR_X_IN_T_ENABLE <= '1';
+            TRAINER_LINEAR_X_IN_X_ENABLE <= '1';
+          elsif (TRAINER_LINEAR_X_OUT_T_ENABLE = '1' and TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and unsigned(index_x_x_loop) = unsigned(ZERO_CONTROL)) then
             -- DATA
-            STANDARD_TRAINER_LINEAR_X_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_x_t_loop)), to_integer(unsigned(index_x_x_loop)));
+            TRAINER_LINEAR_X_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_x_t_loop)), to_integer(unsigned(index_x_x_loop)));
 
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_X_IN_T_ENABLE <= '1';
-            STANDARD_TRAINER_LINEAR_X_IN_X_ENABLE <= '1';
-          elsif (STANDARD_TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and unsigned(index_x_x_loop) > unsigned(ZERO_CONTROL)) then
+            TRAINER_LINEAR_X_IN_T_ENABLE <= '1';
+            TRAINER_LINEAR_X_IN_X_ENABLE <= '1';
+          elsif (TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and unsigned(index_x_x_loop) > unsigned(ZERO_CONTROL)) then
             -- DATA
-            STANDARD_TRAINER_LINEAR_X_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_x_t_loop)), to_integer(unsigned(index_x_x_loop)));
+            TRAINER_LINEAR_X_IN <= MATRIX_SAMPLE_B(to_integer(unsigned(index_x_t_loop)), to_integer(unsigned(index_x_x_loop)));
 
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_X_IN_X_ENABLE <= '1';
+            TRAINER_LINEAR_X_IN_X_ENABLE <= '1';
           else
             -- CONTROL
-            STANDARD_TRAINER_LINEAR_X_IN_T_ENABLE <= '0';
-            STANDARD_TRAINER_LINEAR_X_IN_X_ENABLE <= '0';
+            TRAINER_LINEAR_X_IN_T_ENABLE <= '0';
+            TRAINER_LINEAR_X_IN_X_ENABLE <= '0';
           end if;
 
           -- LOOP
-          if (STANDARD_TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and (unsigned(index_h_t_loop) = unsigned(STANDARD_TRAINER_LINEAR_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_h_l_loop) = unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
+          if (TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and (unsigned(index_h_t_loop) = unsigned(TRAINER_LINEAR_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_h_l_loop) = unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_h_t_loop <= ZERO_CONTROL;
             index_h_l_loop <= ZERO_CONTROL;
-          elsif (STANDARD_TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and (unsigned(index_h_t_loop) < unsigned(STANDARD_TRAINER_LINEAR_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_h_l_loop) = unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
+          elsif (TRAINER_LINEAR_H_OUT_L_ENABLE = '1' and (unsigned(index_h_t_loop) < unsigned(TRAINER_LINEAR_SIZE_L_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_h_l_loop) = unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_h_t_loop <= std_logic_vector(unsigned(index_h_t_loop) + unsigned(ONE_CONTROL));
             index_h_l_loop <= ZERO_CONTROL;
-          elsif ((STANDARD_TRAINER_LINEAR_H_OUT_L_ENABLE = '1' or STANDARD_TRAINER_LINEAR_START = '1') and (unsigned(index_h_l_loop) < unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
+          elsif ((TRAINER_LINEAR_H_OUT_L_ENABLE = '1' or TRAINER_LINEAR_START = '1') and (unsigned(index_h_l_loop) < unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_h_l_loop <= std_logic_vector(unsigned(index_h_l_loop) + unsigned(ONE_CONTROL));
           end if;
 
-          if (STANDARD_TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and (unsigned(index_x_t_loop) = unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_x_x_loop) = unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
+          if (TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and (unsigned(index_x_t_loop) = unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_x_x_loop) = unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_x_t_loop <= ZERO_CONTROL;
             index_x_x_loop <= ZERO_CONTROL;
-          elsif (STANDARD_TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and (unsigned(index_x_t_loop) < unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_x_x_loop) = unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
+          elsif (TRAINER_LINEAR_X_OUT_X_ENABLE = '1' and (unsigned(index_x_t_loop) < unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_x_x_loop) = unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_x_t_loop <= std_logic_vector(unsigned(index_x_t_loop) + unsigned(ONE_CONTROL));
             index_x_x_loop <= ZERO_CONTROL;
-          elsif ((STANDARD_TRAINER_LINEAR_X_OUT_X_ENABLE = '1' or STANDARD_TRAINER_LINEAR_START = '1') and (unsigned(index_x_x_loop) < unsigned(STANDARD_TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
+          elsif ((TRAINER_LINEAR_X_OUT_X_ENABLE = '1' or TRAINER_LINEAR_START = '1') and (unsigned(index_x_x_loop) < unsigned(TRAINER_LINEAR_SIZE_X_IN)-unsigned(ONE_CONTROL))) then
             index_x_x_loop <= std_logic_vector(unsigned(index_x_x_loop) + unsigned(ONE_CONTROL));
           end if;
 
@@ -392,8 +392,8 @@ begin
           wait until rising_edge(clk_int);
 
           -- CONTROL
-          exit STANDARD_TRAINER_LINEAR_SECOND_RUN when STANDARD_TRAINER_LINEAR_READY = '1';
-        end loop STANDARD_TRAINER_LINEAR_SECOND_RUN;
+          exit TRAINER_LINEAR_SECOND_RUN when TRAINER_LINEAR_READY = '1';
+        end loop TRAINER_LINEAR_SECOND_RUN;
       end if;
 
       wait for WORKING;

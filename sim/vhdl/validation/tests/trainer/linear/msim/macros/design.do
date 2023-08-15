@@ -7,10 +7,10 @@ do ./variables.do
 vlib work
 
 ##################################################################################################
-# model_standard_trainer_linear_design_compilation ###############################################
+# model_trainer_linear_design_compilation ########################################################
 ##################################################################################################
 
-alias model_standard_trainer_linear_design_compilation {
+alias model_trainer_linear_design_compilation {
   vcom -2008 -reportprogress 300 -work work $design_path/pkg/model_arithmetic_pkg.vhd
   vcom -2008 -reportprogress 300 -work work $design_path/pkg/model_math_pkg.vhd
   vcom -2008 -reportprogress 300 -work work $design_path/pkg/model_linear_controller_pkg.vhd
@@ -97,9 +97,9 @@ alias model_standard_trainer_linear_design_compilation {
 ##################################################################################################
 
 alias d01 {
-  model_standard_trainer_linear_design_compilation 
+  model_trainer_linear_design_compilation 
 }
 
 echo "****************************************"
-echo "d01 . MODEL-STANDARD-LINEAR-TEST"
+echo "d01 . MODEL-TRAINER-LINEAR-TEST"
 echo "****************************************"

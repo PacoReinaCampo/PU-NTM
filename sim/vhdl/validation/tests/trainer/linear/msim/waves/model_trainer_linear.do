@@ -6,7 +6,7 @@ add wave -noupdate /model_trainer_linear_pkg/MONITOR_TEST
 add wave -noupdate /model_trainer_linear_pkg/MONITOR_CASE
 
 add wave -noupdate -divider {=========================================}
-add wave -noupdate -divider {NTM STANDARD TRAINER LINEAR TEST}
+add wave -noupdate -divider {NTM TRAINER LINEAR TEST}
 add wave -noupdate -divider {=========================================}
 
 add wave -noupdate /model_trainer_linear_testbench/model_trainer_linear_test/trainer/CLK
