@@ -25,7 +25,7 @@ alias model_vector_trainer_differentiation_verification_compilation {
   add log -r sim:/model_trainer_differentiation_testbench/*
 
   #WAVES
-  view -title model_trainer_differentiation wave
+  view -title model_vector_trainer_differentiation wave
   do $simulation_path/trainer/differentiation/msim/waves/model_vector_trainer_differentiation.do
 
   force -freeze sim:/model_trainer_differentiation_pkg/STIMULUS_MODEL_VECTOR_TRAINER_DIFFERENTIATION_TEST true 0
@@ -34,7 +34,7 @@ alias model_vector_trainer_differentiation_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim model_trainer_differentiation_test.wlf
+  dataset save sim model_vector_trainer_differentiation_test.wlf
 }
 
 ##################################################################################################
@@ -54,7 +54,7 @@ alias model_matrix_trainer_differentiation_verification_compilation {
   add log -r sim:/model_trainer_differentiation_testbench/*
 
   #WAVES
-  view -title model_trainer_differentiation wave
+  view -title model_matrix_trainer_differentiation wave
   do $simulation_path/trainer/differentiation/msim/waves/model_matrix_trainer_differentiation.do
 
   force -freeze sim:/model_trainer_differentiation_pkg/STIMULUS_MODEL_MATRIX_TRAINER_DIFFERENTIATION_TEST true 0
@@ -63,7 +63,7 @@ alias model_matrix_trainer_differentiation_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim model_trainer_differentiation_test.wlf
+  dataset save sim model_matrix_trainer_differentiation_test.wlf
 }
 
 ##################################################################################################
