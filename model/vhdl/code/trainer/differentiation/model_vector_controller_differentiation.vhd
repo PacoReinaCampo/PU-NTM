@@ -44,7 +44,7 @@ use ieee.numeric_std.all;
 
 use work.model_arithmetic_pkg.all;
 use work.model_math_pkg.all;
-use work.model_fnn_controller_pkg.all;
+use work.model_linear_controller_pkg.all;
 
 entity model_vector_controller_differentiation is
   generic (
@@ -290,7 +290,7 @@ begin
 
         when CLEAN_Y_OUT_T_STATE =>     -- STEP 1
           if (index_t_y_out_loop = ZERO_CONTROL and index_l_y_out_loop = ZERO_CONTROL) then
-            if (data_x_in_enable_int = '1' and data_h_in_enable_int = '1') then
+            if (data_x_in_enable_int = '1') then
               -- Data Internal
               matrix_y_out_int <= function_vector_controller_differentiation (
                 SIZE_T_IN => SIZE_T_IN,
@@ -368,6 +368,9 @@ begin
         when OUTPUT_Y_OUT_L_STATE =>    -- STEP 4
 
           if (unsigned(index_l_y_out_loop) < unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL)) then
+            -- Data Outputs
+            Y_OUT <= matrix_y_out_int(to_integer(unsigned(index_t_y_out_loop)), to_integer(unsigned(index_l_y_out_loop)));
+
             -- Control Outputs
             Y_OUT_L_ENABLE <= '1';
 

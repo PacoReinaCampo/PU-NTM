@@ -44,7 +44,7 @@ use ieee.numeric_std.all;
 
 use work.model_arithmetic_pkg.all;
 use work.model_math_pkg.all;
-use work.model_fnn_controller_pkg.all;
+use work.model_linear_controller_pkg.all;
 
 entity model_matrix_controller_differentiation is
   generic (
@@ -275,7 +275,7 @@ begin
             controller_x_in_fsm_int <= INPUT_X_IN_T_STATE;
           end if;
 
-        when CLEAN_X_IN_R_STATE =>      -- STEP 5
+        when CLEAN_X_IN_I_STATE =>      -- STEP 5
 
           if ((unsigned(index_i_x_in_loop) < unsigned(SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_x_in_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL))) then
             -- Control Outputs
@@ -345,7 +345,7 @@ begin
 
         when CLEAN_Y_OUT_T_STATE =>     -- STEP 1
           if (index_t_y_out_loop = ZERO_CONTROL and index_l_y_out_loop = ZERO_CONTROL) then
-            if (data_x_in_enable_int = '1' and data_h_in_enable_int = '1') then
+            if (data_x_in_enable_int = '1') then
               -- Data Internal
               tensor_y_out_int <= function_matrix_controller_differentiation (
                 SIZE_T_IN => SIZE_T_IN,
@@ -441,7 +441,7 @@ begin
             controller_y_out_fsm_int <= CLEAN_Y_OUT_T_STATE;
           end if;
 
-        when OUTPUT_Y_OUT_L_STATE =>    -- STEP 5
+        when OUTPUT_Y_OUT_I_STATE =>    -- STEP 5
 
           if ((unsigned(index_i_y_out_loop) < unsigned(SIZE_R_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_l_y_out_loop) = unsigned(SIZE_L_IN)-unsigned(ONE_CONTROL))) then
             -- Data Outputs
