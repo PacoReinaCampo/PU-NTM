@@ -1,6 +1,6 @@
 ../../../../../../../model/vhdl/code/pkg/model_arithmetic_pkg.vhd
 ../../../../../../../model/vhdl/code/pkg/model_math_pkg.vhd
-../../../../../../../model/vhdl/code/pkg/model_lstm_controller_pkg.vhd
+../../../../../../../model/vhdl/code/pkg/model_linear_controller_pkg.vhd
 
 ../../../../../../../model/vhdl/code/arithmetic/float/scalar/model_scalar_float_adder.vhd
 ../../../../../../../model/vhdl/code/arithmetic/float/scalar/model_scalar_float_multiplier.vhd
@@ -77,19 +77,9 @@
 ../../../../../../../model/vhdl/code/math/series/matrix/model_matrix_sinh_function.vhd
 ../../../../../../../model/vhdl/code/math/series/matrix/model_matrix_tanh_function.vhd
 
-../../../../../../../model/vhdl/code/trainer/LSTM/model_activation_trainer.vhd
-../../../../../../../model/vhdl/code/trainer/LSTM/model_forget_trainer.vhd
-../../../../../../../model/vhdl/code/trainer/LSTM/model_input_trainer.vhd
-../../../../../../../model/vhdl/code/trainer/LSTM/model_output_trainer.vhd
+../../../../../../../model/vhdl/code/trainer/differentiation/model_vector_controller_differentiation.vhd
+../../../../../../../model/vhdl/code/trainer/differentiation/model_matrix_controller_differentiation.vhd
 
-../../../../../../../model/vhdl/code/controller/LSTM/convolutional/model_controller.vhd
-../../../../../../../model/vhdl/code/controller/LSTM/convolutional/model_activation_gate_vector.vhd
-../../../../../../../model/vhdl/code/controller/LSTM/convolutional/model_forget_gate_vector.vhd
-../../../../../../../model/vhdl/code/controller/LSTM/convolutional/model_hidden_gate_vector.vhd
-../../../../../../../model/vhdl/code/controller/LSTM/convolutional/model_input_gate_vector.vhd
-../../../../../../../model/vhdl/code/controller/LSTM/convolutional/model_output_gate_vector.vhd
-../../../../../../../model/vhdl/code/controller/LSTM/convolutional/model_state_gate_vector.vhd
-
-../../../../../../../bench/vhdl/code/baremetal/model/trainer/LSTM/model_trainer_lstm_pkg.vhd
-../../../../../../../bench/vhdl/code/baremetal/model/trainer/LSTM/model_trainer_lstm_stimulus.vhd
-../../../../../../../bench/vhdl/code/baremetal/model/trainer/LSTM/model_trainer_lstm_testbench.vhd
+../../../../../../../bench/vhdl/code/beremetal/model/trainer/differentiation/model_trainer_differentiation_pkg.vhd
+../../../../../../../bench/vhdl/code/beremetal/model/trainer/differentiation/model_trainer_differentiation_stimulus.vhd
+../../../../../../../bench/vhdl/code/beremetal/model/trainer/differentiation/model_trainer_differentiation_testbench.vhd

@@ -262,6 +262,8 @@ begin
       Y_OUT <= ZERO_DATA;
 
       -- Control Outputs
+      READY <= '0';
+
       Y_OUT_T_ENABLE <= '0';
       Y_OUT_L_ENABLE <= '0';
 
@@ -285,6 +287,8 @@ begin
           end if;
 
           -- Control Outputs
+          READY <= '0';
+
           Y_OUT_T_ENABLE <= '0';
           Y_OUT_L_ENABLE <= '0';
 
@@ -338,6 +342,8 @@ begin
             Y_OUT <= matrix_y_out_int(to_integer(unsigned(index_t_y_out_loop)), to_integer(unsigned(index_l_y_out_loop)));
 
             -- Control Outputs
+            READY <= '1';
+
             Y_OUT_T_ENABLE <= '1';
             Y_OUT_L_ENABLE <= '1';
 

@@ -159,6 +159,8 @@ begin
       X_OUT_L_ENABLE <= '0';
 
       -- Control Internal
+      READY <= '0';
+
       index_t_x_in_loop <= ZERO_CONTROL;
       index_i_x_in_loop <= ZERO_CONTROL;
       index_l_x_in_loop <= ZERO_CONTROL;
@@ -186,6 +188,8 @@ begin
             controller_x_in_fsm_int <= INPUT_X_IN_T_STATE;
           else
             -- Control Outputs
+            READY <= '0';
+
             X_OUT_T_ENABLE <= '0';
             X_OUT_I_ENABLE <= '0';
             X_OUT_L_ENABLE <= '0';
@@ -247,6 +251,8 @@ begin
 
           if ((unsigned(index_t_x_in_loop) = unsigned(SIZE_T_IN)-unsigned(ONE_CONTROL)) and (unsigned(index_i_x_in_loop) = unsigned(SIZE_R_IN)-unsigned(ONE_CONTROL))) then
             -- Control Outputs
+            READY <= '1';
+
             X_OUT_T_ENABLE <= '1';
             X_OUT_I_ENABLE <= '1';
             X_OUT_L_ENABLE <= '1';
