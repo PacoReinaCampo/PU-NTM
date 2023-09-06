@@ -1,0 +1,23 @@
+# vsim -c -do "run.do" work.model_integer_testbench 
+# Start time: 15:08:09 on Sep 06,2023
+# Loading std.standard
+# Loading std.textio(body)
+# Loading ieee.std_logic_1164(body)
+# Loading ieee.numeric_std(body)
+# Loading ieee.math_real(body)
+# Loading ieee.fixed_float_types
+# Loading ieee.fixed_generic_pkg(body)
+# Loading ieee.fixed_pkg
+# Loading ieee.float_generic_pkg(body)
+# Loading ieee.float_pkg
+# Loading work.model_arithmetic_pkg(body)
+# Loading work.model_integer_pkg
+# Loading work.model_integer_testbench(model_integer_testbench_architecture)
+# Loading work.model_integer_stimulus(model_integer_stimulus_architecture)
+# do run.do
+# ** Failure: END OF TEST
+#    Time: 0 ns  Iteration: 0  Process: /model_integer_testbench/integer_stimulus/main_test File: ../../../../../../../bench/vhdl/code/tests/model/arithmetic/integer/model_integer_stimulus.vhd
+# Break in Process main_test at ../../../../../../../bench/vhdl/code/tests/model/arithmetic/integer/model_integer_stimulus.vhd line 2145
+# Stopped at ../../../../../../../bench/vhdl/code/tests/model/arithmetic/integer/model_integer_stimulus.vhd line 2145
+# End time: 15:08:09 on Sep 06,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
