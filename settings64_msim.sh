@@ -1,1 +1,1 @@
-export PATH=$PATH:/home/user/intelFPGA/20.1/modelsim_ase/linuxaloem/
+export PATH=$PATH:/opt/intelFPGA_pro/20.2/modelsim_ase/linuxaloem/
