@@ -32,7 +32,7 @@ alias accelerator_scalar_integer_adder_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim $simulation_path/arithmetic/integer/msim/wlf/accelerator_scalar_integer_adder_test.wlf
+  dataset save sim wlf/accelerator_scalar_integer_adder_test.wlf
 }
 
 ##################################################################################################
@@ -57,7 +57,7 @@ alias accelerator_scalar_integer_multiplier_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim $simulation_path/arithmetic/integer/msim/wlf/accelerator_scalar_integer_multiplier_test.wlf
+  dataset save sim wlf/accelerator_scalar_integer_multiplier_test.wlf
 }
 
 ##################################################################################################
@@ -82,7 +82,7 @@ alias accelerator_scalar_integer_divider_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim $simulation_path/arithmetic/integer/msim/wlf/accelerator_scalar_integer_divider_test.wlf
+  dataset save sim wlf/accelerator_scalar_integer_divider_test.wlf
 }
 
 ##################################################################################################
@@ -107,7 +107,7 @@ alias accelerator_vector_integer_adder_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim $simulation_path/arithmetic/integer/msim/wlf/accelerator_vector_integer_adder_test.wlf
+  dataset save sim wlf/accelerator_vector_integer_adder_test.wlf
 }
 
 ##################################################################################################
@@ -132,7 +132,7 @@ alias accelerator_vector_integer_multiplier_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim $simulation_path/arithmetic/integer/msim/wlf/accelerator_vector_integer_multiplier_test.wlf
+  dataset save sim wlf/accelerator_vector_integer_multiplier_test.wlf
 }
 
 ##################################################################################################
@@ -157,7 +157,7 @@ alias accelerator_vector_integer_divider_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim $simulation_path/arithmetic/integer/msim/wlf/accelerator_vector_integer_divider_test.wlf
+  dataset save sim wlf/accelerator_vector_integer_divider_test.wlf
 }
 
 ##################################################################################################
@@ -182,7 +182,7 @@ alias accelerator_matrix_integer_adder_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim $simulation_path/arithmetic/integer/msim/wlf/accelerator_matrix_integer_adder_test.wlf
+  dataset save sim wlf/accelerator_matrix_integer_adder_test.wlf
 }
 
 ##################################################################################################
@@ -207,7 +207,7 @@ alias accelerator_matrix_integer_multiplier_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim $simulation_path/arithmetic/integer/msim/wlf/accelerator_matrix_integer_multiplier_test.wlf
+  dataset save sim wlf/accelerator_matrix_integer_multiplier_test.wlf
 }
 
 ##################################################################################################
@@ -232,7 +232,7 @@ alias accelerator_matrix_integer_divider_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim $simulation_path/arithmetic/integer/msim/wlf/accelerator_matrix_integer_divider_test.wlf
+  dataset save sim wlf/accelerator_matrix_integer_divider_test.wlf
 }
 
 ##################################################################################################
@@ -257,7 +257,7 @@ alias accelerator_tensor_integer_adder_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim $simulation_path/arithmetic/integer/msim/wlf/accelerator_tensor_integer_adder_test.wlf
+  dataset save sim wlf/accelerator_tensor_integer_adder_test.wlf
 }
 
 ##################################################################################################
@@ -282,7 +282,7 @@ alias accelerator_tensor_integer_multiplier_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim $simulation_path/arithmetic/integer/msim/wlf/accelerator_tensor_integer_multiplier_test.wlf
+  dataset save sim wlf/accelerator_tensor_integer_multiplier_test.wlf
 }
 
 ##################################################################################################
@@ -307,7 +307,7 @@ alias accelerator_tensor_integer_divider_verification_compilation {
   onbreak {resume}
   run -all
 
-  dataset save sim $simulation_path/arithmetic/integer/msim/wlf/accelerator_tensor_integer_divider_test.wlf
+  dataset save sim wlf/accelerator_tensor_integer_divider_test.wlf
 }
 
 ##################################################################################################

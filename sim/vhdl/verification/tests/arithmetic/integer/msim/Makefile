@@ -1,4 +1,4 @@
-TARGET = accelerator_scalar_integer_adder_test
+TARGET = accelerator
 
 all: build
 
