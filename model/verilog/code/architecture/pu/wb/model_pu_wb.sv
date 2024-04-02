@@ -37,7 +37,7 @@
 // Author(s):
 //   Paco Reina Campo <pacoreinacampo@queenfield.tech>
 
-module model_mpsoc #(
+module model_pu #(
   parameter DATA_SIZE    = 64,
   parameter CONTROL_SIZE = 4
 ) (

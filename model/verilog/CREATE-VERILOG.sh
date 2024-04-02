@@ -1,6 +1,9 @@
-touch code/architecture/mpsoc/model_mpsoc.sv
-touch code/architecture/pu/model_pu.sv
-touch code/architecture/soc/model_soc.sv
+touch code/architecture/pu/ahb3/model_pu_ahb3.sv
+touch code/architecture/pu/apb4/model_pu_apb4.sv
+touch code/architecture/pu/axi4/model_pu_axi4.sv
+touch code/architecture/pu/bb/model_pu_bb.sv
+touch code/architecture/pu/biu/model_pu_biu.sv
+touch code/architecture/pu/wb/model_pu_wb.sv
 touch code/arithmetic/fixed/matrix/model_matrix_fixed_adder.sv
 touch code/arithmetic/fixed/matrix/model_matrix_fixed_divider.sv
 touch code/arithmetic/fixed/matrix/model_matrix_fixed_multiplier.sv

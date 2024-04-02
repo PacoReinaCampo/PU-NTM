@@ -1,6 +1,9 @@
-touch code/architecture/mpsoc/accelerator_mpsoc.vhd
-touch code/architecture/pu/accelerator_pu.vhd
-touch code/architecture/soc/accelerator_soc.vhd
+touch code/architecture/pu/ahb3/accelerator_pu_ahb3.vhd
+touch code/architecture/pu/apb4/accelerator_pu_apb4.vhd
+touch code/architecture/pu/axi4/accelerator_pu_axi4.vhd
+touch code/architecture/pu/bb/accelerator_pu_bb.vhd
+touch code/architecture/pu/biu/accelerator_pu_biu.vhd
+touch code/architecture/pu/wb/accelerator_pu_wb.vhd
 touch code/arithmetic/definition/matrix/accelerator_matrix_float_adder.vhd
 touch code/arithmetic/definition/matrix/accelerator_matrix_float_divider.vhd
 touch code/arithmetic/definition/matrix/accelerator_matrix_float_multiplier.vhd
