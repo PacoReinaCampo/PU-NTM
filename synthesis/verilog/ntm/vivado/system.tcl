@@ -129,17 +129,17 @@ read_verilog -sv ../../../../../../../rtl/verilog/code/nn/lstm/convolutional/acc
 read_verilog -sv ../../../../../../../rtl/verilog/code/nn/lstm/convolutional/accelerator_output_gate_vector.sv
 read_verilog -sv ../../../../../../../rtl/verilog/code/nn/lstm/convolutional/accelerator_state_gate_vector.sv
 
-read_verilog -sv ../../../../../../../rtl/verilog/code/nn/NTM/read_heads/accelerator_reading.sv
+read_verilog -sv ../../../../../../../rtl/verilog/code/nn/ntm/read_heads/accelerator_reading.sv
 
-read_verilog -sv ../../../../../../../rtl/verilog/code/nn/NTM/write_heads/accelerator_writing.sv
-read_verilog -sv ../../../../../../../rtl/verilog/code/nn/NTM/write_heads/accelerator_erasing.sv
+read_verilog -sv ../../../../../../../rtl/verilog/code/nn/ntm/write_heads/accelerator_writing.sv
+read_verilog -sv ../../../../../../../rtl/verilog/code/nn/ntm/write_heads/accelerator_erasing.sv
 
-read_verilog -sv ../../../../../../../rtl/verilog/code/nn/NTM/memory/accelerator_addressing.sv
-read_verilog -sv ../../../../../../../rtl/verilog/code/nn/NTM/memory/accelerator_content_based_addressing.sv
+read_verilog -sv ../../../../../../../rtl/verilog/code/nn/ntm/memory/accelerator_addressing.sv
+read_verilog -sv ../../../../../../../rtl/verilog/code/nn/ntm/memory/accelerator_content_based_addressing.sv
 
-read_verilog -sv ../../../../../../../rtl/verilog/code/nn/NTM/top/accelerator_interface_vector.sv
-read_verilog -sv ../../../../../../../rtl/verilog/code/nn/NTM/top/accelerator_output_vector.sv
-read_verilog -sv ../../../../../../../rtl/verilog/code/nn/NTM/top/accelerator_top.sv
+read_verilog -sv ../../../../../../../rtl/verilog/code/nn/ntm/top/accelerator_interface_vector.sv
+read_verilog -sv ../../../../../../../rtl/verilog/code/nn/ntm/top/accelerator_output_vector.sv
+read_verilog -sv ../../../../../../../rtl/verilog/code/nn/ntm/top/accelerator_top.sv
 
 read_verilog -sv accelerator_top_synthesis.sv
 
