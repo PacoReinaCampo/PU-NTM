@@ -28,7 +28,7 @@ touch code/algebra/vector/accelerator_vector_module.vhd
 touch code/algebra/vector/accelerator_vector_multiplication.vhd
 touch code/algebra/vector/accelerator_vector_softmax.vhd
 touch code/algebra/vector/accelerator_vector_summation.vhd
-touch code/architecture/pu/ahb3/accelerator_pu_ahb3.vhd
+touch code/architecture/pu/ahb4/accelerator_pu_ahb4.vhd
 touch code/architecture/pu/apb4/accelerator_pu_apb4.vhd
 touch code/architecture/pu/axi4/accelerator_pu_axi4.vhd
 touch code/architecture/pu/bb/accelerator_pu_bb.vhd
