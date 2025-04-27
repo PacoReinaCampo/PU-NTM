@@ -43,8 +43,8 @@ code
 │       │   └── accelerator_pu_axi4.vhd
 │       ├── bb
 │       │   └── accelerator_pu_bb.vhd
-│       ├── biu
-│       │   └── accelerator_pu_biu.vhd
+│       ├── tl
+│       │   └── accelerator_pu_tl.vhd
 │       └── wb
 │           └── accelerator_pu_wb.vhd
 ├── arithmetic

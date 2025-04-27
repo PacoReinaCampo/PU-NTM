@@ -43,8 +43,8 @@ code
 │       │   └── model_pu_axi4.sv
 │       ├── bb
 │       │   └── model_pu_bb.sv
-│       ├── biu
-│       │   └── model_pu_biu.sv
+│       ├── tl
+│       │   └── model_pu_tl.sv
 │       └── wb
 │           └── model_pu_wb.sv
 ├── arithmetic

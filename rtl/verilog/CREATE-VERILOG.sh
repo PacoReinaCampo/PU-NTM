@@ -32,7 +32,7 @@ touch code/architecture/pu/ahb4/model_pu_ahb4.sv
 touch code/architecture/pu/apb4/model_pu_apb4.sv
 touch code/architecture/pu/axi4/model_pu_axi4.sv
 touch code/architecture/pu/bb/model_pu_bb.sv
-touch code/architecture/pu/biu/model_pu_biu.sv
+touch code/architecture/pu/tl/model_pu_tl.sv
 touch code/architecture/pu/wb/model_pu_wb.sv
 touch code/arithmetic/definition/matrix/accelerator_matrix_float_adder.sv
 touch code/arithmetic/definition/matrix/accelerator_matrix_float_divider.sv
